@@ -6,6 +6,7 @@ public class Game {
 	private String name;
 	private Double price;
 	
+	
 	public Game() {
 		super();
 		this.id = 0;
