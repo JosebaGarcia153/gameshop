@@ -27,7 +27,11 @@ public class GameDAOImpl implements GameDAO{
 	}
 
 	private final String SQL_GET_ALL = "SELECT id, name, price FROM games ORDER BY id DESC; ";
+	private final String SQL_READ_BY_ID = "SELECT id, name, price FROM games WHERE id = ?; ";
+	
 	private final String SQL_CREATE = "INSERT INTO games (name, price) VALUES (?, ?); ";
+	private final String SQL_UPDATE = "UPDATE games SET name = ?, price = ? WHERE id = ?; ";
+	private final String SQL_DELETE = "DELETE FROM games WHERE id = ?; ";
 	
 	public ArrayList<Game> getAll() {
 	
@@ -52,18 +56,45 @@ public class GameDAOImpl implements GameDAO{
 		
 		return register;
 	}
+	
+	@Override
+	public Game getById(int id) throws Exception {
+		
+		Game game = new Game();
+
+		try (
+				Connection connection = ConnectionManager.getConnection();
+				PreparedStatement pst = connection.prepareStatement(SQL_READ_BY_ID);
+				){
+
+			pst.setInt(1, id);
+
+			try ( ResultSet rs = pst.executeQuery() ){
+
+				if (rs.next()) {
+
+					game = mapper(rs);
+
+				} else {
+
+					throw new Exception ("Couldn't find ID: " + id);
+				}
+			}	
+		}
+		return game;
+	}
 
 	@Override
 	public Game create(Game game) throws Exception {
 		
 		if (game.getName() == null) {
 
-			throw new Exception("You must insert a product name");
+			throw new Exception("You must insert a name");
 		}
 		
 		try ( 
-				Connection conexion = ConnectionManager.getConnection();
-				PreparedStatement pst = conexion.prepareStatement(SQL_CREATE, PreparedStatement.RETURN_GENERATED_KEYS);
+				Connection connection = ConnectionManager.getConnection();
+				PreparedStatement pst = connection.prepareStatement(SQL_CREATE, PreparedStatement.RETURN_GENERATED_KEYS);
 				){
 			
 			pst.setString(1, game.getName());
@@ -93,6 +124,64 @@ public class GameDAOImpl implements GameDAO{
 		return game;
 	}
 	
+	@Override
+	public Game update(Game game) throws Exception {
+		
+		if (game.getName() == null) {
+			
+			throw new Exception("You must insert a name.");
+		}
+		
+		try ( 
+				Connection connection = ConnectionManager.getConnection();
+				PreparedStatement pst = connection.prepareStatement(SQL_UPDATE);
+				){
+			
+			pst.setString(1, game.getName());
+			pst.setDouble(2, game.getPrice());
+
+			pst.setInt(3, game.getId());
+
+			int affectedRows = pst.executeUpdate();
+
+			if (affectedRows != 1) {
+				
+				throw new Exception ("Couldn't create a new entry for ID: " + game.getId());
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			throw new SQLException("The name already exists");
+
+		} 
+		return game;
+	}
+	
+	@Override
+	public Game delete(int id) throws Exception {
+		
+		Game game = new Game();
+		
+		try (	
+				Connection connection = ConnectionManager.getConnection();
+				PreparedStatement pst = connection.prepareStatement(SQL_DELETE);
+				){
+			
+			pst.setInt(1, id);
+			
+			game = getById(id);
+			
+			int affectedRows = pst.executeUpdate();
+			
+			if (affectedRows != 1) {
+				
+				throw new Exception("Couldn't delete the game with ID: " + id);
+			}
+		}
+		return game;
+	}
+	
 	private Game mapper( ResultSet rs ) throws SQLException {
 		
 		Game game = new Game();
@@ -105,4 +194,6 @@ public class GameDAOImpl implements GameDAO{
 		return game;
 		
 	}
+
+	
 }

@@ -10,12 +10,13 @@
 	
 	<p>${message}</p>
 	
-	<table id="table">	
+	<table id="table">
 		<thead>
 			<tr>
 				<th>ID</th>
 				<th>Name</th>
 				<th>Price</th>
+				<td>Operations</td>
 			</tr>
 		</thead>
 		
@@ -25,6 +26,10 @@
 				<td>${g.id}</td>
 				<td>${g.name}</td>
 				<td>${g.price} &euro;</td>
+				<td>
+					<a href="form-control?id=${g.id}"><i class="fas fa-edit fa-lg"></i></a>
+					<a href="delete-control?id=${g.id}"><i class="fas fa-trash fa-lg"></i></a>	
+				</td>
 			</tr>
 		</c:forEach>
 		</tbody>

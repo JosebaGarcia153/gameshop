@@ -34,7 +34,7 @@
 	              <a class="nav-link" href="inicio">Index</a>
 	            </li>
             	<li class="nav-item ${('form' eq param.page) ? 'active' : ''}">
-            		<a class="nav-link" href="form-control">New Product</a>
+            		<a class="nav-link" href="form-control">New Game</a>
             	</li>     
         	</ul>
 		</div>

@@ -24,11 +24,31 @@ public class FormController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//crea nueva instancia de un juego antes de ir al formulario
-		Game game = new Game();
-		
-		request.setAttribute("game", game);
-		request.getRequestDispatcher("form.jsp").forward(request, response);	
+		try {
+			//crea nueva instancia de un juego antes de ir al formulario
+			Game game = new Game();
+			
+			String idParameter = request.getParameter("id");
+			
+			if (idParameter != null) {
+
+				int id = Integer.parseInt(idParameter);
+				GameDAOImpl dao = GameDAOImpl.getInstance();
+				game = dao.getById(id);
+			}
+			
+			request.setAttribute("game", game);
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		} finally {
+
+			// ir a la nueva vista / jsp
+			request.getRequestDispatcher("form.jsp").forward(request, response);
+		}
+			
 	}
 
 	/**
@@ -44,6 +64,8 @@ public class FormController extends HttpServlet {
 		Game game = new Game();
 		
 		String message = "";
+		double price = 0;
+		int id = 0;
 		
 		try {
 			//recoge parametros de formulario
@@ -51,8 +73,8 @@ public class FormController extends HttpServlet {
 			String nameParameter = request.getParameter("name");
 			String priceParameter = request.getParameter("price");
 			
-			int id = Integer.parseInt(idParameter);
-			double price = 0;
+			id = Integer.parseInt(idParameter);
+			
 			
 			//prueba por posibles errores de usuario
 			try {
@@ -84,9 +106,19 @@ public class FormController extends HttpServlet {
 			if (validation.isEmpty()) {
 				
 				try {
-					//crea el juego
-					dao.create(game);
-					message = "Game successfully added";
+					
+					if (id == 0) {
+						
+						//crea el juego
+						dao.create(game);
+						message = "Game successfully added";
+						
+					} else {
+						
+						//actualiza datos del juego
+						dao.update(game);
+						message = "Game successfully updated";
+					}
 					
 				} catch (Exception e) {
 					
@@ -101,10 +133,9 @@ public class FormController extends HttpServlet {
 
 				//recoge los atributos y vuelve al inicio
 				request.setAttribute("message", message);
-				request.setAttribute("games", dao.getAll());
 				request.getRequestDispatcher("inicio").forward(request, response);
 				
-				
+
 //				request.setAttribute("game", game);
 //				request.getSession().setAttribute("message", message);
 //				response.sendRedirect("inicio");

@@ -6,7 +6,7 @@
 	<jsp:param name="title" value="Form" />
 </jsp:include>
 	
-	<h1>Add games to the Product List</h1>
+	<h1>Add games to the Games List</h1>
 		
 	<c:if test="${not empty  validation}">
 		<ol>
@@ -33,7 +33,7 @@
 					<input type="text" name="price" value="${game.price}" class="form-control" placeholder="Write the product's price">
 				</div>
 
-				<input type="submit" value="Guardar">
+				<input type="submit" value="Save">
 			</form>
 		</div>
 	</div>
