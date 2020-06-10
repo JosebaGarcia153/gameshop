@@ -10,13 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.pojo.Game;
-import modelo.dao.gamesDAO;
+import modelo.dao.GameDAOImpl;
 
 /**
  * Servlet implementation class SeriesController
  */
 @WebServlet("/inicio")
-public class GamesController extends HttpServlet {
+public class IndexController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
   
@@ -25,15 +25,13 @@ public class GamesController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		gamesDAO dao = gamesDAO.getInstance();
+		GameDAOImpl dao = GameDAOImpl.getInstance();
 		
 		ArrayList<Game> games = dao.getAll();
 		
 		request.setAttribute("games", games);
 		
-		request.getRequestDispatcher("index.jsp").forward(request, response);
-		
-		
+		request.getRequestDispatcher("index.jsp").forward(request, response);		
 	}
 
 	/**
@@ -43,5 +41,4 @@ public class GamesController extends HttpServlet {
 
 		doGet(request, response);
 	}
-
 }

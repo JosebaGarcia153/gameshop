@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="es">
-  <head>
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,6 +18,25 @@
     <link rel="stylesheet" href="css/styles.css">
      
     <title> ${param.title} | Games Shop</title>
-  </head>
-  <body> 
-      <main role="main" class="container mb-3">
+</head>
+<body>
+	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+	
+        <!-- icono para desplegar menu en moviles -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <!-- lista enlaces -->
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+          	<ul class="navbar-nav mr-auto">
+	            <li class="nav-item" ${('index' eq param.page) ? 'active' : ''}>
+	              <a class="nav-link" href="inicio">Index</a>
+	            </li>
+            	<li class="nav-item ${('form' eq param.page) ? 'active' : ''}">
+            		<a class="nav-link" href="form-control">New Product</a>
+            	</li>     
+        	</ul>
+		</div>
+    </nav>
+	<main role="main" class="container mb-3">
