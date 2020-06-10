@@ -26,14 +26,14 @@
 				
 				<div class="form-group">
 					<label for="nombre">Name:</label>
-					<input type="text" name="name" value="${game.name}" class="form-control" placeholder="Write the product's name">
+					<input type="text" name="name" value="${game.name}" class="form-control" autofocus placeholder="Write the product's name">
 				</div>
 				<div class="form-group">
 					<label for="nombre">Price:</label>
 					<input type="text" name="price" value="${game.price}" class="form-control" placeholder="Write the product's price">
 				</div>
 
-				<input type="submit" value="Save">
+				<input type="submit" value="Save" class="btn btn-primary">
 			</form>
 		</div>
 	</div>

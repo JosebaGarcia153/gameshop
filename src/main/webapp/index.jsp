@@ -27,8 +27,11 @@
 				<td>${g.name}</td>
 				<td>${g.price} &euro;</td>
 				<td>
-					<a href="form-control?id=${g.id}"><i class="fas fa-edit fa-lg"></i></a>
-					<a href="delete-control?id=${g.id}"><i class="fas fa-trash fa-lg"></i></a>	
+					<a href="form-control?id=${g.id}"><i class="fas fa-edit fa-lg" title="Edit"></i></a>
+					
+					<a href="delete-control?id=${g.id}" onclick="confirmar('${g.name}')">
+						<i class="fas fa-trash fa-lg" title="Delete"></i>
+					</a>
 				</td>
 			</tr>
 		</c:forEach>

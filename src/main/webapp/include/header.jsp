@@ -20,7 +20,8 @@
     <title> ${param.title} | Games Shop</title>
 </head>
 <body>
-	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+	
+	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark mb-5">
 	
         <!-- icono para desplegar menu en moviles -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,8 +31,10 @@
         <!-- lista enlaces -->
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
           	<ul class="navbar-nav mr-auto">
-	            <li class="nav-item" ${('index' eq param.page) ? 'active' : ''}>
-	              <a class="nav-link" href="inicio">Index</a>
+	        	<li class="nav-item" ${('index' eq param.page) ? 'active' : ''}>
+	            	<a class="nav-link" href="inicio">
+	              		<i class="fas fa-gamepad fa-2x"></i>
+	            	</a>
 	            </li>
             	<li class="nav-item ${('form' eq param.page) ? 'active' : ''}">
             		<a class="nav-link" href="form-control">New Game</a>
@@ -39,4 +42,5 @@
         	</ul>
 		</div>
     </nav>
-	<main role="main" class="container mb-3">
+
+	<main role="main" class="container pt-5 mt-5">
