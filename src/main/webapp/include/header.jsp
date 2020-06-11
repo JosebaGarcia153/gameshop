@@ -44,3 +44,5 @@
     </nav>
 
 	<main role="main" class="container pt-5 mt-5">
+	
+		<jsp:include page="alerts.jsp"></jsp:include>

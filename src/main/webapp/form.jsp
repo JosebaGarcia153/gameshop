@@ -8,13 +8,7 @@
 	
 	<h1>Add games to the Games List</h1>
 		
-	<c:if test="${not empty  validation}">
-		<ol>
-			<c:forEach items="${validation}" var="validation">
-				<li style="color:red;">${validation}</li>
-			</c:forEach>
-		</ol>
-	</c:if>
+
 	
 	<div class="row">
 		<div class="col">

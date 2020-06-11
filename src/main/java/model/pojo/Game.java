@@ -1,9 +1,19 @@
 package model.pojo;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Game {
 	
 	private int id;
+	
+	@NotNull(message = "Name cannot be null")
+	@Size(min = 3, max = 100, message = "The name must have between 3 and 100 characters")
 	private String name;
+	
+	@NotNull(message = "Price cannot be null")
+	@Min(value = 1, message = "The price must be 1 &euro; or higher")
 	private Double price;
 	
 	

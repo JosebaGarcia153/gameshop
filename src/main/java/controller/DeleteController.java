@@ -27,19 +27,27 @@ public class DeleteController extends HttpServlet {
 		
 		GameDAOImpl  dao = GameDAOImpl.getInstance();
 		String message = "";
+		boolean fail = true;
 		
 		try {
 			Game game = dao.delete(id);
 			message = game.getName() + " deleted";
+			fail = false;
 			
 		} catch (Exception e) {
 			
 			message = "Error: " + e.getMessage();
 			e.printStackTrace();
+			fail = true;
 			
 		} finally {
 			
-			request.setAttribute("message", message);
+			if (fail == false) {
+				request.setAttribute("alert", new Alert("success", message));				
+			} else {
+				request.setAttribute("alert", new Alert("danger", message));
+			}
+			
 			request.getRequestDispatcher("inicio").forward(request, response);
 		}
 	}
