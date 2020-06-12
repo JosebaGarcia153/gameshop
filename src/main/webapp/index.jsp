@@ -8,8 +8,6 @@
 
 	<h1>Games Table</h1>
 	
-	<p>${message}</p>
-	
 	<table id="table">
 		<thead>
 			<tr>

@@ -1,7 +1,7 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -18,7 +18,6 @@ import javax.validation.ValidatorFactory;
 import model.pojo.Game;
 import modelo.dao.GameDAOImpl;
 
-
 		
 /**
  * Servlet implementation class EntryCreationController
@@ -27,7 +26,13 @@ import modelo.dao.GameDAOImpl;
 public class FormController extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
+	
+	//direcciones a donde ir
+	private static final String TOFORM = "form.jsp";
+	private static final String TOINDEX = "inicio";
+	
 	private static GameDAOImpl dao = GameDAOImpl.getInstance();
+	
 	//Validators
 	private static ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 	private static Validator validator = factory.getValidator();
@@ -68,16 +73,15 @@ public class FormController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		//crea nueva instancia de juego
+		//crea nuevas instancias
 		Game game = new Game();
+		Alert prompt = null;
 		
-		String message = "";
+		//Define parametros
 		double price = 0;
-		int id = 0;
-		
-		boolean fail = true;
-		
-		String errors = "";
+		int id = 0;	
+		String message = "";
+		String whereTo = "";
 		
 		try {
 			//recoge parametros de formulario
@@ -85,79 +89,65 @@ public class FormController extends HttpServlet {
 			String nameParameter = request.getParameter("name");
 			String priceParameter = request.getParameter("price");
 			
-			//guarda los parametros insertados por el usuario
-			game.setName(nameParameter);
-			
 			id = Integer.parseInt(idParameter);
-			game.setId(id);
-			
-			
-			
 			try {
-				price = Double.parseDouble(priceParameter);
-				
+				price = Double.parseDouble(priceParameter);				
 			} catch (Exception e) {
-				errors = "<p><b>price:</b> You must insert a number for the price</p>";
+				price = -1;
 			}
-			game.setPrice(price);
+			
+			//guarda los parametros en la instancia
+			game.setId(id);
+			game.setName(nameParameter);			
+			game.setPrice(price);			
 			
 			
 			//set de violaciones
 			Set<ConstraintViolation<Game>> violations = validator.validate(game);
 			
-			//guarda las violaciones en un string de errores
-			for (ConstraintViolation<Game> violation : violations) {
-				errors += "<p><b>" + violation.getPropertyPath() + "</b>: "  + violation.getMessage() + "</p>";
-			}
+			if ( violations.isEmpty() ) {
 				
-		} catch (Exception e) {
-	
-			e.printStackTrace();
-			
-		} finally {
-			//si no ha habido errores
-			if ("".equals(errors)) {
-				
-				try {
-					if (id == 0) {
-						//crea el juego
-						dao.create(game);
-						message = "Game successfully added";
-						fail = false;
-						
-					} else {
-						
-						//actualiza datos del juego
-						dao.update(game);
-						message = "Game successfully updated";
-						fail = false;
-					}		
-				} catch (Exception e) {
+				if (id == 0) {
 					
-					//si ha habido errores mientras se creaba el juego
-					errors += "<p><b>name:</b> The game already exists</p>";
-					fail = true;
+					//crea el juego
+					dao.create(game);
+					message = "Game successfully added";
 					
-					//recoge los atributos y se queda en el formulario
-					request.setAttribute("game", game);
-					request.setAttribute("alert", new Alert("danger", errors));
-					request.getRequestDispatcher("form.jsp").forward(request, response);
+				} else {
+					
+					//actualiza datos del juego
+					dao.update(game);
+					message = "Game successfully updated";	
 				}
-
-				//recoge los atributos y vuelve al inicio
-				request.setAttribute("message", message);
-				request.setAttribute("alert", new Alert("success", message));
-				request.getRequestDispatcher("inicio").forward(request, response);
 				
-
-			//si ha habido errores
+				prompt = new Alert("success", message);
+				whereTo = TOINDEX;
+				
 			} else {
 				
-				//recoge los atributos y se queda en el formulario
-				request.setAttribute("game", game);
-				request.setAttribute("alert", new Alert("danger", errors));
-				request.getRequestDispatcher("form.jsp").forward(request, response);
-			}
+				//guarda las violaciones en un string de errores
+				for (ConstraintViolation<Game> violation : violations) {
+					message += "<p><b>" + violation.getPropertyPath() + "</b>: "  + violation.getMessage() + "</p>";
+				}
+				
+				prompt = new Alert("danger", message);
+				whereTo = TOFORM;
+			}//if
+			
+		} catch (SQLException e) {		
+			prompt = new Alert("danger", e.getMessage());
+			whereTo = TOFORM;
+			
+		} catch (Exception e) {
+			prompt = new Alert("danger","There has been an unknown error");
+			whereTo = TOFORM;
+			
+		} finally {
+			
+			//recoge los atributos y vuelve a la vista
+			request.setAttribute("game", game);
+			request.setAttribute("alert", prompt);
+			request.getRequestDispatcher(whereTo).forward(request, response);
 		}//finally
 	}//post
 }

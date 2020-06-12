@@ -118,7 +118,7 @@ public class GameDAOImpl implements GameDAO{
 			}
 		} catch (SQLException e) {
 			
-			throw new Exception("The name already exists");
+			throw new SQLException("The name already exists");
 		}
 		
 		return game;

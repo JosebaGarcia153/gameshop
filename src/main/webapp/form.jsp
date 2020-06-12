@@ -7,8 +7,6 @@
 </jsp:include>
 	
 	<h1>Add games to the Games List</h1>
-		
-
 	
 	<div class="row">
 		<div class="col">

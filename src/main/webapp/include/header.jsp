@@ -1,3 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+
 <!doctype html>
 <html lang="es">
 <head>
@@ -40,6 +42,21 @@
             		<a class="nav-link" href="form-control">New Game</a>
             	</li>     
         	</ul>
+
+        	<span class="form-inline">
+	         	<c:if test="${ empty user_login }">
+	            	  <a class="nav-link  btn btn-outline-warning" href="login.jsp">Login</a>
+	            </c:if>
+	            
+	            <c:if test="${ not empty user_login }">
+	            	<div>
+        				<img src="${user_login.image}" alt="Profile Image" class="mr-2">
+        			</div>
+	            	<span class="badge badge-pill badge-light mr-3">${usuario_login.nombre}</span>
+	            	<a class="nav-link  btn btn-outline-light" href="logout">Logout</a>
+	            </c:if>     
+         	</span>
+         
 		</div>
     </nav>
 
