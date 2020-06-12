@@ -49,8 +49,11 @@
 	            </c:if>
 	            
 	            <c:if test="${ not empty user_login }">
-	            	<div>
-        				<img src="${user_login.image}" alt="Profile Image" class="mr-2">
+	            	<div class="mr-2">
+        				${user_login.name}
+        			</div>
+	            	<div class="mr-2">
+        				<img src="${user_login.image}" alt="Profile Image" >
         			</div>
 	            	<span class="badge badge-pill badge-light mr-3">${usuario_login.nombre}</span>
 	            	<a class="nav-link  btn btn-outline-light" href="logout">Logout</a>
