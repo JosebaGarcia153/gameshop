@@ -20,11 +20,20 @@
 					<label for="nombre">Name:</label>
 					<input type="text" name="name" value="${game.name}" class="form-control" autofocus placeholder="Write the product's name">
 				</div>
+				
 				<div class="form-group">
 					<label for="nombre">Price:</label>
 					<input type="text" name="price" value="${game.price}" class="form-control" placeholder="Write the product's price">
 				</div>
-
+				
+				<div class="form-group">
+					<select class="custom-select" name="cathegory_id">
+					  <c:forEach items="${cathegories}" var="c">
+					  	<option value="${c.id}" ${(c.id eq game.cathegory.id) ? "selected" : ""}>${c.name}</option>
+					  </c:forEach>					  					  
+					</select>
+				</div>
+				
 				<input type="submit" value="Save" class="btn btn-primary">
 			</form>
 		</div>

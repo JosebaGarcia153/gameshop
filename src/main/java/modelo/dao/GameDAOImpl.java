@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import model.pojo.Cathegory;
 import model.pojo.Game;
 import modelo.conexion.ConnectionManager;
 
@@ -26,11 +27,17 @@ public class GameDAOImpl implements GameDAO{
 		return INSTANCE;		
 	}
 
-	private final String SQL_GET_ALL = "SELECT id, name, price FROM games ORDER BY id DESC; ";
-	private final String SQL_READ_BY_ID = "SELECT id, name, price FROM games WHERE id = ?; ";
+	private final String SQL_GET_ALL = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'cathegory_id', c.name 'cathegory_name'"
+										+ " FROM games g, cathegories c" 
+										+ " WHERE g.cathegory_id = c.id"
+										+ " ORDER BY g.id DESC LIMIT 500; ";
 	
-	private final String SQL_CREATE = "INSERT INTO games (name, price) VALUES (?, ?); ";
-	private final String SQL_UPDATE = "UPDATE games SET name = ?, price = ? WHERE id = ?; ";
+	private final String SQL_READ_BY_ID = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'cathegory_id', c.name 'cathegory_name'"
+										+ " FROM games g, cathegories c"
+										+ " WHERE g.cathegory_id = c.id AND g.id = ? LIMIT 500; ";
+	
+	private final String SQL_CREATE = "INSERT INTO games (name, price, cathegory_id) VALUES (?, ?, ?); ";
+	private final String SQL_UPDATE = "UPDATE games SET name = ?, price = ?, cathegory_id = ? WHERE id = ?; ";
 	private final String SQL_DELETE = "DELETE FROM games WHERE id = ?; ";
 	
 	public ArrayList<Game> getAll() {
@@ -99,6 +106,7 @@ public class GameDAOImpl implements GameDAO{
 			
 			pst.setString(1, game.getName());
 			pst.setDouble(2, game.getPrice());
+			pst.setInt(3, game.getCathegory().getId());
 
 			int affectedRows = pst.executeUpdate();
 
@@ -139,8 +147,9 @@ public class GameDAOImpl implements GameDAO{
 			
 			pst.setString(1, game.getName());
 			pst.setDouble(2, game.getPrice());
+			pst.setInt(3, game.getCathegory().getId());
 
-			pst.setInt(3, game.getId());
+			pst.setInt(4, game.getId());
 
 			int affectedRows = pst.executeUpdate();
 
@@ -184,16 +193,18 @@ public class GameDAOImpl implements GameDAO{
 	
 	private Game mapper( ResultSet rs ) throws SQLException {
 		
-		Game game = new Game();
+		Game g = new Game();
+		Cathegory c = new Cathegory();
 		
-		game.setId(rs.getInt("id"));
-		game.setName(rs.getString("name"));
-		game.setPrice( rs.getDouble("price"));
+		g.setId(rs.getInt("game_id"));
+		g.setName(rs.getString("game_name"));
+		g.setPrice( rs.getDouble("price"));
 		
+		c.setId(rs.getInt("cathegory_id"));
+		c.setName(rs.getString("cathegory_name"));
+		g.setCathegory(c);
 		
-		return game;
+		return g;
 		
-	}
-
-	
+	}	
 }

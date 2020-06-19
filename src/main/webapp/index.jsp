@@ -14,7 +14,8 @@
 				<th>ID</th>
 				<th>Name</th>
 				<th>Price</th>
-				<td>Operations</td>
+				<td>Cathegory</td>
+				<td>Operations</td>	
 			</tr>
 		</thead>
 		
@@ -24,6 +25,7 @@
 				<td>${g.id}</td>
 				<td>${g.name}</td>
 				<td>${g.price} &euro;</td>
+				<td>${g.cathegory.name}</td>
 				<td>
 					<a href="form-control?id=${g.id}"><i class="fas fa-edit fa-lg" title="Edit"></i></a>
 					

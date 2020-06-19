@@ -24,7 +24,7 @@ public class UserDAOImpl implements UserDAO {
 		return instance;
 	}
 
-	private final String SQL_EXISTS = "SELECT id, name, password, image FROM users WHERE name = ? AND password = ?; ";
+	private final String SQL_EXISTS = "SELECT id, name, password, image FROM users WHERE name = ? AND password = ? LIMIT 500; ";
 	
 
 	@Override
