@@ -16,7 +16,7 @@
 						<p>ID: ${g.id}</p>
 						<h3>${g.name}</h3>
 						<p>Price: ${g.price} &euro;</p>
-						<p>Game Cathegory: ${g.cathegory.name}</p>
+						<p>Game Category: ${g.category.name}</p>
 						<a href="form-control?id=${g.id}">
 							<i class="fas fa-edit fa-lg" title="Edit"></i>
 						</a>

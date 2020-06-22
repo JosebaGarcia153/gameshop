@@ -6,32 +6,32 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.pojo.Cathegory;
+import model.pojo.Category;
 import modelo.conexion.ConnectionManager;
 
-public class CathegoryDAOImpl implements CathegoryDAO{
+public class CategoryDAOImpl implements CategoryDAO{
 	
-	private static CathegoryDAOImpl INSTANCE = null;
+	private static CategoryDAOImpl INSTANCE = null;
 	
-	private CathegoryDAOImpl() {
+	private CategoryDAOImpl() {
 		super();
 	}
 	
-	public static synchronized CathegoryDAOImpl getInstance() {
+	public static synchronized CategoryDAOImpl getInstance() {
 		
 		if (INSTANCE == null) {
-			INSTANCE = new CathegoryDAOImpl();
+			INSTANCE = new CategoryDAOImpl();
 		}
 		
 		return INSTANCE;
 	}
 	
-	private final String SQL_GET_ALL = "SELECT id, name FROM cathegories ORDER BY name ASC LIMIT 500; ";
+	private final String SQL_GET_ALL = "SELECT id, name FROM categories ORDER BY name ASC LIMIT 500; ";
 	
 	@Override
-	public ArrayList<Cathegory> getAll() {
+	public ArrayList<Category> getAll() {
 		
-		ArrayList<Cathegory> register = new ArrayList<Cathegory>();
+		ArrayList<Category> register = new ArrayList<Category>();
 
 		try(
 				Connection con = ConnectionManager.getConnection();
@@ -56,28 +56,28 @@ public class CathegoryDAOImpl implements CathegoryDAO{
 	//TODO impletmentar metodos cuando sean necesarios
 	
 	@Override
-	public Cathegory getById(int id) throws Exception {
+	public Category getById(int id) throws Exception {
 		throw new Exception("Not implemented");
 	}
 
 	@Override
-	public Cathegory create(Cathegory pojo) throws Exception {
+	public Category create(Category pojo) throws Exception {
 		throw new Exception("Not implemented");
 	}
 
 	@Override
-	public Cathegory update(Cathegory pojo) throws Exception {
+	public Category update(Category pojo) throws Exception {
 		throw new Exception("Not implemented");
 	}
 
 	@Override
-	public Cathegory delete(int id) throws Exception {
+	public Category delete(int id) throws Exception {
 		throw new Exception("Not implemented");
 	}
 	
-	private Cathegory mapper(ResultSet rs) throws SQLException {
+	private Category mapper(ResultSet rs) throws SQLException {
 		
-		Cathegory c = new Cathegory();
+		Category c = new Category();
 		
 		c.setId(rs.getInt("id"));
 		c.setName(rs.getString("name"));

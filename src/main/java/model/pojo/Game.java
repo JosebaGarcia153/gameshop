@@ -16,7 +16,7 @@ public class Game {
 	@Min(value = 1, message = "The price must be 1 &euro; or higher")
 	private Double price;
 	
-	private Cathegory cathegory;
+	private Category category;
 	
 	
 	public Game() {
@@ -24,7 +24,7 @@ public class Game {
 		this.id = 0;
 		this.name = "";
 		this.price = 0.0;
-		this.cathegory = new Cathegory();
+		this.category = new Category();
 	}
 
 	
@@ -55,18 +55,18 @@ public class Game {
 	}
 
 
-	public Cathegory getCathegory() {
-		return cathegory;
+	public Category getCategory() {
+		return category;
 	}
 
 
-	public void setCathegory(Cathegory cathegory) {
-		this.cathegory = cathegory;
+	public void setCategory(Category cathegory) {
+		this.category = cathegory;
 	}
 
 
 	@Override
 	public String toString() {
-		return "Game [id=" + id + ", name=" + name + ", price=" + price + ", cathegory=" + cathegory + "]";
+		return "Game [id=" + id + ", name=" + name + ", price=" + price + ", cathegory=" + category + "]";
 	}
 }

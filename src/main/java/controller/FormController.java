@@ -15,9 +15,9 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import model.pojo.Cathegory;
+import model.pojo.Category;
 import model.pojo.Game;
-import modelo.dao.CathegoryDAOImpl;
+import modelo.dao.CategoryDAOImpl;
 import modelo.dao.GameDAOImpl;
 
 		
@@ -34,7 +34,7 @@ public class FormController extends HttpServlet {
 	private static final String TOINDEX = "inicio";
 	
 	private static GameDAOImpl daoGame = GameDAOImpl.getInstance();
-	private static CathegoryDAOImpl daoCathegory = CathegoryDAOImpl.getInstance();
+	private static CategoryDAOImpl daoCategory = CategoryDAOImpl.getInstance();
 	
 	//Validators
 	private static ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -66,7 +66,7 @@ public class FormController extends HttpServlet {
 
 		} finally {
 			
-			request.setAttribute("cathegories", daoCathegory.getAll());
+			request.setAttribute("categories", daoCategory.getAll());
 			// ir a la nueva vista / jsp
 			request.getRequestDispatcher("form.jsp").forward(request, response);
 		}		
@@ -84,7 +84,7 @@ public class FormController extends HttpServlet {
 		//Define parametros
 		double price = 0;
 		int id = 0;	
-		int cathegoryId = 0;
+		int categoryId = 0;
 		String message = "";
 		String whereTo = "";
 		
@@ -93,10 +93,10 @@ public class FormController extends HttpServlet {
 			String idParameter = request.getParameter("id");
 			String nameParameter = request.getParameter("name");
 			String priceParameter = request.getParameter("price");
-			String cathegoryIdParameter = request.getParameter("cathegory_id");
+			String categoryIdParameter = request.getParameter("category_id");
 			
 			id = Integer.parseInt(idParameter);
-			cathegoryId = Integer.parseInt(cathegoryIdParameter);
+			categoryId = Integer.parseInt(categoryIdParameter);
 			
 			try {
 				price = Double.parseDouble(priceParameter);				
@@ -109,9 +109,9 @@ public class FormController extends HttpServlet {
 			game.setName(nameParameter);			
 			game.setPrice(price);
 			
-			Cathegory c = new Cathegory();
-			c.setId(cathegoryId);
-			game.setCathegory(c);
+			Category c = new Category();
+			c.setId(categoryId);
+			game.setCategory(c);
 			
 			
 			//set de violaciones
@@ -159,7 +159,7 @@ public class FormController extends HttpServlet {
 			//recoge los atributos y vuelve a la vista
 			request.setAttribute("game", game);
 			request.setAttribute("alert", prompt);
-			request.setAttribute("cathegories", daoCathegory.getAll());
+			request.setAttribute("categories", daoCategory.getAll());
 			request.getRequestDispatcher(whereTo).forward(request, response);
 		}//finally
 	}//post

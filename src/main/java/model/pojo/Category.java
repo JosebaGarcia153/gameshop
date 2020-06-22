@@ -1,12 +1,12 @@
 package model.pojo;
 
-public class Cathegory {
+public class Category {
 	
 	private int id;
 	private String name;
 
 	
-	public Cathegory() {
+	public Category() {
 		super();
 		this.id = 0;
 		this.name = "";
@@ -32,6 +32,6 @@ public class Cathegory {
 	
 	@Override
 	public String toString() {
-		return "Cathegory [id=" + id + ", name=" + name + "]";
+		return "Category [id=" + id + ", name=" + name + "]";
 	}
 }

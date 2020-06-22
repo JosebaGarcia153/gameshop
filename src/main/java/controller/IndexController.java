@@ -25,18 +25,18 @@ public class IndexController extends HttpServlet {
 		
 		GameDAOImpl dao = GameDAOImpl.getInstance();
 		
-		String cathegoryIdParameter = request.getParameter("cathegoryId");
+		String categoryIdParameter = request.getParameter("categoryId");
 		
 		//Si no se ha insertado una categoria muestra la pagina inicial con 10 resultados
 		//Si se ha insertado muestra todos los resultados de la categoria
-		if (cathegoryIdParameter == null) {
+		if (categoryIdParameter == null) {
 			
 			request.setAttribute("games", dao.getLast(10));
 			
 		} else {
 			
-			int cathegoryId = Integer.parseInt(cathegoryIdParameter);
-			request.setAttribute("games", dao.getAllByCathegory(cathegoryId, 500));
+			int categoryId = Integer.parseInt(categoryIdParameter);
+			request.setAttribute("games", dao.getAllByCategory(categoryId, 500));
 		}
 		
 		request.getRequestDispatcher("index.jsp").forward(request, response);		

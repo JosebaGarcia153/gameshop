@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.pojo.Cathegory;
+import model.pojo.Category;
 import model.pojo.Game;
 import modelo.conexion.ConnectionManager;
 
@@ -27,28 +27,28 @@ public class GameDAOImpl implements GameDAO{
 		return INSTANCE;		
 	}
 
-	private final String SQL_GET_ALL = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'cathegory_id', c.name 'cathegory_name'"
-										+ " FROM games g, cathegories c" 
-										+ " WHERE g.cathegory_id = c.id"
+	private final String SQL_GET_ALL = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', c.name 'category_name'"
+										+ " FROM games g, categories c" 
+										+ " WHERE g.category_id = c.id"
 										+ " ORDER BY g.id DESC LIMIT 500; ";
 	
-	private final String SQL_GET_LAST = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'cathegory_id', c.name 'cathegory_name'"
-										+ " FROM games g, cathegories c" 
-										+ " WHERE g.cathegory_id = c.id"
+	private final String SQL_GET_LAST = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', c.name 'category_name'"
+										+ " FROM games g, categories c" 
+										+ " WHERE g.category_id = c.id"
 										+ " ORDER BY g.id DESC LIMIT ?; ";
 	
-	private final String SQL_GET_BY_CATHEGORY = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'cathegory_id', c.name 'cathegory_name'" 
-										+ " FROM games g, cathegories c" 
-										+ " WHERE g.cathegory_id  = c.id"
+	private final String SQL_GET_BY_CATEGORY = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', c.name 'category_name'" 
+										+ " FROM games g, categories c" 
+										+ " WHERE g.category_id  = c.id"
 										+ " AND c.id = ? " // filtramos por el id de la categoria
 										+ " ORDER BY g.id DESC LIMIT ? ; ";
 	
-	private final String SQL_READ_BY_ID = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'cathegory_id', c.name 'cathegory_name'"
-										+ " FROM games g, cathegories c"
-										+ " WHERE g.cathegory_id = c.id AND g.id = ? LIMIT 500; ";
+	private final String SQL_READ_BY_ID = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', c.name 'category_name'"
+										+ " FROM games g, categories c"
+										+ " WHERE g.category_id = c.id AND g.id = ? LIMIT 500; ";
 	
-	private final String SQL_CREATE = "INSERT INTO games (name, price, cathegory_id) VALUES (?, ?, ?); ";
-	private final String SQL_UPDATE = "UPDATE games SET name = ?, price = ?, cathegory_id = ? WHERE id = ?; ";
+	private final String SQL_CREATE = "INSERT INTO games (name, price, category_id) VALUES (?, ?, ?); ";
+	private final String SQL_UPDATE = "UPDATE games SET name = ?, price = ?, category_id = ? WHERE id = ?; ";
 	private final String SQL_DELETE = "DELETE FROM games WHERE id = ?; ";
 	
 	public ArrayList<Game> getAll() {
@@ -101,15 +101,15 @@ public class GameDAOImpl implements GameDAO{
 	}
 	
 	@Override
-	public ArrayList<Game> getAllByCathegory(int cathegoryId, int numReg) {
+	public ArrayList<Game> getAllByCategory(int categoryId, int numReg) {
 		
 		ArrayList<Game> register = new ArrayList<Game>();	
 		
 		try (
 				Connection conexion = ConnectionManager.getConnection();
-				PreparedStatement pst = conexion.prepareStatement(SQL_GET_BY_CATHEGORY);
+				PreparedStatement pst = conexion.prepareStatement(SQL_GET_BY_CATEGORY);
 			) {			
-					pst.setInt( 1, cathegoryId);
+					pst.setInt( 1, categoryId);
 					pst.setInt( 2, numReg);
 
 					try ( ResultSet rs = pst.executeQuery() ){
@@ -166,7 +166,7 @@ public class GameDAOImpl implements GameDAO{
 			
 			pst.setString(1, game.getName());
 			pst.setDouble(2, game.getPrice());
-			pst.setInt(3, game.getCathegory().getId());
+			pst.setInt(3, game.getCategory().getId());
 
 			int affectedRows = pst.executeUpdate();
 
@@ -207,7 +207,7 @@ public class GameDAOImpl implements GameDAO{
 			
 			pst.setString(1, game.getName());
 			pst.setDouble(2, game.getPrice());
-			pst.setInt(3, game.getCathegory().getId());
+			pst.setInt(3, game.getCategory().getId());
 
 			pst.setInt(4, game.getId());
 
@@ -254,17 +254,16 @@ public class GameDAOImpl implements GameDAO{
 	private Game mapper( ResultSet rs ) throws SQLException {
 		
 		Game g = new Game();
-		Cathegory c = new Cathegory();
+		Category c = new Category();
 		
 		g.setId(rs.getInt("game_id"));
 		g.setName(rs.getString("game_name"));
 		g.setPrice( rs.getDouble("price"));
 		
-		c.setId(rs.getInt("cathegory_id"));
-		c.setName(rs.getString("cathegory_name"));
-		g.setCathegory(c);
+		c.setId(rs.getInt("category_id"));
+		c.setName(rs.getString("category_name"));
+		g.setCategory(c);
 		
 		return g;
-		
 	}	
 }

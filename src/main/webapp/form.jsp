@@ -28,8 +28,8 @@
 				
 				<div class="form-group">
 					<select class="custom-select" name="cathegory_id">
-					  <c:forEach items="${cathegories}" var="c">
-					  	<option value="${c.id}" ${(c.id eq game.cathegory.id) ? "selected" : ""}>${c.name}</option>
+					  <c:forEach items="${categories}" var="c">
+					  	<option value="${c.id}" ${(c.id eq game.category.id) ? "selected" : ""}>${c.name}</option>
 					  </c:forEach>					  					  
 					</select>
 				</div>
