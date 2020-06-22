@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.pojo.Game;
 import modelo.dao.GameDAOImpl;
 
 /**
@@ -27,9 +25,19 @@ public class IndexController extends HttpServlet {
 		
 		GameDAOImpl dao = GameDAOImpl.getInstance();
 		
-		ArrayList<Game> games = dao.getAll();
+		String cathegoryIdParameter = request.getParameter("cathegoryId");
 		
-		request.setAttribute("games", games);
+		//Si no se ha insertado una categoria muestra la pagina inicial con 10 resultados
+		//Si se ha insertado muestra todos los resultados de la categoria
+		if (cathegoryIdParameter == null) {
+			
+			request.setAttribute("games", dao.getLast(10));
+			
+		} else {
+			
+			int cathegoryId = Integer.parseInt(cathegoryIdParameter);
+			request.setAttribute("games", dao.getAllByCathegory(cathegoryId, 500));
+		}
 		
 		request.getRequestDispatcher("index.jsp").forward(request, response);		
 	}

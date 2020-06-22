@@ -40,7 +40,22 @@
 	            </li>
             	<li class="nav-item ${('form' eq param.page) ? 'active' : ''}">
             		<a class="nav-link" href="form-control">New Game</a>
-            	</li>     
+            	</li>    
+            	<li>
+            		<div class="dropdown show">
+            			<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            				Cathegories
+            			</a>
+            			
+            			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            				<a class="dropdown-item" href="inicio?cathegoryId=1">Pew Pew</a>
+            				<a class="dropdown-item" href="inicio?cathegoryId=2">Meep Meep</a>
+            				<a class="dropdown-item" href="inicio?cathegoryId=3">Demonic Musical</a>
+            				<a class="dropdown-item" href="inicio?cathegoryId=4">Wack-a-Monsta</a>
+            				<a class="dropdown-item" href="inicio?cathegoryId=5">Punch it 'til it dies</a>
+            			</div>
+            		</div>
+            	</li>  
         	</ul>
 
         	<span class="form-inline">
