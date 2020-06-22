@@ -7,36 +7,28 @@
 </jsp:include>
 
 	<h1>Games Table</h1>
-	
-	<table id="table">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Name</th>
-				<th>Price</th>
-				<td>Cathegory</td>
-				<td>Operations</td>	
-			</tr>
-		</thead>
 		
-		<tbody>
+	<div class="row">
 		<c:forEach items="${games}" var="g">
-			<tr>
-				<td>${g.id}</td>
-				<td>${g.name}</td>
-				<td>${g.price} &euro;</td>
-				<td>${g.cathegory.name}</td>
-				<td>
-					<a href="form-control?id=${g.id}"><i class="fas fa-edit fa-lg" title="Edit"></i></a>
-					
-					<a href="delete-control?id=${g.id}" onclick="confirmar('${g.name}')">
-						<i class="fas fa-trash fa-lg" title="Delete"></i>
-					</a>
-				</td>
-			</tr>
+			<div class="col-3">
+				<div class="card">
+					<div class="card-body">
+						<p>ID: ${g.id}</p>
+						<h3>${g.name}</h3>
+						<p>Price: ${g.price} &euro;</p>
+						<p>Game Cathegory: ${g.cathegory.name}</p>
+						<a href="form-control?id=${g.id}">
+							<i class="fas fa-edit fa-lg" title="Edit"></i>
+						</a>
+						<a href="delete-control?id=${g.id}" onclick="confirmar('${g.name}')">
+							<i class="fas fa-trash fa-lg" title="Delete"></i>
+						</a>
+					</div>
+				</div>
+			</div>
 		</c:forEach>
-		</tbody>
-	</table>
+	</div>
+	
 </body>
 
 <%@include file="include/footer.jsp" %>
