@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.pojo.User;
-import modelo.dao.UserDAOImpl;
+import modelo.dao.impl.UserDAOImpl;
+import modelo.pojo.User;
 
 /**
  * Servlet implementation class LoginController

@@ -1,4 +1,4 @@
-<%@page import="model.pojo.Game"%> 
+<%@page import="modelo.pojo.Game"%> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 
 <jsp:include page ="include/header.jsp">

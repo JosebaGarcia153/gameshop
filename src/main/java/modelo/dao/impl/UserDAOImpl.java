@@ -1,11 +1,12 @@
-package modelo.dao;
+package modelo.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import model.pojo.User;
-import modelo.conexion.ConnectionManager;
+import modelo.ConnectionManager;
+import modelo.dao.UserDAO;
+import modelo.pojo.User;
 
 public class UserDAOImpl implements UserDAO {
 	

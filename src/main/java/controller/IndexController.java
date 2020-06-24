@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.pojo.Game;
-import modelo.dao.GameDAOImpl;
+import modelo.dao.impl.GameDAOImpl;
+import modelo.pojo.Game;
 
 /**
  * Servlet implementation class SeriesController

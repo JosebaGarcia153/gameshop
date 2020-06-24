@@ -2,7 +2,8 @@ package modelo.dao;
 
 import java.util.ArrayList;
 
-import model.pojo.Game;
+import modelo.Crudable;
+import modelo.pojo.Game;
 
 public interface GameDAO extends Crudable<Game> {
 	

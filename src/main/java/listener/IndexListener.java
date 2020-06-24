@@ -6,7 +6,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 import controller.Alert;
-import modelo.dao.CategoryDAOImpl;
+import modelo.dao.impl.CategoryDAOImpl;
 	
 /**
  * Application Lifecycle Listener implementation class IndexListener

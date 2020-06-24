@@ -1,6 +1,7 @@
 package modelo.dao;
 
-import model.pojo.Category;
+import modelo.Crudable;
+import modelo.pojo.Category;
 
 public interface CategoryDAO extends Crudable<Category> {
 

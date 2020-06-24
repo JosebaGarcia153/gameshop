@@ -1,6 +1,6 @@
 package modelo.dao;
 
-import model.pojo.User;
+import modelo.pojo.User;
 
 public interface UserDAO {
 	

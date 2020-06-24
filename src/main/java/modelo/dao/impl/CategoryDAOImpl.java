@@ -1,4 +1,4 @@
-package modelo.dao;
+package modelo.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,8 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.pojo.Category;
-import modelo.conexion.ConnectionManager;
+import modelo.ConnectionManager;
+import modelo.dao.CategoryDAO;
+import modelo.pojo.Category;
 
 public class CategoryDAOImpl implements CategoryDAO{
 	

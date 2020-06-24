@@ -15,10 +15,10 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import model.pojo.Category;
-import model.pojo.Game;
-import modelo.dao.CategoryDAOImpl;
-import modelo.dao.GameDAOImpl;
+import modelo.dao.impl.CategoryDAOImpl;
+import modelo.dao.impl.GameDAOImpl;
+import modelo.pojo.Category;
+import modelo.pojo.Game;
 
 		
 /**

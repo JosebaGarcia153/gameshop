@@ -1,4 +1,4 @@
-package modelo.dao;
+package modelo.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,9 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.pojo.Category;
-import model.pojo.Game;
-import modelo.conexion.ConnectionManager;
+import modelo.ConnectionManager;
+import modelo.dao.GameDAO;
+import modelo.pojo.Category;
+import modelo.pojo.Game;
 
 public class GameDAOImpl implements GameDAO{
 	
