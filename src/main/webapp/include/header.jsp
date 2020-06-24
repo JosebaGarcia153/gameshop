@@ -42,19 +42,18 @@
             		<a class="nav-link" href="form-control">New Game</a>
             	</li>    
             	<li>
-            		<div class="dropdown show">
-            			<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           			<div class="dropdown show">
+            			<a class="btn btn-secondary dropdown-toggle" href="inicio" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             				Categories
             			</a>
-            			
             			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            				<a class="dropdown-item" href="inicio?categoryId=1">Pew Pew</a>
-            				<a class="dropdown-item" href="inicio?categoryId=2">Meep Meep</a>
-            				<a class="dropdown-item" href="inicio?categoryId=3">Demonic Musical</a>
-            				<a class="dropdown-item" href="inicio?categoryId=4">Wack-a-Monsta</a>
-            				<a class="dropdown-item" href="inicio?categoryId=5">Punch it 'til it dies</a>
+            				<c:forEach items="${category}" var="c">
+            					<a class="dropdown-item" href="inicio?categoryId=${c.id}&categoryName=${c.name}">${c.name}</a>	
+            				</c:forEach>
+            				<a class="dropdown-item" href="inicio">Last 10</a>
+            				<a class="dropdown-item" href="inicio?categoryName=all">All results</a>
             			</div>
-            		</div>
+            		</div> 
             	</li>  
         	</ul>
 

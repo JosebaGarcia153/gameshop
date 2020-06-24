@@ -1,0 +1,16 @@
+main[role="main"] {
+    margin-top: 4rem;
+    min-height: 80vh;
+}
+
+.row-card {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.row-card .card {
+	width: 24%;
+	margin-right: 0.5%;
+	margin-bottom: 0.5%;
+	box-sizing: content-box;
+}
