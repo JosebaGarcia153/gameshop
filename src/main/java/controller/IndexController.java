@@ -40,26 +40,29 @@ public class IndexController extends HttpServlet {
 		
 		String headingStr = "";
 		
-		
-		
-		//Si no se ha insertado una categoria muestra la pagina inicial con 10 resultados
-		//Si se ha insertado muestra todos los resultados de la categoria
-		
-			
+		//Si se le dice que muestre todas las categorias
 		if (ALL_CATEGORIES.equals(categoryIdParameter)) {
 			
-			categoriesWithGames = daoC.getAllWithProducts();
+			//Recoge la lista de juegos por categorias
+			categoriesWithGames = daoC.getAllWithGames();
+			
+			//esconde en el inicio el primer grupo de cartas
 			games = null;
+			
 			request.setAttribute("heading", "All products by category");
 			
 		} else {
 			
+			//Esconde en el segundo el primer grupo de cartas
 			categoriesWithGames = null;
 			
+			//Si no se le pide una categoria especifica
 			if (categoryIdParameter == null) {
 				
+				//Muestra los 10 ultimos resultados
 				games = dao.getLast(10);
-				
+			
+			//Si se le ha pedido una categoria
 			} else {
 				
 				int categoryId = Integer.parseInt(categoryIdParameter);
@@ -68,8 +71,6 @@ public class IndexController extends HttpServlet {
 			
 			headingStr = "<b>" + games.size() + "</b> latest entries of <b>" + categoryNameParameter + "</b>";
 		}
-		
-		
 		
 		request.setAttribute("games", games);
 		request.setAttribute("heading",  headingStr);

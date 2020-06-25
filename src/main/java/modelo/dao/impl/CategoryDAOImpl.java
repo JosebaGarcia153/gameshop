@@ -59,7 +59,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 	
 	
 	@Override
-	public ArrayList<Category> getAllWithProducts() {
+	public ArrayList<Category> getAllWithGames() {
 		
 		//La clave Integer es el ID de la categoria
 		HashMap<Integer, Category> register = new HashMap<Integer, Category>();
@@ -83,6 +83,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 						c.setId(categoryId);
 						c.setName(rs.getString("category_name"));
 					}
+					
 					//Crea nuevo juego y guarda los datos
 					Game g = new Game();
 					g.setId(rs.getInt("game_id"));
