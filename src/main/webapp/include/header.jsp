@@ -51,7 +51,7 @@
             					<a class="dropdown-item" href="inicio?categoryId=${c.id}&categoryName=${c.name}">${c.name}</a>	
             				</c:forEach>
             				<a class="dropdown-item" href="inicio">Last 10</a>
-            				<a class="dropdown-item" href="inicio?categoryName=all">All results</a>
+            				<a class="dropdown-item" href="inicio?categoryId=-1">All</a>
             			</div>
             		</div> 
             	</li>  

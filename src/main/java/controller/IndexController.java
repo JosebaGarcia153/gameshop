@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import modelo.dao.impl.CategoryDAOImpl;
 import modelo.dao.impl.GameDAOImpl;
+import modelo.pojo.Category;
 import modelo.pojo.Game;
 
 /**
@@ -19,45 +21,59 @@ import modelo.pojo.Game;
 public class IndexController extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
+	
 	private static final GameDAOImpl dao = GameDAOImpl.getInstance(); 
+	private static final CategoryDAOImpl daoC = CategoryDAOImpl.getInstance();
+	
+	private static final String ALL_CATEGORIES = "-1";
   
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		ArrayList<Game> games = new ArrayList<Game>();
+		ArrayList<Category> categoriesWithGames = new ArrayList<Category>();
+		
 		String categoryIdParameter = request.getParameter("categoryId");
 		String categoryNameParameter = ( request.getParameter("categoryName") == null ) ? "All the categories" : request.getParameter("categoryName");
 		
 		String headingStr = "";
 		
-		ArrayList<Game> games = new ArrayList<Game>();
+		
 		
 		//Si no se ha insertado una categoria muestra la pagina inicial con 10 resultados
 		//Si se ha insertado muestra todos los resultados de la categoria
-		if (categoryIdParameter == null) {
+		
 			
-			if (categoryNameParameter.equals("all")) {
-				
-				games = dao.getAll();
-				headingStr = "All entries";
-				
-			} else {
-				
-				games = dao.getLast(10);
-				headingStr = "<b>" + games.size() + "</b> latest entries of <b>" + categoryNameParameter + "</b>";
-			}
+		if (ALL_CATEGORIES.equals(categoryIdParameter)) {
+			
+			categoriesWithGames = daoC.getAllWithProducts();
+			games = null;
+			request.setAttribute("heading", "All products by category");
 			
 		} else {
 			
-			int categoryId = Integer.parseInt(categoryIdParameter);
-			games = dao.getAllByCategory(categoryId, 10);
+			categoriesWithGames = null;
 			
-			headingStr = "<b>" + games.size() + "</b> last products of <b>" + categoryNameParameter + "</b>";
+			if (categoryIdParameter == null) {
+				
+				games = dao.getLast(10);
+				
+			} else {
+				
+				int categoryId = Integer.parseInt(categoryIdParameter);
+				games = dao.getAllByCategory(categoryId, 10);
+			}
+			
+			headingStr = "<b>" + games.size() + "</b> latest entries of <b>" + categoryNameParameter + "</b>";
 		}
 		
-		request.setAttribute("heading",  headingStr);
+		
+		
 		request.setAttribute("games", games);
+		request.setAttribute("heading",  headingStr);
+		request.setAttribute("categoriesWithGames", categoriesWithGames);
 		request.getRequestDispatcher("index.jsp").forward(request, response);		
 	}
 

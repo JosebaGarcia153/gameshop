@@ -5,10 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import modelo.ConnectionManager;
 import modelo.dao.CategoryDAO;
 import modelo.pojo.Category;
+import modelo.pojo.Game;
 
 public class CategoryDAOImpl implements CategoryDAO{
 	
@@ -28,6 +30,8 @@ public class CategoryDAOImpl implements CategoryDAO{
 	}
 	
 	private final String SQL_GET_ALL = "SELECT id, name FROM categories ORDER BY name ASC LIMIT 500; ";
+	private final String SQL_GET_ALL_WITH_GAMES = "SELECT c.id 'category_id', c.name 'category_name', g.id 'game_id', g.name 'game_name', price FROM games g, categories c WHERE g.category_id = c.id ORDER BY c.name ASC LIMIT 500; ";
+	
 	
 	@Override
 	public ArrayList<Category> getAll() {
@@ -35,15 +39,15 @@ public class CategoryDAOImpl implements CategoryDAO{
 		ArrayList<Category> register = new ArrayList<Category>();
 
 		try(
-				Connection con = ConnectionManager.getConnection();
-				PreparedStatement pst = con.prepareStatement(SQL_GET_ALL);
-				ResultSet rs = pst.executeQuery();
-				){
+			Connection con = ConnectionManager.getConnection();
+			PreparedStatement pst = con.prepareStatement(SQL_GET_ALL);
+			ResultSet rs = pst.executeQuery();
+			){
+			
+			while( rs.next() ) {
 				
-				while( rs.next() ) {
-					
-					register.add(mapper(rs));					
-				}
+				register.add(mapper(rs));					
+			}
 				
 		} catch (Exception e) {
 			
@@ -51,8 +55,56 @@ public class CategoryDAOImpl implements CategoryDAO{
 		}
 		
 		return register;
-		
 	}
+	
+	
+	@Override
+	public ArrayList<Category> getAllWithProducts() {
+		
+		//La clave Integer es el ID de la categoria
+		HashMap<Integer, Category> register = new HashMap<Integer, Category>();
+
+		try(
+			Connection con = ConnectionManager.getConnection();
+			PreparedStatement pst = con.prepareStatement(SQL_GET_ALL_WITH_GAMES);
+			ResultSet rs = pst.executeQuery();
+			){
+				
+			while( rs.next() ) {
+					
+					int categoryId = rs.getInt("category_id"); //hashmap key
+					
+					Category c = register.get(categoryId);
+					
+					//Si la categoria no existe, crea una nueva y guarda los datos
+					if (c == null) {
+						
+						c = new Category();
+						c.setId(categoryId);
+						c.setName(rs.getString("category_name"));
+					}
+					//Crea nuevo juego y guarda los datos
+					Game g = new Game();
+					g.setId(rs.getInt("game_id"));
+					g.setName(rs.getString("game_name"));
+					g.setPrice(rs.getDouble("price"));
+					
+					//Agrega juego a la categoria
+					//Value del hashmap
+					c.getGames().add(g);
+					
+					//Guarda la categoria en el hashmap
+					register.put(categoryId, c);					
+				}
+				
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		//Devuelve un arraylist de categorias, cada una con su lista de juegos
+		return new ArrayList<Category>(register.values());
+	}
+	
 	
 	//TODO impletmentar metodos cuando sean necesarios
 	
