@@ -1,4 +1,4 @@
-package controller;
+package com.games.webapp.controller;
 
 public class Alert {
 

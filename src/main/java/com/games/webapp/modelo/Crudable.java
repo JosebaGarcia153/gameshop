@@ -1,4 +1,4 @@
-package modelo;
+package com.games.webapp.modelo;
 
 import java.util.ArrayList;
 

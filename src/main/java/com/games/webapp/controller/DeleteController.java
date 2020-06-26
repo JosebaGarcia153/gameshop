@@ -1,4 +1,4 @@
-package controller;
+package com.games.webapp.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import modelo.dao.impl.GameDAOImpl;
-import modelo.pojo.Game;
+import com.games.webapp.modelo.dao.impl.GameDAOImpl;
+import com.games.webapp.modelo.pojo.Game;
 
 /**
  * Servlet implementation class DeleteController

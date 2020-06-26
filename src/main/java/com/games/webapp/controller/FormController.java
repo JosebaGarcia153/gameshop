@@ -1,4 +1,4 @@
-package controller;
+package com.games.webapp.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,10 +15,10 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import modelo.dao.impl.CategoryDAOImpl;
-import modelo.dao.impl.GameDAOImpl;
-import modelo.pojo.Category;
-import modelo.pojo.Game;
+import com.games.webapp.modelo.dao.impl.CategoryDAOImpl;
+import com.games.webapp.modelo.dao.impl.GameDAOImpl;
+import com.games.webapp.modelo.pojo.Category;
+import com.games.webapp.modelo.pojo.Game;
 
 		
 /**

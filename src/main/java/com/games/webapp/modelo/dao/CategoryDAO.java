@@ -1,9 +1,10 @@
-package modelo.dao;
+package com.games.webapp.modelo.dao;
 
 import java.util.ArrayList;
 
-import modelo.Crudable;
-import modelo.pojo.Category;
+import com.games.webapp.modelo.Crudable;
+import com.games.webapp.modelo.pojo.Category;
+
 
 public interface CategoryDAO extends Crudable<Category> {
 	

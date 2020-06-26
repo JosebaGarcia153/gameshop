@@ -1,12 +1,12 @@
-package modelo.dao.impl;
+package com.games.webapp.modelo.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import modelo.ConnectionManager;
-import modelo.dao.UserDAO;
-import modelo.pojo.User;
+import com.games.webapp.modelo.ConnectionManager;
+import com.games.webapp.modelo.dao.UserDAO;
+import com.games.webapp.modelo.pojo.User;
 
 public class UserDAOImpl implements UserDAO {
 	

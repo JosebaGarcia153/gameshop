@@ -1,4 +1,4 @@
-package modelo;
+package com.games.webapp.modelo;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

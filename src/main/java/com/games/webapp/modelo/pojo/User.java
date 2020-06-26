@@ -1,4 +1,4 @@
-package modelo.pojo;
+package com.games.webapp.modelo.pojo;
 
 public class User {
 	

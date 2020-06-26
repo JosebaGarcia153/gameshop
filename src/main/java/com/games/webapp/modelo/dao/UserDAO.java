@@ -1,6 +1,6 @@
-package modelo.dao;
+package com.games.webapp.modelo.dao;
 
-import modelo.pojo.User;
+import com.games.webapp.modelo.pojo.User;
 
 public interface UserDAO {
 	

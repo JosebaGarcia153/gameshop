@@ -1,4 +1,4 @@
-package modelo.pojo;
+package com.games.webapp.modelo.pojo;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;

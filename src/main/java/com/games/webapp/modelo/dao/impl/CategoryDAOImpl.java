@@ -1,4 +1,4 @@
-package modelo.dao.impl;
+package com.games.webapp.modelo.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import modelo.ConnectionManager;
-import modelo.dao.CategoryDAO;
-import modelo.pojo.Category;
-import modelo.pojo.Game;
+import com.games.webapp.modelo.ConnectionManager;
+import com.games.webapp.modelo.dao.CategoryDAO;
+import com.games.webapp.modelo.pojo.Category;
+import com.games.webapp.modelo.pojo.Game;
 
 public class CategoryDAOImpl implements CategoryDAO{
 	
