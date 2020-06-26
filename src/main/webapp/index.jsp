@@ -1,4 +1,4 @@
-<%@page import="modelo.pojo.Game"%> 
+<%@page import="com.games.webapp.modelo.pojo.Game"%> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 
 <jsp:include page ="include/header.jsp">
@@ -15,12 +15,14 @@
 					<h4>${g.name}</h4>
 					<p>Price: ${g.price} &euro;</p>
 					<p>Game Category: ${g.category.name}</p>
-					<a href="form-control?id=${g.id}">
-						<i class="fas fa-edit fa-lg" title="Edit"></i>
-					</a>
-					<a href="delete-control?id=${g.id}" onclick="confirmar('${g.name}')">
-						<i class="fas fa-trash fa-lg" title="Delete"></i>
-					</a>
+					<c:if test="${ not empty user_login }">
+						<a href="form-control?id=${g.id}">
+							<i class="fas fa-edit fa-lg" title="Edit"></i>
+						</a>
+						<a href="delete-control?id=${g.id}" onclick="confirmar('${g.name}')">
+							<i class="fas fa-trash fa-lg" title="Delete"></i>
+						</a>
+					</c:if>
 				</div>
 			</div>
 		</c:forEach>

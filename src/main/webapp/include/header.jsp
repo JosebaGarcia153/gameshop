@@ -38,9 +38,11 @@
 	              		<i class="fas fa-gamepad fa-2x"></i>
 	            	</a>
 	            </li>
-            	<li class="nav-item ${('form' eq param.page) ? 'active' : ''}">
-            		<a class="nav-link" href="form-control">New Game</a>
-            	</li>    
+	           <c:if test="${ not empty user_login }">
+	            	<li class="nav-item ${('form' eq param.page) ? 'active' : ''}">
+	            		<a class="nav-link" href="form-control">New Game</a>
+	            	</li> 
+            	</c:if>   
             	<li>
            			<div class="dropdown show">
             			<a class="btn btn-secondary dropdown-toggle" href="inicio" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -63,7 +65,7 @@
 	            </c:if>
 	            
 	            <c:if test="${ not empty user_login }">
-	            	<div class="mr-2">
+	            	<div class="mr-2" style="color:white">
         				${user_login.name}
         			</div>
 	            	<div class="mr-2">

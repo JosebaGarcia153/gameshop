@@ -20,7 +20,7 @@ import com.games.webapp.controller.Alert;
 @WebListener
 public class IndexListener implements ServletContextListener {
 	
-	private final static Logger LOG = Logger.getLogger(IndexListener.class);
+	private static final Logger LOG = Logger.getLogger(IndexListener.class);
 	private static final CategoryDAOImpl daoC = CategoryDAOImpl.getInstance();
 	
 	/**
@@ -28,6 +28,7 @@ public class IndexListener implements ServletContextListener {
      */
     public void contextDestroyed(ServletContextEvent sce)  { 
     	// cuando paramos la App
+    	LOG.info("Shutting down the server");
     }
 
 	/**

@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import com.games.webapp.modelo.ConnectionManager;
 import com.games.webapp.modelo.dao.GameDAO;
 import com.games.webapp.modelo.pojo.Category;
@@ -13,6 +15,7 @@ import com.games.webapp.modelo.pojo.Game;
 
 public class GameDAOImpl implements GameDAO{
 	
+	private static final Logger LOG = Logger.getLogger(GameDAOImpl.class);
 	public static GameDAOImpl INSTANCE = null;
 	
 	private GameDAOImpl() {
@@ -57,18 +60,19 @@ public class GameDAOImpl implements GameDAO{
 		ArrayList<Game> register = new ArrayList<Game>();
 
 		try(
-				Connection con = ConnectionManager.getConnection();
-				PreparedStatement pst = con.prepareStatement(SQL_GET_ALL);
-				ResultSet rs = pst.executeQuery();
-				){
+			Connection con = ConnectionManager.getConnection();
+			PreparedStatement pst = con.prepareStatement(SQL_GET_ALL);
+			ResultSet rs = pst.executeQuery();
+			){
 				
-				while( rs.next() ) {
-					
-					register.add(mapper(rs));					
-				}		
+			LOG.debug(pst);
+			while( rs.next() ) {
+				
+				register.add(mapper(rs));					
+			}		
 		} catch (Exception e) {
 			
-			e.printStackTrace();
+			LOG.error(e);
 		}
 		
 		return register;
@@ -80,14 +84,15 @@ public class GameDAOImpl implements GameDAO{
 		ArrayList<Game> register = new ArrayList<Game>();
 
 		try(
-				Connection con = ConnectionManager.getConnection();
-				PreparedStatement pst = con.prepareStatement(SQL_GET_LAST);
-				){
+			Connection con = ConnectionManager.getConnection();
+			PreparedStatement pst = con.prepareStatement(SQL_GET_LAST);
+			){
 			
 			pst.setInt( 1, numReg);
 			
 			try ( ResultSet rs = pst.executeQuery() ){
 				
+				LOG.debug(pst);
 				while( rs.next() ) {
 					
 					register.add(mapper(rs));					
@@ -95,7 +100,7 @@ public class GameDAOImpl implements GameDAO{
 			}	
 		} catch (Exception e) {
 			
-			e.printStackTrace();
+			LOG.error(e);
 		}
 		
 		return register;
@@ -107,20 +112,23 @@ public class GameDAOImpl implements GameDAO{
 		ArrayList<Game> register = new ArrayList<Game>();	
 		
 		try (
-				Connection conexion = ConnectionManager.getConnection();
-				PreparedStatement pst = conexion.prepareStatement(SQL_GET_BY_CATEGORY);
-			) {			
-					pst.setInt( 1, categoryId);
-					pst.setInt( 2, numReg);
-
-					try ( ResultSet rs = pst.executeQuery() ){
-						while ( rs.next() ) {					
-							register.add( mapper(rs) );					
-						}
-					}
+			Connection conexion = ConnectionManager.getConnection();
+			PreparedStatement pst = conexion.prepareStatement(SQL_GET_BY_CATEGORY);
+			){
+			
+			pst.setInt( 1, categoryId);
+			pst.setInt( 2, numReg);
+			
+			try ( ResultSet rs = pst.executeQuery() ){
+				
+				LOG.debug(pst);
+				while ( rs.next() ) {					
+					register.add( mapper(rs) );					
+				}
+			}
 			
 		} catch (Exception e) {			
-			e.printStackTrace();			
+			LOG.error(e);			
 		}
 		return register;
 	}
@@ -131,14 +139,15 @@ public class GameDAOImpl implements GameDAO{
 		Game game = new Game();
 
 		try (
-				Connection connection = ConnectionManager.getConnection();
-				PreparedStatement pst = connection.prepareStatement(SQL_READ_BY_ID);
-				){
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement pst = connection.prepareStatement(SQL_READ_BY_ID);
+			){
 
 			pst.setInt(1, id);
-
+			
 			try ( ResultSet rs = pst.executeQuery() ){
-
+				
+				LOG.debug(pst);
 				if (rs.next()) {
 
 					game = mapper(rs);
@@ -161,18 +170,19 @@ public class GameDAOImpl implements GameDAO{
 		}
 		
 		try ( 
-				Connection connection = ConnectionManager.getConnection();
-				PreparedStatement pst = connection.prepareStatement(SQL_CREATE, PreparedStatement.RETURN_GENERATED_KEYS);
-				){
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement pst = connection.prepareStatement(SQL_CREATE, PreparedStatement.RETURN_GENERATED_KEYS);
+			){
 			
 			pst.setString(1, game.getName());
 			pst.setDouble(2, game.getPrice());
 			pst.setInt(3, game.getCategory().getId());
-
+			
 			int affectedRows = pst.executeUpdate();
-
+			
+			LOG.debug(pst);
 			if (affectedRows == 1) {
-
+				
 				//conseguir el ID
 				try ( ResultSet rsKeys = pst.getGeneratedKeys(); ) {
 					
@@ -202,18 +212,19 @@ public class GameDAOImpl implements GameDAO{
 		}
 		
 		try ( 
-				Connection connection = ConnectionManager.getConnection();
-				PreparedStatement pst = connection.prepareStatement(SQL_UPDATE);
-				){
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement pst = connection.prepareStatement(SQL_UPDATE);
+			){
 			
 			pst.setString(1, game.getName());
 			pst.setDouble(2, game.getPrice());
 			pst.setInt(3, game.getCategory().getId());
 
 			pst.setInt(4, game.getId());
-
+			
 			int affectedRows = pst.executeUpdate();
-
+			
+			LOG.debug(pst);
 			if (affectedRows != 1) {
 				
 				throw new Exception ("Couldn't create a new entry for ID: " + game.getId());
@@ -221,7 +232,7 @@ public class GameDAOImpl implements GameDAO{
 			
 		} catch (SQLException e) {
 			
-			e.printStackTrace();
+			LOG.error(e);
 			throw new SQLException("The name already exists");
 
 		} 
@@ -234,16 +245,17 @@ public class GameDAOImpl implements GameDAO{
 		Game game = new Game();
 		
 		try (	
-				Connection connection = ConnectionManager.getConnection();
-				PreparedStatement pst = connection.prepareStatement(SQL_DELETE);
-				){
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement pst = connection.prepareStatement(SQL_DELETE);
+			){
 			
 			pst.setInt(1, id);
 			
 			game = getById(id);
-			
+
 			int affectedRows = pst.executeUpdate();
 			
+			LOG.debug(pst);
 			if (affectedRows != 1) {
 				
 				throw new Exception("Couldn't delete the game with ID: " + id);

@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 import com.games.webapp.modelo.ConnectionManager;
 import com.games.webapp.modelo.dao.CategoryDAO;
 import com.games.webapp.modelo.pojo.Category;
@@ -14,6 +16,7 @@ import com.games.webapp.modelo.pojo.Game;
 
 public class CategoryDAOImpl implements CategoryDAO{
 	
+	private static final Logger LOG = Logger.getLogger(CategoryDAOImpl.class);
 	private static CategoryDAOImpl INSTANCE = null;
 	
 	private CategoryDAOImpl() {
@@ -44,6 +47,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 			ResultSet rs = pst.executeQuery();
 			){
 			
+			LOG.debug(pst);
 			while( rs.next() ) {
 				
 				register.add(mapper(rs));					
@@ -51,7 +55,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 				
 		} catch (Exception e) {
 			
-			e.printStackTrace();
+			LOG.error(e);
 		}
 		
 		return register;
@@ -69,7 +73,8 @@ public class CategoryDAOImpl implements CategoryDAO{
 			PreparedStatement pst = con.prepareStatement(SQL_GET_ALL_WITH_GAMES);
 			ResultSet rs = pst.executeQuery();
 			){
-				
+			
+			LOG.debug(pst);
 			while( rs.next() ) {
 					
 					int categoryId = rs.getInt("category_id"); //hashmap key
@@ -100,7 +105,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 				
 		} catch (Exception e) {
 			
-			e.printStackTrace();
+			LOG.error(e);
 		}
 		//Devuelve un arraylist de categorias, cada una con su lista de juegos
 		return new ArrayList<Category>(register.values());
