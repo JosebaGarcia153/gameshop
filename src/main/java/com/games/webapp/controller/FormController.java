@@ -30,7 +30,7 @@ public class FormController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	//direcciones a donde ir
-	private static final String TOFORM = "form.jsp";
+	private static final String TOFORM = "views/form.jsp";
 	private static final String TOINDEX = "inicio";
 	
 	private static GameDAOImpl daoGame = GameDAOImpl.getInstance();
@@ -68,7 +68,7 @@ public class FormController extends HttpServlet {
 			
 			request.setAttribute("categories", daoCategory.getAll());
 			// ir a la nueva vista / jsp
-			request.getRequestDispatcher("form.jsp").forward(request, response);
+			request.getRequestDispatcher(TOFORM).forward(request, response);
 		}		
 	}
 

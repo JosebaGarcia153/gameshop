@@ -1,7 +1,7 @@
 <%@page import="com.games.webapp.modelo.pojo.Game"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 
-<jsp:include page ="include/header.jsp">
+<jsp:include page ="../include/header.jsp">
 	<jsp:param name="page" value="form" />
 	<jsp:param name="title" value="Form" />
 </jsp:include>
@@ -39,4 +39,4 @@
 		</div>
 	</div>
 
-<%@include file="include/footer.jsp" %>
+<%@include file="../include/footer.jsp" %>
