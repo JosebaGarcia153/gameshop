@@ -2,10 +2,16 @@ package com.games.webapp.modelo.pojo;
 
 import java.util.ArrayList;
 
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class Category {
 	
 	private int id;
+	
+	@NotEmpty(message = "Name cannot be empty")
 	private String name;
+	
 	private ArrayList<Game> games;
 	
 	

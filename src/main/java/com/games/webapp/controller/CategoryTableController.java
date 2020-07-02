@@ -1,55 +1,53 @@
 package com.games.webapp.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.games.webapp.modelo.dao.impl.GameDAOImpl;
-import com.games.webapp.modelo.pojo.Game;
+import org.apache.log4j.Logger;
+
+import com.games.webapp.modelo.dao.impl.CategoryDAOImpl;
+import com.games.webapp.modelo.pojo.Category;
 
 /**
- * Servlet implementation class DeleteController
+ * Servlet implementation class CategoryTableController
  */
-@WebServlet("/delete-control")
-public class DeleteController extends HttpServlet {
+@WebServlet("/category-table-control")
+public class CategoryTableController extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
+	
+	private static final Logger LOG = Logger.getLogger(CategoryTableController.class);
+	
+	private static final CategoryDAOImpl daoC = CategoryDAOImpl.getInstance();
+	
+	private static final String VIEW_TABLE = "views/categories/categoryTable.jsp";
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String idParameter = request.getParameter("id");
-		int id = Integer.parseInt(idParameter);
-		
-		GameDAOImpl  dao = GameDAOImpl.getInstance();
-		String message = "";
-		boolean fail = true;
+		ArrayList<Category> categories = new ArrayList<Category>();
 		
 		try {
-			Game game = dao.delete(id);
-			message = game.getName() + " deleted";
-			fail = false;
+			
+			categories = daoC.getAll();
 			
 		} catch (Exception e) {
 			
-			message = "Error: " + e.getMessage();
-			e.printStackTrace();
-			fail = true;
+			LOG.error(e);
 			
 		} finally {
 			
-			if (fail == false) {
-				request.setAttribute("alert", new Alert("success", message));				
-			} else {
-				request.setAttribute("alert", new Alert("danger", message));
-			}
-			
-			request.getRequestDispatcher("inicio").forward(request, response);
-		}
+			request.setAttribute("categories", categories);
+			request.getRequestDispatcher(VIEW_TABLE).forward(request, response);
+		}	
 	}
 
 	/**

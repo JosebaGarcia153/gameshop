@@ -42,9 +42,12 @@
 	              		<i class="fas fa-gamepad fa-2x"></i>
 	            	</a>
 	            </li>
-	           <c:if test="${ not empty user_login }">
+	           <c:if test="${ not empty sessionScope.user_login }">
 	            	<li class="nav-item ${('form' eq param.page) ? 'active' : ''}">
-	            		<a class="nav-link" href="form-control">New Game</a>
+	            		<a class="nav-link" href="game-form-control">New Game</a>
+	            	</li> 
+	            	<li class="nav-item ${('categories' eq param.page) ? 'active' : ''}">
+	            		<a class="nav-link" href="category-table-control">Categories Table</a>
 	            	</li> 
             	</c:if>   
             	<li>
@@ -53,7 +56,7 @@
             				Categories
             			</a>
             			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            				<c:forEach items="${category}" var="c">
+            				<c:forEach items="${applicationScope.categories}" var="c">
             					<a class="dropdown-item" href="inicio?categoryId=${c.id}&categoryName=${c.name}">${c.name}</a>	
             				</c:forEach>
             				<a class="dropdown-item" href="inicio">Last 10</a>
@@ -64,18 +67,18 @@
         	</ul>
 
         	<span class="form-inline">
-	         	<c:if test="${ empty user_login }">
-	            	  <a class="nav-link  btn btn-outline-warning" href="views/login.jsp">Login</a>
+	         	<c:if test="${ empty sessionScope.user_login }">
+	            	  <a class="nav-link  btn btn-outline-warning" href="views//login/login.jsp">Login</a>
 	            </c:if>
 	            
-	            <c:if test="${ not empty user_login }">
+	            <c:if test="${ not empty sessionScope.user_login }">
 	            	<div class="mr-2" style="color:white">
         				${user_login.name}
         			</div>
 	            	<div class="mr-2">
-        				<img src="${user_login.image}" alt="Profile Image" >
+        				<img src="${sessionScope.user_login.image}" alt="Profile Image" >
         			</div>
-	            	<span class="badge badge-pill badge-light mr-3">${usuario_login.nombre}</span>
+	            	<span class="badge badge-pill badge-light mr-3">${sessionScope.usuario_login.nombre}</span>
 	            	<a class="nav-link  btn btn-outline-light" href="logout">Logout</a>
 	            </c:if>     
          	</span>

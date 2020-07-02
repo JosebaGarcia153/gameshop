@@ -1,4 +1,4 @@
-<jsp:include page ="../include/header.jsp">
+<jsp:include page ="../../include/header.jsp">
 	<jsp:param name="pagina" value="login" />
 	<jsp:param name="title" value="Login" />
 </jsp:include>
@@ -13,4 +13,4 @@
 	<input type="submit" value="Login" class="btn btn-primary">
 </form>
 
-<%@include file="../include/footer.jsp" %>
+<%@include file="../../include/footer.jsp" %>

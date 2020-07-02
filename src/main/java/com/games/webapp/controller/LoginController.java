@@ -1,6 +1,8 @@
 package com.games.webapp.controller;
 
 import java.io.IOException;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -48,6 +50,11 @@ public class LoginController extends HttpServlet {
 			
 			session.setMaxInactiveInterval(60*20); //la sesion dura 20 minutos
 			session.setAttribute("user_login", user);
+			
+			//usuarios conectados recuperar y actualizar, inicializado en InicioAppListenner
+			ServletContext sc = request.getServletContext();
+			int loggedUsers = (int) sc.getAttribute("logged_users");
+			sc.setAttribute("logged_users", ++loggedUsers);
 			
 			request.setAttribute("alert", new Alert("success", "You are logged in"));
 			request.getRequestDispatcher("inicio").forward(request, response);

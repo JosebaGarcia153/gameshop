@@ -45,8 +45,9 @@ public class IndexListener implements ServletContextListener {
     	ServletContext contextoAplicacion = sce.getServletContext();
     	
     	try {
-    	
-    		contextoAplicacion.setAttribute("category", daoC.getAll() );
+    		
+    		contextoAplicacion.setAttribute("logged_users", 0);
+    		contextoAplicacion.setAttribute("categories", daoC.getAll() );
 
     	} catch (Exception e) {
     		

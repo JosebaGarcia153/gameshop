@@ -16,10 +16,10 @@
 					<p>Price: ${g.price} &euro;</p>
 					<p>Game Category: ${g.category.name}</p>
 					<c:if test="${ not empty user_login }">
-						<a href="form-control?id=${g.id}">
+						<a href="game-form-control?id=${g.id}">
 							<i class="fas fa-edit fa-lg" title="Edit"></i>
 						</a>
-						<a href="delete-control?id=${g.id}" onclick="confirmar('${g.name}')">
+						<a href="game-delete-control?id=${g.id}" onclick="confirmar('${g.name}')">
 							<i class="fas fa-trash fa-lg" title="Delete"></i>
 						</a>
 					</c:if>
