@@ -56,7 +56,7 @@
             				Categories
             			</a>
             			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            				<c:forEach items="${applicationScope.categories}" var="c">
+            				<c:forEach items="${categories}" var="c">
             					<a class="dropdown-item" href="inicio?categoryId=${c.id}&categoryName=${c.name}">${c.name}</a>	
             				</c:forEach>
             				<a class="dropdown-item" href="inicio">Last 10</a>

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.games.webapp.modelo.dao.impl.UserDAOImpl;
+import com.games.webapp.modelo.pojo.Rol;
 import com.games.webapp.modelo.pojo.User;
 
 /**
@@ -58,6 +59,13 @@ public class LoginController extends HttpServlet {
 			
 			request.setAttribute("alert", new Alert("success", "You are logged in"));
 			request.getRequestDispatcher("inicio").forward(request, response);
+		
+			
+			if (user.getRol().getId() == Rol.ADMIN) {
+				request.getRequestDispatcher("views/backoffice/index.jsp").forward(request, response);
+			} else {
+				request.getRequestDispatcher("views/frontoffice/index.jsp").forward(request, response);
+			}
 		}
 	}
 }

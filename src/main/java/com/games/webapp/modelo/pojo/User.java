@@ -6,6 +6,7 @@ public class User {
 	private String name;
 	private String password;
 	private String image;
+	private Rol rol;
 	
 	
 	public User() {
@@ -14,6 +15,7 @@ public class User {
 		this.name = "";
 		this.password = "";
 		this.image = "";
+		this.rol = new Rol();
 	}
 
 
@@ -55,10 +57,19 @@ public class User {
 	public void setImage(String image) {
 		this.image = image;
 	}
+	
+	
+	public Rol getRol() {
+		return rol;
+	}
 
+	public void setRol(Rol rol) {
+		this.rol = rol;
+	}
 
+	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", password=" + password + ", image=" + image + "]";
+		return "User [id=" + id + ", name=" + name + ", password=" + password + ", image=" + image + "rol=" + rol + "]";
 	}
 }
