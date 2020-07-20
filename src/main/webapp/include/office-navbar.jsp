@@ -1,6 +1,6 @@
  		<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <a class="navbar-brand" href="views/frontoffice/inicio">My Panel</a>
-                      
+            <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>         
             <!-- Navbar-->
             <ul class="navbar-nav ml-auto ml-md-0">
                 <li class="nav-item">
@@ -16,7 +16,7 @@
                         <div class="nav">
                             
                             <a class="nav-link" href="inicio">
-                                <div class="sb-nav-link-icon"><i class="fa fa-tachometer-alt"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa fa-globe"></i></div>
                                 Index
                             </a>
                             <a class="nav-link" href="views/frontoffice/inicio">
@@ -24,10 +24,10 @@
                                 My Panel
                             </a>
                             <a class="nav-link" href="views/frontoffice/games">
-                                <div class="sb-nav-link-icon"><i class=""></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa fa-check-square-o"></i></div>
                                 Games
                             </a>
-                            <a class="nav-link" href="views/frontoffice/games?validated=0">
+                            <a class="nav-link" href="views/frontoffice/games?approved=0">
                                 <div class="sb-nav-link-icon"><i class="fa fa-check-circle-o"></i></div>
                                 Pending Validation
                             </a>
@@ -44,5 +44,6 @@
             <!-- CONTENIDO PRINCIPAL -->
              <div id="layoutSidenav_content">
                 <main>
-                    <div class="container-fluid">
+                    <div class="container-fluid mb-3">
+                    	<%@ include file="alerts.jsp" %>
 					

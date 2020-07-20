@@ -86,7 +86,7 @@ public class GameFormController extends HttpServlet {
 		Alert prompt = null;
 		
 		//Define parametros
-		double price = 0;
+		Float price = 0f;
 		int id = 0;	
 		int categoryId = 0;
 		String message = "";
@@ -108,9 +108,9 @@ public class GameFormController extends HttpServlet {
 			categoryId = Integer.parseInt(categoryIdParameter);
 			
 			try {
-				price = Double.parseDouble(priceParameter);				
+				price = Float.parseFloat(priceParameter);				
 			} catch (Exception e) {
-				price = -1;
+				price = -1f;
 			}
 			
 			//guarda los parametros en la instancia

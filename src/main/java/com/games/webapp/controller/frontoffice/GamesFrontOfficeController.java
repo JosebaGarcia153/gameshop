@@ -1,6 +1,7 @@
 package com.games.webapp.controller.frontoffice;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,39 +11,60 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.games.webapp.modelo.dao.impl.GameDAOImpl;
+import com.games.webapp.modelo.pojo.Game;
+import com.games.webapp.modelo.pojo.User;
+
 /**
  * Servlet implementation class InicioController
  */
 @WebServlet("/views/frontoffice/games")
 public class GamesFrontOfficeController extends HttpServlet {
-	
-		
 		private static final long serialVersionUID = 1L;
-		private final static Logger LOG = Logger.getLogger(GamesFrontOfficeController.class);
-	
+		
+		private static final Logger LOG = Logger.getLogger(GamesFrontOfficeController.class);
+		private static final GameDAOImpl daoG = GameDAOImpl.getInstance();
+		
+		
 		/**
 		 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 		 */
 		protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
-			String validated = request.getParameter("validated");
+			String approved = request.getParameter("approved");
 			String title = "";
+			ArrayList<Game> games = new ArrayList<Game>();
 			
-			if (validated == null) {
+			try {
 				
-				title = "Validated Games";
+				User userSession = (User) request.getSession().getAttribute("user_login");
+				int userId = userSession.getId();
 				
-			} else {
+				if (approved == null) {
+					
+					title = "Approved Games";
+					games = daoG.getAllByUser(userId, true);
+					
+				} else {
+					
+					title = "Products Pending Approval";
+					games = daoG.getAllByUser(userId, false);
+				}
 				
-				title = "Products Pending Validation";
+			} catch (Exception e) {
+				
+				LOG.error(e);
+				
+			} finally {
+				
+				request.setAttribute("games", games);
+				request.setAttribute("title", title);	
+				
+				String url = "games.jsp";
+				LOG.debug("forward: " + url);
+				
+				request.getRequestDispatcher(url).forward(request, response);
 			}
-			
-			request.setAttribute("title", title);	
-			
-			String url = "games.jsp";
-			LOG.debug("forward: " + url);
-			
-			request.getRequestDispatcher(url).forward(request, response);			
 		}
 	
 		/**

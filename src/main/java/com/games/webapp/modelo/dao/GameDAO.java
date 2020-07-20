@@ -9,4 +9,6 @@ public interface GameDAO extends Crudable<Game> {
 	
 	ArrayList<Game> getLast (int numReg);
 	ArrayList<Game> getAllByCategory (int categoryId, int numReg);
+	void validate(int id);
+	ArrayList<Game> getAllByUser(int userId, boolean isApproved);
 }

@@ -51,9 +51,21 @@ public class GameDAOImpl implements GameDAO{
 										+ " FROM games g, categories c"
 										+ " WHERE g.category_id = c.id AND g.id = ? LIMIT 500; ";
 	
-	private final String SQL_CREATE = "INSERT INTO games (name, price, category_id) VALUES (?, ?, ?); ";
-	private final String SQL_UPDATE = "UPDATE games SET name = ?, price = ?, category_id = ? WHERE id = ?; ";
+	private final String SQL_GET_BY_USER_APPROVED_GAME = "SELECT g.id 'game_id', g.name 'game_name', price, image, c.id 'category_id', c.name 'category_name'"
+										+ " FROM games g, categories c" 
+										+ " WHERE g.category_id  = c.id AND approval_date IS NOT NULL AND g.user_id = ?"  
+										+ " ORDER BY g.id DESC LIMIT 500; ";
+
+	private final String SQL_GET_BY_USER_NON_APPROVED_GAME = "SELECT g.id 'game_id', g.name 'game_name', price, image, c.id 'category_id', c.name 'category_name'"
+										+ " FROM games g, categories c" 
+										+ " WHERE g.category_id  = c.id AND approval_date IS NULL AND g.user_id = ?"  
+										+ " ORDER BY g.id DESC LIMIT 500; ";
+	
+	
+	private final String SQL_CREATE = "INSERT INTO games (name, price, image, user_id, category_id) VALUES (?, ?, ?, ?, ?); ";
+	private final String SQL_UPDATE = "UPDATE games SET name = ?, price = ?, image = ?, user_id = ?, category_id = ? WHERE id = ?; ";
 	private final String SQL_DELETE = "DELETE FROM games WHERE id = ?; ";
+	
 	
 	public ArrayList<Game> getAll() {
 	
@@ -77,6 +89,7 @@ public class GameDAOImpl implements GameDAO{
 		
 		return register;
 	}
+	
 	
 	@Override
 	public ArrayList<Game> getLast(int numReg) {
@@ -106,6 +119,7 @@ public class GameDAOImpl implements GameDAO{
 		return register;
 	}
 	
+	
 	@Override
 	public ArrayList<Game> getAllByCategory(int categoryId, int numReg) {
 		
@@ -132,6 +146,7 @@ public class GameDAOImpl implements GameDAO{
 		}
 		return register;
 	}
+	
 	
 	@Override
 	public Game getById(int id) throws Exception {
@@ -160,7 +175,41 @@ public class GameDAOImpl implements GameDAO{
 		}
 		return game;
 	}
+	
+	
+	@Override
+	public ArrayList<Game> getAllByUser(int userId, boolean isApproved) {
+		
+		ArrayList<Game> register = new ArrayList<Game>();
 
+		String sql = (isApproved) ? SQL_GET_BY_USER_APPROVED_GAME : SQL_GET_BY_USER_NON_APPROVED_GAME;
+		
+		try (
+			Connection conexion = ConnectionManager.getConnection();
+			PreparedStatement pst = conexion.prepareStatement(sql);
+			){
+			
+			// TODO mirar como hacerlo con una SQL,   "IS NOT NULL" o "IS NULL"
+			// pst.setBoolean(1, isValidado); // me sustitulle con un 1 o 0
+			pst.setNull(1, java.sql.Types.NULL);
+			pst.setInt(1, userId);
+			
+			try( ResultSet rs = pst.executeQuery() ){
+				
+				LOG.debug(pst);
+				while (rs.next()) {	
+					register.add(mapper(rs));	
+				}
+			}	
+
+		} catch (Exception e) {
+			LOG.error(e);
+		}
+
+		return register;
+	}
+	
+	
 	@Override
 	public Game create(Game game) throws Exception {
 		
@@ -176,8 +225,12 @@ public class GameDAOImpl implements GameDAO{
 			
 			pst.setString(1, game.getName());
 			pst.setDouble(2, game.getPrice());
-			pst.setInt(3, game.getCategory().getId());
+			pst.setString(3, game.getImage());
+			pst.setInt(4, game.getUser().getId());
+			pst.setInt(5, game.getCategory().getId());
 			
+			
+		
 			int affectedRows = pst.executeUpdate();
 			
 			LOG.debug(pst);
@@ -203,6 +256,7 @@ public class GameDAOImpl implements GameDAO{
 		return game;
 	}
 	
+	
 	@Override
 	public Game update(Game game) throws Exception {
 		
@@ -218,9 +272,11 @@ public class GameDAOImpl implements GameDAO{
 			
 			pst.setString(1, game.getName());
 			pst.setDouble(2, game.getPrice());
-			pst.setInt(3, game.getCategory().getId());
+			pst.setString(3, game.getImage());
+			pst.setInt(4, game.getUser().getId());
+			pst.setInt(5, game.getCategory().getId());
 
-			pst.setInt(4, game.getId());
+			pst.setInt(6, game.getId());
 			
 			int affectedRows = pst.executeUpdate();
 			
@@ -238,6 +294,7 @@ public class GameDAOImpl implements GameDAO{
 		} 
 		return game;
 	}
+	
 	
 	@Override
 	public Game delete(int id) throws Exception {
@@ -264,6 +321,14 @@ public class GameDAOImpl implements GameDAO{
 		return game;
 	}
 	
+	
+	@Override
+	public void validate(int id) {
+		// TODO Auto-generated method stub
+		// UPDATE producto SET fecha_validado = NOW() WHERE id = 15;
+	}
+	
+	
 	private Game mapper( ResultSet rs ) throws SQLException {
 		
 		Game g = new Game();
@@ -271,7 +336,7 @@ public class GameDAOImpl implements GameDAO{
 		
 		g.setId(rs.getInt("game_id"));
 		g.setName(rs.getString("game_name"));
-		g.setPrice( rs.getDouble("price"));
+		g.setPrice( rs.getFloat("price"));
 		
 		c.setId(rs.getInt("category_id"));
 		c.setName(rs.getString("category_name"));

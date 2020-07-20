@@ -41,7 +41,6 @@ public class LoginController extends HttpServlet {
 		
 		UserDAOImpl dao = UserDAOImpl.getInstance();
 		User user = dao.exists(name, password);
-		Rol rol = new Rol();
 		
 		if (user == null) {
 			

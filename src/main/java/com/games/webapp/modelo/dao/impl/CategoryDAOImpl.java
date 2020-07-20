@@ -98,7 +98,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 					Game g = new Game();
 					g.setId(rs.getInt("game_id"));
 					g.setName(rs.getString("game_name"));
-					g.setPrice(rs.getDouble("price"));
+					g.setPrice(rs.getFloat("price"));
 					
 					//Agrega juego a la categoria
 					//Value del hashmap

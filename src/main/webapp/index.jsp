@@ -10,7 +10,6 @@
 		<li>TODO 2 roles, el usuario normal solo puede crear, modificar o eliminar sus propios juegos, el administrador puede hacer lo que quiera</li>	
 	 	<li>TODO para hacer visible algo creado por un usuario, un administrador lo tiene que dar por valido</li>
 	 	<li>TODO para validar el administrador necesita su propia interfaz grafica</li>
-	 	<li>TODO 3 secciones en vistas, la parte publica para cualquier usuario, la parte para usuarios logeados (frontoffice) y la parte para administradores (backoffice)</li>
 		<li>TODO crear listener para categorias</li>
 	</ol>
 	
