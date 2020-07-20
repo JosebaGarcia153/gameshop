@@ -61,7 +61,7 @@ public class FrontOfficeFilter implements Filter {
 			//res.sendRedirect("login.jsp"); => Ruta relativa, se mete en un bucle
 			res.sendRedirect(urlIndexApp + "/views/login.jsp"); //Ruta absoluta
 			
-		} else if (userLogin.getRol().getId() != Rol.USER) {
+		} else if (userLogin.getRol().getId() != Rol.USER && userLogin.getRol().getId() != Rol.ADMIN) {
 			
 			LOG.warn("User without USER priviledges, WITHOUT AUTHORITATION");
 			res.sendRedirect(urlIndexApp + "/views/login/login.jsp");

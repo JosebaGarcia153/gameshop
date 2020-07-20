@@ -59,7 +59,7 @@ public class BackOfficeFilter implements Filter {
 			
 			LOG.warn("Didn't pass through the LOGIN, user is  NULL, WITHOUT AUTHORITATION");
 			//res.sendRedirect("login.jsp"); => Ruta relativa, se mete en un bucle
-			res.sendRedirect(urlIndexApp + "/views/login.jsp"); //Ruta absoluta
+			res.sendRedirect(urlIndexApp + "/views/login/login.jsp"); //Ruta absoluta
 			
 		} else if (userLogin.getRol().getId() != Rol.ADMIN) {
 			

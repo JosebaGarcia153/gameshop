@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
 	<!-- Todas las rutas relativas comienzan por el href indicado -->
-	<!--  ${pageContext.request.contextPath} == http://localhost:8080/AppSupermercado -->
+	<!--  ${pageContext.request.contextPath} == http://localhost:8080/games -->
 	<base href="${pageContext.request.contextPath}/" />
 
     <!-- fontawesome 5 -->
@@ -48,6 +48,10 @@
 	            	</li> 
 	            	<li class="nav-item ${('categories' eq param.page) ? 'active' : ''}">
 	            		<a class="nav-link" href="category-table-control">Categories Table</a>
+	            	</li> 
+	            	
+	            	<li class="nav-item ${('index' eq param.page) ? 'active' : ''}">
+	            		<a class="nav-link" href="views/frontoffice/inicio">Front Office</a>
 	            	</li> 
             	</c:if>   
             	<li>

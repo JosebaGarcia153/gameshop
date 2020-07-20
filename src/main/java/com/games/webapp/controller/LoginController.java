@@ -41,6 +41,7 @@ public class LoginController extends HttpServlet {
 		
 		UserDAOImpl dao = UserDAOImpl.getInstance();
 		User user = dao.exists(name, password);
+		Rol rol = new Rol();
 		
 		if (user == null) {
 			
@@ -58,13 +59,15 @@ public class LoginController extends HttpServlet {
 			sc.setAttribute("logged_users", ++loggedUsers);
 			
 			request.setAttribute("alert", new Alert("success", "You are logged in"));
-			request.getRequestDispatcher("inicio").forward(request, response);
 		
 			
 			if (user.getRol().getId() == Rol.ADMIN) {
-				request.getRequestDispatcher("views/backoffice/index.jsp").forward(request, response);
+				
+				request.getRequestDispatcher("views/backoffice/inicio").forward(request, response);
+				
 			} else {
-				request.getRequestDispatcher("views/frontoffice/index.jsp").forward(request, response);
+				
+				request.getRequestDispatcher("views/frontoffice/inicio").forward(request, response);
 			}
 		}
 	}

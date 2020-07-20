@@ -27,8 +27,8 @@ public class IndexFrontOfficeController extends HttpServlet {
 		request.setAttribute("approved_products", 3);
 		request.setAttribute("pending_products", 2);
 		
-		// CUIDAD: mirar la URL del servlet "/views/frontoffice/inicio"
-		// Cuando hacemos forward se pierde lo ultime de la url y se le suma la variable pagina
+		// CUIDAOD: mirar la URL del servlet "/views/frontoffice/inicio"
+		// Cuando hacemos forward se pierde lo ultimo de la url y se le suma la variable pagina
 		//------------------------
 		// El forward resuelve la URL de la siguiente manera:
 		//	 "/views/frontoffice/inicio" + "index.jsp" = "/views/frontoffice/index.jsp"
@@ -36,7 +36,7 @@ public class IndexFrontOfficeController extends HttpServlet {
 		String url = "index.jsp";
 		LOG.debug("forward: " + url);
 		
-		request.getRequestDispatcher("index.jsp");
+		request.getRequestDispatcher(url).forward(request, response);
 	}
 
 	/**
@@ -46,5 +46,4 @@ public class IndexFrontOfficeController extends HttpServlet {
 		
 		doGet(request, response);
 	}
-
 }
