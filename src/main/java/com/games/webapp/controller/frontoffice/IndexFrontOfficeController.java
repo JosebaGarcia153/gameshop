@@ -9,23 +9,30 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.games.webapp.modelo.dao.impl.GameDAOImpl;
+import com.games.webapp.modelo.pojo.User;
+
 /**
  * Servlet implementation class IndexBackOfficeController
  */
 @WebServlet("/views/frontoffice/inicio")
 public class IndexFrontOfficeController extends HttpServlet {
-	
 	private static final long serialVersionUID = 1L;
+	
 	private static final Logger LOG = Logger.getLogger(IndexFrontOfficeController.class);
+	private static final GameDAOImpl daoG = GameDAOImpl.getInstance();
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// TODO recuperar datos inicio para el usuario
+		User userSession = (User) request.getSession().getAttribute("user_login");
+		int userId = userSession.getId();
 		
-		request.setAttribute("approved_products", 3);
-		request.setAttribute("pending_products", 2);
+		request.setAttribute("approved_products", daoG.getGameCount(userId).getApproved());
+		request.setAttribute("pending_products", daoG.getGameCount(userId).getPending());
+		request.setAttribute("total_products", daoG.getGameCount(userId).getTotal());
 		
 		// CUIDAOD: mirar la URL del servlet "/views/frontoffice/inicio"
 		// Cuando hacemos forward se pierde lo ultimo de la url y se le suma la variable pagina

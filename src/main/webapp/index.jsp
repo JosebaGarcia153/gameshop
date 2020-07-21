@@ -7,10 +7,9 @@
 </jsp:include>
 	
 	<ol>
-		<li>TODO 2 roles, el usuario normal solo puede crear, modificar o eliminar sus propios juegos, el administrador puede hacer lo que quiera</li>	
 	 	<li>TODO para hacer visible algo creado por un usuario, un administrador lo tiene que dar por valido</li>
 	 	<li>TODO para validar el administrador necesita su propia interfaz grafica</li>
-		<li>TODO crear listener para categorias</li>
+		<li>TODO Imagenes para juegos que no sean de picsum</li>
 	</ol>
 	
 	

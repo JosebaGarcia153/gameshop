@@ -12,6 +12,7 @@ import com.games.webapp.modelo.ConnectionManager;
 import com.games.webapp.modelo.dao.GameDAO;
 import com.games.webapp.modelo.pojo.Category;
 import com.games.webapp.modelo.pojo.Game;
+import com.games.webapp.modelo.pojo.GameCount;
 
 public class GameDAOImpl implements GameDAO{
 	
@@ -50,6 +51,8 @@ public class GameDAOImpl implements GameDAO{
 	private final String SQL_READ_BY_ID = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', c.name 'category_name'"
 										+ " FROM games g, categories c"
 										+ " WHERE g.category_id = c.id AND g.id = ? LIMIT 500; ";
+	
+	private final String SQL_COUNT_GAMES = "SELECT * FROM count_games WHERE user_id = ?; ";
 	
 	private final String SQL_GET_BY_USER_APPROVED_GAME = "SELECT g.id 'game_id', g.name 'game_name', price, image, c.id 'category_id', c.name 'category_name'"
 										+ " FROM games g, categories c" 
@@ -207,6 +210,35 @@ public class GameDAOImpl implements GameDAO{
 		}
 
 		return register;
+	}
+	
+	@Override
+	public GameCount getGameCount(int userId) {
+		
+		GameCount count = new GameCount();
+		
+		try (
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement pst = connection.prepareStatement(SQL_COUNT_GAMES);
+			){
+			
+			pst.setInt(1, userId);
+			LOG.debug(pst);
+			
+			try( ResultSet rs = pst.executeQuery() ){
+				if (rs.next()) {
+					count.setUser_id(userId);
+					count.setTotal(rs.getInt("total"));
+					count.setApproved(rs.getInt("approved"));
+					count.setPending(rs.getInt("pending"));
+				}
+			}
+			
+		} catch (Exception e) {
+			LOG.error(e);
+		} 
+		
+		return count;
 	}
 	
 	
