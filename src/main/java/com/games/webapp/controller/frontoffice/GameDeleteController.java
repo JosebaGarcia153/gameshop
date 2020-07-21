@@ -14,7 +14,7 @@ import com.games.webapp.modelo.pojo.Game;
 /**
  * Servlet implementation class DeleteController
  */
-@WebServlet("/game-delete-control")
+@WebServlet("/game-delete")
 public class GameDeleteController extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
