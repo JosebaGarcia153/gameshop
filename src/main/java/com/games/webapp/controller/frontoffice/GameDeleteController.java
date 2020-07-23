@@ -6,19 +6,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
 
 import com.games.webapp.controller.Alert;
 import com.games.webapp.modelo.dao.impl.GameDAOImpl;
 import com.games.webapp.modelo.pojo.Game;
+import com.games.webapp.modelo.pojo.User;
 
 /**
  * Servlet implementation class DeleteController
  */
-@WebServlet("/game-delete")
+@WebServlet("/views/frontoffice/delete")
 public class GameDeleteController extends HttpServlet {
-	
 	private static final long serialVersionUID = 1L;
 	
+	private static final Logger LOG = Logger.getLogger(GameDeleteController.class);
 	private static final GameDAOImpl  dao = GameDAOImpl.getInstance();
 
 	/**
@@ -26,33 +30,37 @@ public class GameDeleteController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String idParameter = request.getParameter("id");
-		int id = Integer.parseInt(idParameter);
+		HttpSession session = request.getSession();
+		User user = new User();
+		Alert alert = new Alert();
 		
-		String message = "";
-		boolean fail = true;
+		String idParameter = request.getParameter("id");
+		LOG.trace("We enter delete game: " + idParameter);
+		
+		String url = "games";
 		
 		try {
-			Game game = dao.delete(id);
-			message = game.getName() + " deleted";
-			fail = false;
 			
-		} catch (Exception e) {
+			user = (User)session.getAttribute("user_login");
 			
-			message = "Error: " + e.getMessage();
-			e.printStackTrace();
-			fail = true;
+			int userId = user.getId();
+			int id = Integer.parseInt(idParameter);
+			
+			Game game = dao.delete(id, userId);
+			alert = new Alert ("success" , game.getName() + " deleted");
+			
+		} catch (SecurityException e) {		
+			LOG.error(user + " is trying to bypass security");	
+		} catch (Exception e) {	
+			LOG.error(e);
+			url = "inicio";	
 			
 		} finally {
 			
-			if (fail == false) {
-				request.setAttribute("alert", new Alert("success", message));				
-			} else {
-				request.setAttribute("alert", new Alert("danger", message));
-			}
-			
-			request.getRequestDispatcher("inicio").forward(request, response);
-		}
+			LOG.debug("forward: " + url);
+			session.setAttribute("alert", alert);
+			request.getRequestDispatcher(url).forward(request, response);
+		}		
 	}
 
 	/**

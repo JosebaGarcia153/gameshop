@@ -40,28 +40,34 @@ public class AddGameFrontOfficeController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		HttpSession session = request.getSession();
+		User user = new User();
+		Game game = new Game();
+		
+		String url = "form.jsp";
+		
 		try {
-			// Ir al Formulario y enviamos un producto inicializado 
-			Game g = new Game();
+			
+			user = (User)session.getAttribute("user_login");
 			
 			String idParameter = request.getParameter("id");
+			int userId = user.getId();
 			
 			if (idParameter != null) {
 				
 				int id = Integer.parseInt(idParameter);
-				GameDAOImpl dao = GameDAOImpl.getInstance();
-				g = dao.getById(id);
+				game = daoG.getById(id, userId);
 			}
 			
-			request.setAttribute("game", g);	
+			request.setAttribute("game", game);	
 			
 		} catch (Exception e) {
 
 			LOG.error(e);
+			url = "inicio";
 
 		} finally {
 			
-			String url = "form.jsp";
 			LOG.debug("forward: " + url);
 			//Las categorias estan disponibles a traves del Listener
 			request.getRequestDispatcher(url).forward(request, response);
@@ -73,10 +79,12 @@ public class AddGameFrontOfficeController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		HttpSession session = request.getSession();
+		User user = new User();
 		Game game = new Game();
 		Alert alert = new Alert();
 		
-		// recoger parametros del formulario
+		//Recoger parametros del formulario
 		String idParam = request.getParameter("id");
 		String name = request.getParameter("name");
 		String priceParam = request.getParameter("price");
@@ -89,8 +97,18 @@ public class AddGameFrontOfficeController extends HttpServlet {
 			int idCategory = Integer.parseInt(categoryIdParam);
 			float price = Float.parseFloat(priceParam);
 			
-			// crear objeto con esos parametros
+			//Recuperar usuario de session y setearlo en el producto
+			user = (User)session.getAttribute("user_login");
+			int userId = user.getId();
 			
+			/* **************************************************************** 
+			 * Comprobar Seguridad, siempre que no sea un nuevo Producto 
+			 * ***************************************************************/
+			if (id != 0) {	
+				game = daoG.getById(id, userId); //Lanza SecurityException si el userId no pertenece al producto
+			}
+			
+			//Crear objeto con esos parametros			
 			game.setId(id);
 			game.setName(name);
 			game.setPrice(price);
@@ -102,10 +120,9 @@ public class AddGameFrontOfficeController extends HttpServlet {
 			game.setCategory(category);
 			
 			//Recuperar usuario de session y setearlo en el producto
-			HttpSession session = request.getSession();
-			User user = (User)session.getAttribute("user_login");
 			game.setUser(user);
 			
+				
 			//Validar pojo
 			Set<ConstraintViolation<Game>> violations = validator.validate(game);
 			

@@ -29,7 +29,7 @@
 						<a href="views/frontoffice/add-game?id=${g.id}" class="mr-4">
 							<i class="far fa-edit fa-2x" title="Edit Game"></i>
 						</a>
-						<a href="game-delete-control?id=${g.id}" onclick="confirmar('${g.name}')">
+						<a href="views/frontoffice/delete?id=${g.id}" onclick="confirmar('${g.name}')">
 							<i class="fas fa-trash fa-2x" title="Delete Game"></i>
 						</a>
 					</td>

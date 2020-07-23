@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import com.games.webapp.modelo.ConnectionManager;
 import com.games.webapp.modelo.dao.GameDAO;
+import com.games.webapp.modelo.dao.SecurityException;
 import com.games.webapp.modelo.pojo.Category;
 import com.games.webapp.modelo.pojo.Game;
 import com.games.webapp.modelo.pojo.GameCount;
@@ -48,7 +49,7 @@ public class GameDAOImpl implements GameDAO{
 										+ " AND c.id = ? " // filtramos por el id de la categoria
 										+ " ORDER BY g.id DESC LIMIT ? ; ";
 	
-	private final String SQL_READ_BY_ID = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', c.name 'category_name'"
+	private final String SQL_GET_BY_ID = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', c.name 'category_name'"
 										+ " FROM games g, categories c"
 										+ " WHERE g.category_id = c.id AND g.id = ? LIMIT 500; ";
 	
@@ -66,9 +67,14 @@ public class GameDAOImpl implements GameDAO{
 	
 	
 	private final String SQL_CREATE = "INSERT INTO games (name, price, image, user_id, category_id) VALUES (?, ?, ?, ?, ?); ";
-	private final String SQL_UPDATE = "UPDATE games SET name = ?, price = ?, image = ?, user_id = ?, category_id = ? WHERE id = ?; ";
+	
+	private final String SQL_UPDATE = "UPDATE games SET name = ?, price = ?, image = ?, user_id = ?, category_id = ?, approval_date = ? WHERE id = ?; ";
+	
 	private final String SQL_DELETE = "DELETE FROM games WHERE id = ?; ";
 	
+	private final String SQL_GET_BY_ID_BY_USER = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', g.user_id, c.name 'category_name'"
+			+ " FROM games g, categories c"
+			+ " WHERE g.category_id = c.id AND g.id = ? AND g.user_id = ? LIMIT 500; ";
 	
 	public ArrayList<Game> getAll() {
 	
@@ -158,7 +164,7 @@ public class GameDAOImpl implements GameDAO{
 
 		try (
 			Connection connection = ConnectionManager.getConnection();
-			PreparedStatement pst = connection.prepareStatement(SQL_READ_BY_ID);
+			PreparedStatement pst = connection.prepareStatement(SQL_GET_BY_ID);
 			){
 
 			pst.setInt(1, id);
@@ -192,8 +198,6 @@ public class GameDAOImpl implements GameDAO{
 			PreparedStatement pst = conexion.prepareStatement(sql);
 			){
 			
-			// TODO mirar como hacerlo con una SQL,   "IS NOT NULL" o "IS NULL"
-			// pst.setBoolean(1, isValidado); // me sustitulle con un 1 o 0
 			pst.setNull(1, java.sql.Types.NULL);
 			pst.setInt(1, userId);
 			
@@ -302,13 +306,21 @@ public class GameDAOImpl implements GameDAO{
 			PreparedStatement pst = connection.prepareStatement(SQL_UPDATE);
 			){
 			
+			game = getById(game.getId(), game.getUser().getId());
+			
 			pst.setString(1, game.getName());
 			pst.setDouble(2, game.getPrice());
 			pst.setString(3, game.getImage());
 			pst.setInt(4, game.getUser().getId());
 			pst.setInt(5, game.getCategory().getId());
-
-			pst.setInt(6, game.getId());
+			
+			
+			
+			game.setApprovalDate(null);
+			
+			pst.setString(6, game.getApprovalDate());
+			
+			pst.setInt(7, game.getId());
 			
 			int affectedRows = pst.executeUpdate();
 			
@@ -375,5 +387,56 @@ public class GameDAOImpl implements GameDAO{
 		g.setCategory(c);
 		
 		return g;
+	}
+
+	@Override
+	public Game delete(int id, int userId) throws Exception, SecurityException {
+		
+		Game game = new Game();
+		
+		//Este metodo lanza una SecurityException por lo que no hace falta usarla abajo
+		game = getById(id, userId);
+		
+		try (	
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement pst = connection.prepareStatement(SQL_DELETE);
+			){
+			
+			pst.setInt(1, id);
+			pst.setInt(2, userId);
+
+			pst.executeUpdate();
+			LOG.debug(pst);
+		}
+		return game;
+	}
+
+	@Override
+	public Game getById(int id, int userId) throws Exception, SecurityException {
+		
+		Game game = new Game();
+
+		try (
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement pst = connection.prepareStatement(SQL_GET_BY_ID_BY_USER);
+			){
+
+			pst.setInt(1, id);
+			pst.setInt(2, userId);
+			
+			try ( ResultSet rs = pst.executeQuery() ){
+				
+				LOG.debug(pst);
+				if (rs.next()) {
+
+					game = mapper(rs);
+
+				} else {
+
+					throw new SecurityException();
+				}
+			} 	
+		} 
+		return game;
 	}	
 }

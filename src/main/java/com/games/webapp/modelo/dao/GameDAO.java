@@ -13,4 +13,24 @@ public interface GameDAO extends Crudable<Game> {
 	void validate(int id);
 	ArrayList<Game> getAllByUser(int userId, boolean isApproved);
 	GameCount getGameCount(int userId);
+	
+	/**
+	 * Eliminar un registro, pero comprobamos que pertenezca a un usuario
+	 * @param idProducto
+	 * @param idUsuario
+	 * @return Producto eliminado
+	 * @throws Exception 
+	 * @throws SeguridadException Si no puede eliminar el producto porque no pertenece al usuario
+	 */
+	Game delete(int id, int userId) throws Exception, SecurityException;
+	
+	/**
+	 * Busca juegos pertenecientes al usuario
+	 * @param idProducto
+	 * @param idUsuario
+	 * @return
+	 * @throws SeguridadException
+	 */
+	Game getById(int id, int userId) throws Exception, SecurityException;
+	
 }

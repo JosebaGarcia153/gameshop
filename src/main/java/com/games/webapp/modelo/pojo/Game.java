@@ -25,7 +25,9 @@ public class Game {
 	
 	private Category category;
 	
-	
+	private String approvalDate;
+
+
 	public Game() {
 		super();
 		this.id = 0;
@@ -34,6 +36,7 @@ public class Game {
 		this.image = "https://picsum.photos/100/100";
 		this.user = new User();
 		this.category = new Category();
+		this.approvalDate = "";
 	}
 
 
@@ -89,7 +92,15 @@ public class Game {
 	public void setCategory(Category cathegory) {
 		this.category = cathegory;
 	}
+	
+	
+	public String getApprovalDate() {
+		return approvalDate;
+	}
 
+	public void setApprovalDate(String approvalDate) {
+		this.approvalDate = approvalDate;
+	}
 	
 	@Override
 	public String toString() {

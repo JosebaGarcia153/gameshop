@@ -22,7 +22,7 @@
                             </div>
                             
                             <div class="col-xl-3 col-md-6">
-                                <div class="card bg-warning text-white mb-4">
+                                <div class="card bg-danger text-white mb-4">
                                     <div class="card-body">Pending <span class="big-number">${pending_products}</span></div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="views/frontoffice/games?approved=0">View Details</a>
@@ -32,7 +32,7 @@
                             </div> 
                             
                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-danger text-white mb-4">
+                                <div class="card bg-secondary text-white mb-4">
                                     <div class="card-body">Total <span class="big-number">${total_products}</span></div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="views/frontoffice/games">View Details</a>
