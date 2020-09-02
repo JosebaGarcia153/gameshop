@@ -104,6 +104,6 @@ public class Game {
 	
 	@Override
 	public String toString() {
-		return "Game [id=" + id + ", name=" + name + ", price=" + price + ", cathegory=" + category + ", image=" + image + "]";
+		return "Game [id=" + id + ", name=" + name + ", price=" + price + ", category=" + category + ", image=" + image + "]";
 	}
 }

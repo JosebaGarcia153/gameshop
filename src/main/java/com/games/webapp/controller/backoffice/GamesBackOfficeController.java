@@ -1,4 +1,4 @@
-package com.games.webapp.controller.frontoffice;
+package com.games.webapp.controller.backoffice;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,11 +18,11 @@ import com.games.webapp.modelo.pojo.User;
 /**
  * Servlet implementation class InicioController
  */
-@WebServlet("/views/frontoffice/games")
-public class GamesFrontOfficeController extends HttpServlet {
+@WebServlet("/views/backoffice/games")
+public class GamesBackOfficeController extends HttpServlet {
 		private static final long serialVersionUID = 1L;
 		
-		private static final Logger LOG = Logger.getLogger(GamesFrontOfficeController.class);
+		private static final Logger LOG = Logger.getLogger(GamesBackOfficeController.class);
 		private static final GameDAOImpl daoG = GameDAOImpl.getInstance();
 		
 		

@@ -10,8 +10,10 @@ public interface GameDAO extends Crudable<Game> {
 	
 	ArrayList<Game> getLast (int numReg);
 	ArrayList<Game> getAllByCategory (int categoryId, int numReg);
-	void validate(int id);
-	ArrayList<Game> getAllByUser(int userId, boolean isApproved);
+	void validate(int id) throws Exception;
+	ArrayList<Game> getAllByUser(int userId);
+	ArrayList<Game> getByUser(int userId, boolean isApproved);
+	GameCount getAllGameCount();
 	GameCount getGameCount(int userId);
 	
 	/**
@@ -31,6 +33,5 @@ public interface GameDAO extends Crudable<Game> {
 	 * @return
 	 * @throws SeguridadException
 	 */
-	Game getById(int id, int userId) throws Exception, SecurityException;
-	
+	Game getById(int id, int userId) throws Exception, SecurityException;	
 }

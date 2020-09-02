@@ -53,7 +53,14 @@ public class GameDAOImpl implements GameDAO{
 										+ " FROM games g, categories c"
 										+ " WHERE g.category_id = c.id AND g.id = ? LIMIT 500; ";
 	
+	private final String SQL_COUNT_ALL_GAMES = "SELECT * FROM count_games; ";
+	
 	private final String SQL_COUNT_GAMES = "SELECT * FROM count_games WHERE user_id = ?; ";
+	
+	private final String SQL_GET_ALL_BY_USER = "SELECT g.id 'game_id', g.name 'game_name', price, image, c.id 'category_id', c.name 'category_name'"
+										+ " FROM games g, categories c" 
+										+ " WHERE g.category_id  = c.id AND g.user_id = ?"  
+										+ " ORDER BY g.id DESC LIMIT 500; ";
 	
 	private final String SQL_GET_BY_USER_APPROVED_GAME = "SELECT g.id 'game_id', g.name 'game_name', price, image, c.id 'category_id', c.name 'category_name'"
 										+ " FROM games g, categories c" 
@@ -71,6 +78,8 @@ public class GameDAOImpl implements GameDAO{
 	private final String SQL_UPDATE = "UPDATE games SET name = ?, price = ?, image = ?, user_id = ?, category_id = ?, approval_date = ? WHERE id = ?; ";
 	
 	private final String SQL_DELETE = "DELETE FROM games WHERE id = ?; ";
+	
+	private final String SQL_VALIDATE = "UPDATE games SET approval_Date = NOW() WHERE id = ?; ";
 	
 	private final String SQL_GET_BY_ID_BY_USER = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', g.user_id, c.name 'category_name'"
 			+ " FROM games g, categories c"
@@ -187,7 +196,36 @@ public class GameDAOImpl implements GameDAO{
 	
 	
 	@Override
-	public ArrayList<Game> getAllByUser(int userId, boolean isApproved) {
+	public ArrayList<Game> getAllByUser(int userId) {
+		
+		ArrayList<Game> register = new ArrayList<Game>();
+		
+		try (
+			Connection conexion = ConnectionManager.getConnection();
+			PreparedStatement pst = conexion.prepareStatement(SQL_GET_ALL_BY_USER);
+			){
+			
+			pst.setNull(1, java.sql.Types.NULL);
+			pst.setInt(1, userId);
+			
+			try( ResultSet rs = pst.executeQuery() ){
+				
+				LOG.debug(pst);
+				while (rs.next()) {	
+					register.add(mapper(rs));	
+				}
+			}	
+
+		} catch (Exception e) {
+			LOG.error(e);
+		}
+
+		return register;
+	}
+	
+	
+	@Override
+	public ArrayList<Game> getByUser(int userId, boolean isApproved) {
 		
 		ArrayList<Game> register = new ArrayList<Game>();
 
@@ -215,6 +253,34 @@ public class GameDAOImpl implements GameDAO{
 
 		return register;
 	}
+	
+	
+	@Override
+	public GameCount getAllGameCount() {
+		
+		GameCount count = new GameCount();
+		
+		try (
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement pst = connection.prepareStatement(SQL_COUNT_ALL_GAMES);
+			){
+			
+			
+			try( ResultSet rs = pst.executeQuery() ){
+				if (rs.next()) {
+					count.setTotal(rs.getInt("total"));
+					count.setApproved(rs.getInt("approved"));
+					count.setPending(rs.getInt("pending"));
+				}
+			}
+			
+		} catch (Exception e) {
+			LOG.error(e);
+		} 
+		
+		return count;
+	}
+	
 	
 	@Override
 	public GameCount getGameCount(int userId) {
@@ -367,9 +433,28 @@ public class GameDAOImpl implements GameDAO{
 	
 	
 	@Override
-	public void validate(int id) {
-		// TODO Auto-generated method stub
-		// UPDATE producto SET fecha_validado = NOW() WHERE id = 15;
+	public void validate(int id) throws Exception {
+		
+		try ( 
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement pst = connection.prepareStatement(SQL_VALIDATE);
+			){
+			
+			pst.setInt(1, id);
+			
+			int affectedRows = pst.executeUpdate();
+			
+			LOG.debug(pst);
+			if (affectedRows != 1) {
+				
+				throw new Exception ("Couldn't edit the entry for ID: " + id);
+			}
+			
+		} catch (SQLException e) {
+			
+			LOG.error(e);
+			throw new SQLException("There was an error");
+		}
 	}
 	
 	

@@ -2,7 +2,6 @@ package com.games.webapp.controller;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,26 +46,23 @@ public class LoginController extends HttpServlet {
 			request.setAttribute("alert", new Alert("danger", "Wrong data"));
 			request.getRequestDispatcher("views/login/login.jsp").forward(request, response);
 			
-		} else {
+		} else {			
 			
-			session.setMaxInactiveInterval(60*20); //la sesion dura 20 minutos
-			session.setAttribute("user_login", user);
-			
-			//usuarios conectados recuperar y actualizar, inicializado en InicioAppListenner
-			ServletContext sc = request.getServletContext();
-			int loggedUsers = (int) sc.getAttribute("logged_users");
-			sc.setAttribute("logged_users", ++loggedUsers);
+			session.setMaxInactiveInterval(60 * 1 * 20); //la sesion dura 20 minutos
+			session.setAttribute("user_login", user); // @see ListenerUsuarioLogeados => attributeAdded
 			
 			request.setAttribute("alert", new Alert("success", "You are logged in"));
 		
 			
 			if (user.getRol().getId() == Rol.ADMIN) {
 				
-				request.getRequestDispatcher("views/backoffice/inicio").forward(request, response);
+				//request.getRequestDispatcher("views/backoffice/inicio").forward(request, response);
+				response.sendRedirect("views/backoffice/inicio");
 				
 			} else {
 				
-				request.getRequestDispatcher("views/frontoffice/inicio").forward(request, response);
+				//request.getRequestDispatcher("views/frontoffice/inicio").forward(request, response);
+				response.sendRedirect("views/frontoffice/inicio");
 			}
 		}
 	}

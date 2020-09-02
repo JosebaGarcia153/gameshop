@@ -41,19 +41,21 @@
 	            	<a class="nav-link" href="inicio">
 	              		<i class="fas fa-gamepad fa-2x"></i>
 	            	</a>
-	            </li>
-	           <c:if test="${ not empty sessionScope.user_login }">
-	            	<li class="nav-item ${('form' eq param.page) ? 'active' : ''}">
-	            		<a class="nav-link" href="game-form-control">New Game</a>
-	            	</li> 
-	            	<li class="nav-item ${('categories' eq param.page) ? 'active' : ''}">
-	            		<a class="nav-link" href="category-table-control">Categories Table</a>
-	            	</li> 
-	            	
-	            	<li class="nav-item ${('index' eq param.page) ? 'active' : ''}">
-	            		<a class="nav-link" href="views/frontoffice/inicio">Front Office</a>
-	            	</li> 
-            	</c:if>   
+				</li>
+				
+				<c:if test="${ not empty sessionScope.user_login }">
+	            	<c:if test="${not (sessionScope.user_login.name eq 'admin')}">
+		            	<li class="nav-item ${('index' eq param.page) ? 'active' : ''}">
+		            		<a class="nav-link" href="views/frontoffice/inicio">Front Office</a>
+		            	</li>
+	            	</c:if>
+	            	<c:if test="${sessionScope.user_login.name eq 'admin'}">
+		            	<li class="nav-item ${('index' eq param.page) ? 'active' : ''}">
+		            		<a class="nav-link" href="views/backoffice/inicio">Back Office</a>
+		            	</li> 
+            		</c:if> 
+				</c:if>
+
             	<li>
            			<div class="dropdown show">
             			<a class="btn btn-secondary dropdown-toggle" href="inicio" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

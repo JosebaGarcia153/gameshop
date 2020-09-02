@@ -1,4 +1,4 @@
-package com.games.webapp.controller;
+package com.games.webapp.controller.backoffice;
 
 import java.io.IOException;
 
@@ -17,6 +17,7 @@ import javax.validation.ValidatorFactory;
 
 import org.apache.log4j.Logger;
 
+import com.games.webapp.controller.Alert;
 import com.games.webapp.modelo.dao.impl.CategoryDAOImpl;
 import com.games.webapp.modelo.pojo.Category;
 
@@ -24,17 +25,14 @@ import com.games.webapp.modelo.pojo.Category;
 /**
  * Servlet implementation class CategoryController
  */
-@WebServlet("/category-form-control")
+@WebServlet("/views/backoffice/category-form-control")
 public class CategoryFormController extends HttpServlet {
-	
 	private static final long serialVersionUID = 1L;
 	
-	private static final Logger LOG = Logger.getLogger(CategoryFormController.class);
-	
+	private static final Logger LOG = Logger.getLogger(CategoryFormController.class);	
 	private static final CategoryDAOImpl daoC = CategoryDAOImpl.getInstance();
-	
-	private static final String VIEW_FORM = "views/categories/categoryForm.jsp";
-	private static final String VIEW_TABLE = "/category-table-control";
+	private static final String VIEW_FORM = "categories/categoryForm.jsp";
+	private static final String VIEW_TABLE = "/views/backoffice/category-table-control";
 	
 	//Validators
 	private static ValidatorFactory factory = Validation.buildDefaultValidatorFactory();

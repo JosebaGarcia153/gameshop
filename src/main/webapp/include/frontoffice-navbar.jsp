@@ -25,7 +25,7 @@
                             </a>
                             <a class="nav-link" href="views/frontoffice/games">
                                 <div class="sb-nav-link-icon"><i class="fa fa-check-square-o"></i></div>
-                                Games
+                                Approved Games
                             </a>
                             <a class="nav-link" href="views/frontoffice/games?approved=0">
                                 <div class="sb-nav-link-icon"><i class="fa fa-check-circle-o"></i></div>

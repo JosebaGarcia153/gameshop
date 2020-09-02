@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
 
-<jsp:include page="../../include/frontoffice-header.jsp" />
-<jsp:include page="../../include/frontoffice-navbar.jsp" />
+<jsp:include page="../../include/backoffice-header.jsp" />
+<jsp:include page="../../include/backoffice-navbar.jsp" />
     
 	<h1 class="mt-2">Upload a new Game</h1>
 	             

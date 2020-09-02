@@ -1,7 +1,7 @@
-package com.games.webapp.controller;
+package com.games.webapp.controller.backoffice;
 
 import java.io.IOException;
-import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,58 +15,36 @@ import com.games.webapp.modelo.dao.impl.CategoryDAOImpl;
 import com.games.webapp.modelo.pojo.Category;
 
 /**
- * Servlet implementation class CategoryDeleteController
+ * Servlet implementation class CategoryTableController
  */
-@WebServlet("/category-delete-control")
-public class CategoryDeleteController extends HttpServlet {
-	
+@WebServlet("/views/backoffice/category-table-control")
+public class CategoryTableController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private static final Logger LOG = Logger.getLogger(CategoryDeleteController.class);
-	
+	private static final Logger LOG = Logger.getLogger(CategoryTableController.class);
 	private static final CategoryDAOImpl daoC = CategoryDAOImpl.getInstance();
-	
-	private static final String VIEW_TABLE = "/category-table-control";
+	private static final String VIEW_TABLE = "categories/categoryTable.jsp";
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String idParameter = request.getParameter("id");
-		int id = Integer.parseInt(idParameter);
-		
-		String message = "";
-		boolean fail = true;
+		ArrayList<Category> categories = new ArrayList<Category>();
 		
 		try {
-			Category category = daoC.delete(id);
-			message = category.getName() + " deleted";
-			fail = false;
 			
-		} catch (SQLException e) {
-			
-			message = "Error: " + "The category can't be deleted because it is not empty";
-			LOG.error(e);
-			fail = true;
+			categories = daoC.getAll();
 			
 		} catch (Exception e) {
 			
-			message = "Error: " + e.getMessage();
 			LOG.error(e);
-			fail = true;
 			
 		} finally {
 			
-			if (fail == false) {
-				request.setAttribute("alert", new Alert("success", message));				
-			} else {
-				request.setAttribute("alert", new Alert("danger", message));
-			}
-			
-			
+			request.setAttribute("categories", categories);
 			request.getRequestDispatcher(VIEW_TABLE).forward(request, response);
-		}
+		}	
 	}
 
 	/**
