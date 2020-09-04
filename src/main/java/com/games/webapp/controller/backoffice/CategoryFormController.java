@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Set;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -112,6 +113,10 @@ public class CategoryFormController extends HttpServlet {
 					daoC.update(category);
 					message = "Category successfully updated";	
 				}
+				
+				//Actualizar las categorias en el conexto
+				ServletContext contextoAplication = request.getServletContext();
+				contextoAplication.setAttribute("categories", daoC.getAll());
 				
 				prompt = new Alert("success", message);
 				whereTo = VIEW_TABLE;

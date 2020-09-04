@@ -1,5 +1,6 @@
 package com.games.webapp.modelo.dao.impl;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,14 +33,23 @@ public class CategoryDAOImpl implements CategoryDAO{
 		return INSTANCE;
 	}
 	
-	private final String SQL_GET_ALL = "SELECT id, name FROM categories ORDER BY name ASC LIMIT 500; ";
-	private final String SQL_GET_ALL_WITH_GAMES = "SELECT c.id 'category_id', c.name 'category_name', g.id 'game_id', g.name 'game_name', price FROM games g, categories c WHERE g.category_id = c.id ORDER BY c.name ASC LIMIT 500; ";
+//	private final String SQL_GET_ALL = "SELECT id, name FROM categories ORDER BY name ASC LIMIT 500; ";
+//	private final String SQL_GET_ALL_WITH_GAMES = "SELECT c.id 'category_id', c.name 'category_name', g.id 'game_id', g.name 'game_name', price FROM games g, categories c WHERE g.category_id = c.id ORDER BY c.name ASC LIMIT 500; ";
+//	
+//	private final String SQL_READ_BY_ID = "SELECT id, name FROM categories WHERE id = ? LIMIT 500; ";
+//
+//	private final String SQL_CREATE = "INSERT INTO categories (name) VALUES (?); ";
+//	private final String SQL_UPDATE = "UPDATE categories SET name = ? WHERE id = ?; ";
+//	private final String SQL_DELETE = "DELETE FROM categories WHERE id = ?; ";
 	
-	private final String SQL_READ_BY_ID = "SELECT id, name FROM categories WHERE id = ? LIMIT 500; ";
-
-	private final String SQL_CREATE = "INSERT INTO categories (name) VALUES (?); ";
-	private final String SQL_UPDATE = "UPDATE categories SET name = ? WHERE id = ?; ";
-	private final String SQL_DELETE = "DELETE FROM categories WHERE id = ?; ";
+	private final String PA_GET_ALL = " { CALL pa_category_list() }  ";
+	private final String SQL_GET_ALL_WITH_GAMES = " SELECT c.id 'category_id', c.name 'category_name', g.id 'game_id', g.name 'game_name', image, price FROM games g, categories c WHERE g.category_id = c.id AND g.approval_date IS NOT NULL ORDER BY c.name ASC LIMIT 500; ";
+	
+	private final String PA_GET_BY_ID = " { CALL pa_category_by_id(?) } ";
+	
+	private final String PA_INSERT = " { CALL pa_category_insert(?,?) } ";
+	private final String PA_UPDATE = " { CALL pa_category_update(?,?) } ";	
+	private final String PA_DELETE = " { CALL pa_category_delete(?) } ";
 	
 	@Override
 	public ArrayList<Category> getAll() {
@@ -47,22 +57,20 @@ public class CategoryDAOImpl implements CategoryDAO{
 		ArrayList<Category> register = new ArrayList<Category>();
 
 		try(
-			Connection con = ConnectionManager.getConnection();
-			PreparedStatement pst = con.prepareStatement(SQL_GET_ALL);
-			ResultSet rs = pst.executeQuery();
+			Connection connection = ConnectionManager.getConnection();
+			//PreparedStatement pst = connection.prepareStatement(SQL_GET_ALL);
+			CallableStatement cs = connection.prepareCall(PA_GET_ALL);
+			ResultSet rs = cs.executeQuery();
 			){
 			
-			LOG.debug(pst);
+			LOG.debug(cs);
 			while( rs.next() ) {
-				
 				register.add(mapper(rs));					
 			}
 				
 		} catch (Exception e) {
-			
 			LOG.error(e);
 		}
-		
 		return register;
 	}
 	
@@ -74,39 +82,39 @@ public class CategoryDAOImpl implements CategoryDAO{
 		HashMap<Integer, Category> register = new HashMap<Integer, Category>();
 
 		try(
-			Connection con = ConnectionManager.getConnection();
-			PreparedStatement pst = con.prepareStatement(SQL_GET_ALL_WITH_GAMES);
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement pst = connection.prepareStatement(SQL_GET_ALL_WITH_GAMES);
 			ResultSet rs = pst.executeQuery();
 			){
 			
 			LOG.debug(pst);
 			while( rs.next() ) {
 					
-					int categoryId = rs.getInt("category_id"); //hashmap key
+				int categoryId = rs.getInt("category_id"); //hashmap key
+				
+				Category category = register.get(categoryId);
+				
+				//Si la categoria no existe, crea una nueva y guarda los datos
+				if (category == null) {
 					
-					Category c = register.get(categoryId);
-					
-					//Si la categoria no existe, crea una nueva y guarda los datos
-					if (c == null) {
-						
-						c = new Category();
-						c.setId(categoryId);
-						c.setName(rs.getString("category_name"));
-					}
-					
-					//Crea nuevo juego y guarda los datos
-					Game g = new Game();
-					g.setId(rs.getInt("game_id"));
-					g.setName(rs.getString("game_name"));
-					g.setPrice(rs.getFloat("price"));
-					
-					//Agrega juego a la categoria
-					//Value del hashmap
-					c.getGames().add(g);
-					
-					//Guarda la categoria en el hashmap
-					register.put(categoryId, c);					
+					category = new Category();
+					category.setId(categoryId);
+					category.setName(rs.getString("category_name"));
 				}
+				
+				//Crea nuevo juego y guarda los datos
+				Game game = new Game();
+				game.setId(rs.getInt("game_id"));
+				game.setName(rs.getString("game_name"));
+				game.setPrice(rs.getFloat("price"));
+				
+				//Agrega juego a la categoria
+				//Value del hashmap
+				category.getGames().add(game);
+				
+				//Guarda la categoria en el hashmap
+				register.put(categoryId, category);					
+			}
 				
 		} catch (Exception e) {
 			
@@ -119,29 +127,28 @@ public class CategoryDAOImpl implements CategoryDAO{
 	@Override
 	public Category getById(int id) throws Exception {
 		
-		Category c = new Category();
+		Category register = new Category();
 		
 		try (
 			Connection connection = ConnectionManager.getConnection();
-			PreparedStatement pst = connection.prepareStatement(SQL_READ_BY_ID);
+			//PreparedStatement pst = connection.prepareStatement(SQL_READ_BY_ID);
+			CallableStatement cs = connection.prepareCall(PA_GET_BY_ID);
 			){
 
-			pst.setInt(1, id);
+			cs.setInt(1, id);
 			
-			try ( ResultSet rs = pst.executeQuery() ){
+			LOG.debug(cs);
+			try ( ResultSet rs = cs.executeQuery() ){
 				
-				LOG.debug(pst);
+				LOG.debug(cs);
 				if (rs.next()) {
-
-					c = mapper(rs);
-
+					register = mapper(rs);
 				} else {
-
 					throw new Exception ("Couldn't find ID: " + id);
 				}
 			}	
 		}
-		return c;
+		return register;
 	}
 
 	
@@ -155,30 +162,27 @@ public class CategoryDAOImpl implements CategoryDAO{
 		
 		try ( 
 			Connection connection = ConnectionManager.getConnection();
-			PreparedStatement pst = connection.prepareStatement(SQL_CREATE, PreparedStatement.RETURN_GENERATED_KEYS);
+			//PreparedStatement pst = connection.prepareStatement(SQL_CREATE, PreparedStatement.RETURN_GENERATED_KEYS);
+			CallableStatement cs = connection.prepareCall(PA_INSERT);	
 			){
 			
-			pst.setString(1, category.getName());
-			
-			int affectedRows = pst.executeUpdate();
-			
-			LOG.debug(pst);
-			if (affectedRows == 1) {
-				
-				//conseguir el ID
-				try ( ResultSet rsKeys = pst.getGeneratedKeys(); ) {
-					
-					if (rsKeys.next()) {
+			// IN pNombre VARCHAR(100)
+			cs.setString(1, category.getName());
+			// OUT pIdGenerado INT
+			cs.registerOutParameter(2, java.sql.Types.INTEGER);
 
-						category.setId(rsKeys.getInt(1));
-					}
-				}
-			} else {
+			LOG.debug(cs);
+			
+			cs.execute();
+			
+			// recojo el parametro de salida, despues de ejecutar el PA
+			int id = cs.getInt(2); 
+			
+			category.setId(id);
 
-				throw new Exception ("Couldn't create a new entry for " + category.getName());
-			}
+			
 		} catch (SQLException e) {
-			
+			LOG.error(e);
 			throw new SQLException("The name already exists");
 		}
 		
@@ -196,25 +200,22 @@ public class CategoryDAOImpl implements CategoryDAO{
 		
 		try ( 
 			Connection connection = ConnectionManager.getConnection();
-			PreparedStatement pst = connection.prepareStatement(SQL_UPDATE);
+			//PreparedStatement pst = connection.prepareStatement(SQL_UPDATE);
+			CallableStatement cs = connection.prepareCall(PA_UPDATE);	
 			){
 			
-			pst.setString(1, category.getName());
-			pst.setInt(2, category.getId());
+			cs.setString(1,category.getName());				
+			cs.setInt(2, category.getId());
 			
-			int affectedRows = pst.executeUpdate();
+			LOG.debug(cs);
+			int affectedRows = cs.executeUpdate();
 			
-			LOG.debug(pst);
-			if (affectedRows != 1) {
-				
+			if (affectedRows != 1) {				
 				throw new Exception ("Couldn't create a new entry for ID: " + category.getId());
-			}
-			
-		} catch (SQLException e) {
-			
+			}		
+		} catch (SQLException e) {	
 			LOG.error(e);
 			throw new SQLException("The name already exists");
-
 		} 
 		return category;
 	}
@@ -223,26 +224,28 @@ public class CategoryDAOImpl implements CategoryDAO{
 	@Override
 	public Category delete(int id) throws Exception {
 		
-		Category c = new Category();
+		Category category = null;
 		
 		try (	
 			Connection connection = ConnectionManager.getConnection();
-			PreparedStatement pst = connection.prepareStatement(SQL_DELETE);
+			//PreparedStatement pst = connection.prepareStatement(SQL_DELETE);
+				CallableStatement cs = connection.prepareCall(PA_DELETE);
 			){
 			
-			pst.setInt(1, id);
+			category = getById(id);
 			
-			c = getById(id);
+			cs.setInt(1, id);
 			
-			int affectedRows = pst.executeUpdate();
+			LOG.debug(cs);
+			try {
+			cs.executeUpdate();
 			
-			LOG.debug(pst);
-			if (affectedRows != 1) {
-				
+			} catch (SQLException e) {	
+				LOG.error(e);
 				throw new Exception("Couldn't delete the game with ID: " + id);
 			}
 		}
-		return c;
+		return category;
 	}
 	
 	

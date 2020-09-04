@@ -1,6 +1,6 @@
  		<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <a class="navbar-brand" href="views/frontoffice/inicio">My Panel</a>
-            <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>         
+            <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" type="button" data-toggle="collapse" data-target="#sidenavAccordion" aria-controls="sidenavAccordion" aria-expanded="false" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
             <!-- Navbar-->
             <ul class="navbar-nav ml-auto ml-md-0">
                 <li class="nav-item">
