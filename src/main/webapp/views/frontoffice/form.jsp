@@ -6,7 +6,7 @@
     
 	<h1 class="mt-2">Upload a new Game</h1>
 	             
-	<form action="views/frontoffice/add-game" method="post">
+	<form action="views/frontoffice/add-game" method="post" enctype="multipart/form-data">
 	
 		<div class="form-group">
 			<label for="id">ID:</label>
@@ -25,7 +25,8 @@
 		
 		<div class="form-group">
 			<label for="imagen">Image:</label>
-			<input type="text" name="image" id="image" value="${game.image}" class="form-control" placeholder="Image URL (.jpg or .png)" >
+			<!-- <input type="text" name="image" id="image" value="${game.image}" class="form-control" placeholder="Image URL (.jpg or .png)" > -->
+			<input type="file" name="imagefile">
 		</div>
 		
 		<div class="form-group">
