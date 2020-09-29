@@ -43,6 +43,8 @@
 			</c:forEach>
 		</div>
 	</c:forEach>
+	
+	<a href="views/ejemplos/rest.jsp">Web Service REST</a>
 		
 </body>
 

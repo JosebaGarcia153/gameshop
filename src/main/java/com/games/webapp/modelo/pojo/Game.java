@@ -10,18 +10,18 @@ public class Game {
 	
 	private int id;
 	
-	@NotNull(message = "Name cannot be null")
+	@NotNull(message = "Name cannot be empty")
 	@Size(min = 3, max = 100, message = "The name must have between 3 and 100 characters")
 	private String name;
 	
-	@NotNull(message = "Price cannot be null")
+	@NotNull(message = "Price cannot be empty")
 	@Min(value = 1, message = "The price must be 1 &euro; or higher")
 	private Float price;
 	
-	@NotBlank(message = "image URL cannot be left empty")
+	@NotBlank(message = "image URL cannot be empty")
 	private String image;
 	
-	private User user;
+	private Usuario user;
 	
 	private Category category;
 	
@@ -34,7 +34,7 @@ public class Game {
 		this.name = "";
 		this.price = 0f;
 		this.image = "https://picsum.photos/100/100";
-		this.user = new User();
+		this.user = new Usuario();
 		this.category = new Category();
 		this.approvalDate = "";
 	}
@@ -76,11 +76,11 @@ public class Game {
 	}
 	
 	
-	public User getUser() {
+	public Usuario getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(Usuario user) {
 		this.user = user;
 	}
 	

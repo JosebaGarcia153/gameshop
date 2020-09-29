@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.games.webapp.modelo.pojo.Rol;
-import com.games.webapp.modelo.pojo.User;
+import com.games.webapp.modelo.pojo.Usuario;
 
 /**
  * Servlet Filter implementation class BackOfficeFilter
@@ -53,7 +53,7 @@ public class BackOfficeFilter implements Filter {
 		LOG.trace("filtrando " + req.getRequestURI());
 		
 		//Recuperar usuario de session
-		User userLogin = (User) req.getSession().getAttribute("user_login");
+		Usuario userLogin = (Usuario) req.getSession().getAttribute("user_login");
 		
 		if (userLogin == null) {
 			

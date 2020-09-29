@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 
 import com.games.webapp.modelo.dao.impl.GameDAOImpl;
 import com.games.webapp.modelo.pojo.Game;
-import com.games.webapp.modelo.pojo.User;
+import com.games.webapp.modelo.pojo.Usuario;
 
 /**
  * Servlet implementation class InicioController
@@ -38,7 +38,7 @@ public class GamesFrontOfficeController extends HttpServlet {
 			
 			try {
 				
-				User userSession = (User) request.getSession().getAttribute("user_login");
+				Usuario userSession = (Usuario) request.getSession().getAttribute("user_login");
 				int userId = userSession.getId();
 				
 				if (total == null) {

@@ -1,6 +1,6 @@
 package com.games.webapp.modelo.pojo;
 
-public class LoggedUser extends User {
+public class LoggedUser extends Usuario {
 	
 	//Otros datos obtenidos de la REQUEST
 	private String browser;

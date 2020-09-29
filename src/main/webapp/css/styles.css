@@ -14,3 +14,7 @@ main[role="main"] {
 	margin-bottom: 0.5%;
 	box-sizing: content-box;
 }
+
+.date {
+	width: 5%;
+}

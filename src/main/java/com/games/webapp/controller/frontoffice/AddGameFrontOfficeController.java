@@ -25,7 +25,7 @@ import com.games.webapp.controller.Alert;
 import com.games.webapp.modelo.dao.impl.GameDAOImpl;
 import com.games.webapp.modelo.pojo.Category;
 import com.games.webapp.modelo.pojo.Game;
-import com.games.webapp.modelo.pojo.User;
+import com.games.webapp.modelo.pojo.Usuario;
 
 
 /**
@@ -49,14 +49,14 @@ public class AddGameFrontOfficeController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
-		User user = new User();
+		Usuario user = new Usuario();
 		Game game = new Game();
 		
 		String url = "form.jsp";
 		
 		try {
 			
-			user = (User)session.getAttribute("user_login");
+			user = (Usuario)session.getAttribute("user_login");
 			
 			String idParameter = request.getParameter("id");
 			int userId = user.getId();
@@ -88,7 +88,7 @@ public class AddGameFrontOfficeController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
-		User user = new User();
+		Usuario user = new Usuario();
 		Game game = new Game();
 		Alert alert = new Alert();
 		
@@ -107,7 +107,7 @@ public class AddGameFrontOfficeController extends HttpServlet {
 			float price = Float.parseFloat(priceParam);
 			
 			//Recuperar usuario de session y setearlo en el producto
-			user = (User)session.getAttribute("user_login");
+			user = (Usuario)session.getAttribute("user_login");
 			int userId = user.getId();
 			
 			/* **************************************************************** 

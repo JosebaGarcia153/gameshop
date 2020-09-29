@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSessionListener;
 
 import org.apache.log4j.Logger;
 
-import com.games.webapp.modelo.pojo.User;
+import com.games.webapp.modelo.pojo.Usuario;
 
 /**
  * Application Lifecycle Listener implementation class LoggedUserListener
@@ -20,7 +20,7 @@ import com.games.webapp.modelo.pojo.User;
 @WebListener
 public class LoggedUserListener implements HttpSessionListener, HttpSessionAttributeListener {
 	
-	private static HashMap<String, User> hashm = null;
+	private static HashMap<String, Usuario> hashm = null;
 	private static final  Logger LOG = Logger.getLogger(LoggedUserListener.class);
 	
     /**
@@ -29,7 +29,7 @@ public class LoggedUserListener implements HttpSessionListener, HttpSessionAttri
     public LoggedUserListener() {
         
     	LOG.trace("constructor");
-    	hashm = new HashMap<String, User>();
+    	hashm = new HashMap<String, Usuario>();
     }
 
 	/**
@@ -58,14 +58,14 @@ public class LoggedUserListener implements HttpSessionListener, HttpSessionAttri
          
          //Se acaba de hacer el login en LoginController
          if ("user_login".equals(attributeName)) {
-        	 User user = (User)event.getValue();
+        	 Usuario user = (Usuario)event.getValue();
         	 LOG.trace("User logged " + user);
         	 
-        	 hashm = (HashMap<String, User>)sc.getAttribute("loggedUsers");
+        	 hashm = (HashMap<String, Usuario>)sc.getAttribute("loggedUsers");
         	 
         	 if (null == hashm) {
         		 
-        		 hashm = new HashMap<String, User>();
+        		 hashm = new HashMap<String, Usuario>();
         	 }
         	 
         	 hashm.put(sessionId, user);
@@ -85,11 +85,11 @@ public class LoggedUserListener implements HttpSessionListener, HttpSessionAttri
         String sessionId = event.getSession().getId();
         
         if ("user_login".equals(attributeName)) {
-        	hashm = (HashMap<String, User>)sc.getAttribute("loggedUsers");
+        	hashm = (HashMap<String, Usuario>)sc.getAttribute("loggedUsers");
         	
         	if (null == hashm) {
        		 
-        		hashm = new HashMap<String, User>();
+        		hashm = new HashMap<String, Usuario>();
        	 	}
         	
         hashm.remove(sessionId);

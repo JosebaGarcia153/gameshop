@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.games.webapp.modelo.dao.impl.GameDAOImpl;
-import com.games.webapp.modelo.pojo.User;
+import com.games.webapp.modelo.pojo.Usuario;
 
 /**
  * Servlet implementation class IndexBackOfficeController
@@ -27,7 +27,7 @@ public class IndexFrontOfficeController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		User userSession = (User) request.getSession().getAttribute("user_login");
+		Usuario userSession = (Usuario) request.getSession().getAttribute("user_login");
 		int userId = userSession.getId();
 		
 		request.setAttribute("approved_products", daoG.getGameCount(userId).getApproved());

@@ -69,12 +69,17 @@
             				<a class="dropdown-item" href="inicio?categoryId=-1">All</a>
             			</div>
             		</div> 
-            	</li>  
+            	</li> 
+            	
+            	<li class="nav-item"  >
+					<a class="nav-link ${ ( 'api' eq param.page ) ? 'active' : '' }" href="views/api.jsp">API</a>
+				</li> 
         	</ul>
-
+			
+			
         	<span class="form-inline">
 	         	<c:if test="${ empty sessionScope.user_login }">
-	            	  <a class="nav-link  btn btn-outline-warning" href="views//login/login.jsp">Login</a>
+	            	  <a class="nav-link  btn btn-outline-warning" href="views/login/login.jsp">Login</a>
 	            </c:if>
 	            
 	            <c:if test="${ not empty sessionScope.user_login }">

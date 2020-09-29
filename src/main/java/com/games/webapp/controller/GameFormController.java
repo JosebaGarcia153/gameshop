@@ -96,13 +96,9 @@ public class GameFormController extends HttpServlet {
 			//recoge parametros de formulario
 			String idParameter = request.getParameter("id");
 			
-			
-			//TODO comprobar estos trims
-			
-			
-			String nameParameter = request.getParameter("name").trim();
-			String priceParameter = request.getParameter("price").trim();
-			String categoryIdParameter = request.getParameter("category_id").trim();
+			String nameParameter = request.getParameter("name");
+			String priceParameter = request.getParameter("price");
+			String categoryIdParameter = request.getParameter("category_id");
 			
 			id = Integer.parseInt(idParameter);
 			categoryId = Integer.parseInt(categoryIdParameter);

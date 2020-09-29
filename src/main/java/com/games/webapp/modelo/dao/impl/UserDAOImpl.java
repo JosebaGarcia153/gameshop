@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 import com.games.webapp.modelo.ConnectionManager;
 import com.games.webapp.modelo.dao.UserDAO;
 import com.games.webapp.modelo.pojo.Rol;
-import com.games.webapp.modelo.pojo.User;
+import com.games.webapp.modelo.pojo.Usuario;
 
 public class UserDAOImpl implements UserDAO {
 	
@@ -32,11 +32,12 @@ public class UserDAOImpl implements UserDAO {
 
 	private final String SQL_EXISTS = "SELECT u.id, u.name, password, image, r.id, r.name FROM users u, rol r WHERE u.name = ? AND password = ? AND rol_id = r.id LIMIT 500; ";
 	
+	private final String SQL_CREATE = "INSERT INTO users (name, password, birthday, rol_id) VALUES (?, ?, ?, 1); ";
 
 	@Override
-	public User exists (String name, String password) {
+	public Usuario exists (String name, String password) {
 		
-		User user = null;
+		Usuario user = null;
 		
 		try(	
 			Connection conexion = ConnectionManager.getConnection();
@@ -63,9 +64,47 @@ public class UserDAOImpl implements UserDAO {
 	}
 	
 	
-	private User mapper( ResultSet rs ) throws SQLException {
+	@Override
+	public Usuario create(Usuario usuario) throws Exception {
 		
-		User user = new User();
+		try ( 
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement pst = connection.prepareStatement(SQL_CREATE, PreparedStatement.RETURN_GENERATED_KEYS);
+			){
+			
+			pst.setString(1, usuario.getName());
+			pst.setString(2, usuario.getPassword());
+			pst.setString(3, usuario.getBirthday());
+		
+			int affectedRows = pst.executeUpdate();
+			
+			LOG.debug(pst);
+			if (affectedRows == 1) {
+				
+				//conseguir el ID
+				try ( ResultSet rsKeys = pst.getGeneratedKeys(); ) {
+					
+					if (rsKeys.next()) {
+
+						usuario.setId(rsKeys.getInt(1));
+					}
+				}
+			} else {
+
+				throw new Exception ("Couldn't create a new entry for " + usuario.getName());
+			}
+		} catch (SQLException e) {
+			
+			throw new SQLException("The name already exists");
+		}
+		
+		return usuario;
+	}
+	
+	
+	private Usuario mapper( ResultSet rs ) throws SQLException {
+		
+		Usuario user = new Usuario();
 		
 		user.setId(rs.getInt("u.id"));
 		user.setName(rs.getString("u.name"));

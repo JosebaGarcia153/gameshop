@@ -3,7 +3,7 @@
 	<jsp:param name="title" value="Login" />
 </jsp:include>
 
-<form action="login" method="post" onsubmit="cifrar()">
+<form action="login" method="post">
 
 	<input type="text" name="name" autofocus placeholder="Insert your name">
 	<br/>
@@ -12,5 +12,7 @@
         
 	<input type="submit" value="Login" class="btn btn-primary">
 </form>
+<br/>
+<a href="views/login/sign.jsp">Sign Up</a>
 
 <%@include file="../../include/footer.jsp" %>

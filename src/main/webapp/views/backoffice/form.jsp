@@ -6,7 +6,7 @@
     
 	<h1 class="mt-2">Upload a new Game</h1>
 	             
-	<form action="views/frontoffice/add-game" method="post">
+	<form action="views/backoffice/add-game" method="post" enctype="multipart/form-data">
 	
 		<div class="form-group">
 			<label for="id">ID:</label>

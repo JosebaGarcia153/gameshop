@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import com.games.webapp.modelo.dao.impl.UserDAOImpl;
 import com.games.webapp.modelo.pojo.Rol;
-import com.games.webapp.modelo.pojo.User;
+import com.games.webapp.modelo.pojo.Usuario;
 
 /**
  * Servlet implementation class LoginController
@@ -39,7 +39,7 @@ public class LoginController extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		UserDAOImpl dao = UserDAOImpl.getInstance();
-		User user = dao.exists(name, password);
+		Usuario user = dao.exists(name, password);
 		
 		if (user == null) {
 			

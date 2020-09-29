@@ -1,21 +1,32 @@
 package com.games.webapp.modelo.pojo;
 
-public class User {
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+public class Usuario {
 	
 	private int id;
+	
+	@NotNull(message = "Name cannot be empty")
+	@Size(min = 5, max = 15, message = "The name must have between 5 and 15 characters")
 	private String name;
+	
+	@NotNull(message = "Password cannot be empty")
+	@Size(min = 6, max = 15, message = "The password must have between 6 and 15 characters")
 	private String password;
 	private String image;
 	private Rol rol;
+	private String birthday;
 	
 	
-	public User() {
+	public Usuario() {
 		super();
 		this.id = 0;
 		this.name = "";
 		this.password = "";
 		this.image = "";
 		this.rol = new Rol();
+		this.birthday = "";
 	}
 
 
@@ -67,9 +78,19 @@ public class User {
 		this.rol = rol;
 	}
 
-	
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", password=" + password + ", image=" + image + "rol=" + rol + "]";
+		return "Usuario [id=" + id + ", name=" + name + ", password=" + password + ", image=" + image + ", rol=" + rol
+				+ ", birthday=" + birthday + "]";
 	}
 }
