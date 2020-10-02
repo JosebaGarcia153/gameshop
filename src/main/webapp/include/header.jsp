@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css?d=<%=System.currentTimeMillis()%>">
      
     <title> ${param.title} | Games Shop</title>
 </head>

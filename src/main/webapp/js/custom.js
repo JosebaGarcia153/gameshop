@@ -17,3 +17,35 @@ function confirmar(name) {
 		event.preventDefault();
 	}	
 }
+
+/**
+ * Funcion asociada al evento onkeyUp para el id:input#Nombre
+ * Llama mediante Ajax a un servicio REST para comprobar si existe el nombre de usuario en la BBDD
+ * 
+ */
+function searchUser(event) {
+	//console.debug(event);
+	const name = event.target.value;
+	console.debug(`value of the input ${name}`);
+	
+	const url =`http://localhost:8080/games/api/user?name=${name}`;
+	var xhttp = new XMLHttpRequest();
+	xhttp.open("GET", url);
+	xhttp.send();
+	xhttp.onreadystatechange = function() {
+		
+		let elNameHelp = document.getElementById('nameHelp');
+		if (this.readyState == 4 && this.status == 200) {
+			
+			elNameHelp.innerHTML = 'Name not available';
+			elNameHelp.classList.add('text-danger');
+			elNameHelp.classList.remove('test-success');
+			
+		} else {
+			
+			elNameHelp.innerHTML = 'Name available';
+			elNameHelp.classList.add('test-success');
+			elNameHelp.classList.remove('text-danger');
+		}
+	}
+}

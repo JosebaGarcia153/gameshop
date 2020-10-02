@@ -5,7 +5,7 @@
 
 <form action="login" method="post">
 
-	<input type="text" name="name" autofocus placeholder="Insert your name">
+	<input type="text" name="name" value="${name}" autofocus placeholder="Insert your name">
 	<br/>
 	<input type="password" id="password" name="password" placeholder="Instert your password">
 	<br/>

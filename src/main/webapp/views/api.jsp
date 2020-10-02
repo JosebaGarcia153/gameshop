@@ -7,7 +7,7 @@
 <h1>API WS REST</h1>
 
 <h2>Juegos</h2>
-<p>Endpoint: <b>http://localhost:8080/supermerkado-master/api/producto/</b></p>
+<p>Endpoint: <b>http://localhost:8080/gameshop/api/game/</b></p>
 <p>Podemos realizar un CRUD los juegos:</p>
 
 

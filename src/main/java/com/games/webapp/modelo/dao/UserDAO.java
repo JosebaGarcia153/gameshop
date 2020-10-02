@@ -8,4 +8,6 @@ public interface UserDAO {
 	Usuario exists (String name, String password);
 
 	Usuario create(Usuario usuario) throws Exception;
+	
+	boolean searchByName(String name);
 }

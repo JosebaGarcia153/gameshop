@@ -44,7 +44,9 @@ public class LoginController extends HttpServlet {
 		if (user == null) {
 			
 			request.setAttribute("alert", new Alert("danger", "Wrong data"));
+			request.setAttribute("name", name);
 			request.getRequestDispatcher("views/login/login.jsp").forward(request, response);
+			
 			
 		} else {			
 			

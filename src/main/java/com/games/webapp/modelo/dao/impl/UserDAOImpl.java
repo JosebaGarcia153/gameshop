@@ -30,9 +30,11 @@ public class UserDAOImpl implements UserDAO {
 		return instance;
 	}
 
-	private final String SQL_EXISTS = "SELECT u.id, u.name, password, image, r.id, r.name FROM users u, rol r WHERE u.name = ? AND password = ? AND rol_id = r.id LIMIT 500; ";
+	private final String SQL_EXISTS = "SELECT u.id, u.name, password, image, r.id, r.name FROM users u, rol r WHERE u.name = ? AND password = MD5(?) AND rol_id = r.id LIMIT 500; ";
 	
-	private final String SQL_CREATE = "INSERT INTO users (name, password, birthday, rol_id) VALUES (?, ?, ?, 1); ";
+	private final String SQL_CREATE = "INSERT INTO users (name, password, birthday, rol_id) VALUES (?, MD5(?), ?, 1); ";
+	
+	private final String SQL_FIND = "SELECT name from users WHERE name = ?; ";
 
 	@Override
 	public Usuario exists (String name, String password) {
@@ -99,6 +101,40 @@ public class UserDAOImpl implements UserDAO {
 		}
 		
 		return usuario;
+	}
+	
+	
+	/**
+	 * Searches by the exact name in the users table
+	 * SELECT * FROM users WHERE name = ?;
+	 * @param name String name to search
+	 * @return true if it finds the user, false if not
+	 */
+	@Override
+	public boolean searchByName(String name) {
+		
+		boolean check = false;
+		
+		try(	
+			Connection conexion = ConnectionManager.getConnection();
+			PreparedStatement pst = conexion.prepareStatement(SQL_FIND);	
+			) {
+			
+			pst.setString(1, name);
+			
+			LOG.debug(pst);
+			try (ResultSet rs = pst.executeQuery()) {
+				
+				if (rs.next()) {
+					
+					check = true;
+				}
+			} //2nd try
+		} catch (Exception e) {
+			
+			LOG.error(e);
+		}
+		return check;
 	}
 	
 	

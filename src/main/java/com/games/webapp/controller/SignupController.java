@@ -84,6 +84,7 @@ public class SignupController extends HttpServlet {
 						errors += "<p><b>" + v.getPropertyPath() + "</b>: "  + v.getMessage() + "</p>";		
 					}
 					alert = new Alert("warning", errors);
+					request.setAttribute("name", name);
 					url = "views/login/sign.jsp";
 				}//if
 				
@@ -91,7 +92,7 @@ public class SignupController extends HttpServlet {
 				
 				alert = new Alert("warning", "Password confirmation doesn't match");
 				request.setAttribute("alert", alert);
-				request.setAttribute("user", user);
+				request.setAttribute("name", name);
 				
 				LOG.debug("forward: " + url);
 				
@@ -102,17 +103,15 @@ public class SignupController extends HttpServlet {
 			
 			LOG.error(e);
 			alert = new Alert("warning", e.getMessage());
+			request.setAttribute("name", name);
 			url = "views/login/sign.jsp";
 		
 		} finally {
 			
 			//Volver al formulario
-			request.setAttribute("alert", alert);
-			request.setAttribute("user", user);
+			request.setAttribute("alert", alert);			
 			
-			
-			LOG.debug("forward: " + url);
-			
+			LOG.debug("forward: " + url);		
 			request.getRequestDispatcher(url).forward(request, response);
 		}//try
 	}

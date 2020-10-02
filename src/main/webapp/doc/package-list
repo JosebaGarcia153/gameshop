@@ -1,0 +1,11 @@
+com.games.webapp.controller
+com.games.webapp.controller.api
+com.games.webapp.controller.backoffice
+com.games.webapp.controller.ejemplos
+com.games.webapp.controller.frontoffice
+com.games.webapp.listener
+com.games.webapp.modelo
+com.games.webapp.modelo.dao
+com.games.webapp.modelo.dao.impl
+com.games.webapp.modelo.pojo
+com.games.webapp.security

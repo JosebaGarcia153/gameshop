@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
-import com.games.webapp.modelo.dao.impl.CategoryDAOImpl;
 import com.games.webapp.modelo.dao.impl.GameDAOImpl;
 import com.games.webapp.modelo.pojo.Game;
 
