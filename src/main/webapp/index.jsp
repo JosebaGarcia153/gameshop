@@ -6,13 +6,6 @@
 	<jsp:param name="title" value="Index" />
 </jsp:include>
 	
-	<ol>
-	 	<li>TODO para hacer visible algo creado por un usuario, un administrador lo tiene que dar por valido</li>
-	 	<li>TODO para validar el administrador necesita su propia interfaz grafica</li>
-		<li>TODO Imagenes para juegos que no sean de picsum</li>
-	</ol>
-	
-	
 	<h1>${heading}</h1>
 	<div class="row-card">
 		<c:forEach items="${games}" var="g">
