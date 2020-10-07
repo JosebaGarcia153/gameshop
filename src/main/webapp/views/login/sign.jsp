@@ -25,7 +25,7 @@
 	<input type="text" id="day" class="date" name="day" class="form-control" placeholder="DD">
 	</div>
         
-	<input type="submit" value="Sign Up" class="btn btn-primary">
+	<input type="submit" id="btnSign" disabled="disabled" value="Sign Up" class="btn btn-primary">
 </form>
 
 

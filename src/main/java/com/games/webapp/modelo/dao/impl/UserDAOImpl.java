@@ -104,12 +104,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 	
 	
-	/**
-	 * Searches by the exact name in the users table
-	 * SELECT * FROM users WHERE name = ?;
-	 * @param name String name to search
-	 * @return true if it finds the user, false if not
-	 */
+	
 	@Override
 	public boolean searchByName(String name) {
 		

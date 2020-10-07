@@ -16,7 +16,9 @@ import com.games.webapp.modelo.dao.impl.CategoryDAOImpl;
 import com.games.webapp.modelo.pojo.Category;
 
 /**
- * Servlet implementation class CategoryDeleteController
+ * Controlador para administradores para borrar categorias de la base de datos.
+ * El metodo GET se encarga de indicar a la implementación DAO cual es la ID del juego a borrar.
+ * @see com.games.webapp.modelo.dao.impl.CategoryDAOImpl
  */
 @WebServlet("/views/backoffice/category-delete-control")
 public class CategoryDeleteController extends HttpServlet {	

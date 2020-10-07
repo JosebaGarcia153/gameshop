@@ -6,6 +6,18 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+/**
+ * Clase para generar instancias de usuarios
+ * id guarda la ID del juego
+ * name guarda el nombre
+ * price guarda el precio
+ * image guarda la imagen de portada
+ * user guarda el una instancia del usuario que lo ha subido
+ * category guarda una instancia de la categoria a la que pertenece 
+ * approvalDate guarda la fecha en la que un administrador lo a aprobado
+ * @see Usuario
+ * @see Category
+ */
 public class Game {
 	
 	private int id;

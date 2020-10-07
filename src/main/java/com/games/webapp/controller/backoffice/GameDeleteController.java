@@ -12,8 +12,10 @@ import com.games.webapp.modelo.dao.impl.GameDAOImpl;
 import com.games.webapp.modelo.pojo.Game;
 
 /**
- * Servlet implementation class DeleteController
- */
+* Controlador para administradores para borrar juegos de la base de datos.
+* El metodo GET se encarga de indicar a la implementación DAO cual es la ID del juego a borrar.
+* @see com.games.webapp.modelo.dao.impl.GameDAOImpl
+*/
 @WebServlet("/views/backoffice/delete")
 public class GameDeleteController extends HttpServlet {
 	

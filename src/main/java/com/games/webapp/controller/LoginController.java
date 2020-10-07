@@ -14,7 +14,8 @@ import com.games.webapp.modelo.pojo.Rol;
 import com.games.webapp.modelo.pojo.Usuario;
 
 /**
- * Servlet implementation class LoginController
+ * Servlet encargado de recibir el nombre y contraseña insertados en login.jsp para logear a un usuario en la pagina web.
+ * Si el logeo falla, vuelve una vez mas al la jsp, sino lo redirecciona al controlador del area del usuario o admin.
  */
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
@@ -29,7 +30,9 @@ public class LoginController extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Recive el nombre y contraseña de login.jsp, y comprueba si son correctos para redireccionar o quedarse en el login.
+	 * @see GamesBackOfficeController com.games.webapp.controller.backoffice.GamesBackOfficeController
+	 * @see GamesFrontOfficeController com.games.webapp.controller.frontoffice.GamesFrontOfficeController
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		

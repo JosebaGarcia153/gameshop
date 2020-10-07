@@ -15,7 +15,9 @@ import com.games.webapp.modelo.dao.impl.CategoryDAOImpl;
 import com.games.webapp.modelo.pojo.Category;
 
 /**
- * Servlet implementation class CategoryTableController
+ * Controlador para administradores para mostrar categorias.
+ * El metodo GET se encarga de pedir a la implementación DAO la lista de categorias.
+ * @see com.games.webapp.modelo.dao.impl.CategoryDAOImpl
  */
 @WebServlet("/views/backoffice/category-table-control")
 public class CategoryTableController extends HttpServlet {

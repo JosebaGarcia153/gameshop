@@ -14,7 +14,8 @@ import com.games.webapp.controller.Alert;
 
 	
 /**
- * Application Lifecycle Listener implementation class IndexListener
+ * Listener que se ejecuta cada vez que se inicia el servidor
+ * Setea los usuarios logueados a 0 y guarda los datos de las categorias para poder mostrarlas en el header sin pasar por un controlador.
  *
  */
 @WebListener

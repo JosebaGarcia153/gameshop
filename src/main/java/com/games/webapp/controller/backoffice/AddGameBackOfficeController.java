@@ -25,7 +25,10 @@ import com.games.webapp.modelo.pojo.Usuario;
 
 
 /**
- * Servlet implementation class InicioController
+ * Controlador para administradores para el formulario de juegos.
+ * El metodo GET se encarga de guardar los datos y seguir mostrándolos en el formulario en el caso de que halla habido algón error al enviarlos.
+ * El metodo POST se encarga de recibir los datos del formularios y enviarlos a la implementación DAO donde se realizarán las llamadas SQL.
+ * @see com.games.webapp.modelo.dao.impl.GameDAOImpl
  */
 @WebServlet("/views/backoffice/add-game")
 @MultipartConfig
@@ -133,7 +136,7 @@ public class AddGameBackOfficeController extends HttpServlet {
 				if (id == 0) {
 					
 					daoG.create(game);
-					alert = new Alert ("success", "Once a game is added, you will need to wait a few hours for it to be approved");				
+					alert = new Alert ("success", "Game successfully added, pending apprival");				
 				
 				} else {
 					

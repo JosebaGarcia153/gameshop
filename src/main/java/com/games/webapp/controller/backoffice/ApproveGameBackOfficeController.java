@@ -15,7 +15,9 @@ import com.games.webapp.modelo.dao.impl.GameDAOImpl;
 
 
 /**
- * Servlet implementation class InicioController
+ * Controlador para administradores para aprovar juegos para ser mostrados en la pagina principal de la web.
+ * El metodo POST se encarga de indicar a la implementación DAO cual es la ID del juego a aprobar.
+ * @see com.games.webapp.modelo.dao.impl.GameDAOImpl
  */
 @WebServlet("/views/backoffice/approve-game")
 public class ApproveGameBackOfficeController extends HttpServlet {

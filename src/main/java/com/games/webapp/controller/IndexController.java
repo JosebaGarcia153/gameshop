@@ -16,7 +16,10 @@ import com.games.webapp.modelo.pojo.Game;
 
 
 /**
- * Servlet implementation class SeriesController
+ * Controlador para el index de la aplicación.
+ * El metodo POST se encarga de pedir a la implementación DAO la lista de todos juegos o de una categoria especifica.
+ * @see com.games.webapp.modelo.dao.impl.GameDAOImpl
+ * @see com.games.webapp.modelo.dao.impl.CategoryDAOImpl
  */
 @WebServlet("/inicio")
 public class IndexController extends HttpServlet {

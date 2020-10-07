@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class EjemploRestController
+ * Controlador para un ejemplo de REST con datos hardcodeados.
  */
 @WebServlet("/ejemplo-rest")
 public class EjemploRestController extends HttpServlet {

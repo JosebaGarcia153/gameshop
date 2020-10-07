@@ -14,7 +14,7 @@ import com.games.webapp.modelo.dao.impl.GameDAOImpl;
 import com.games.webapp.modelo.pojo.Game;
 
 /**
- * Servlet implementation class EjemploRestController
+ * Controlador para un ejemplo de REST con datos la lista de juegos.
  */
 @WebServlet("/ejemplo-rest2")
 public class EjemploRestController2 extends HttpServlet {

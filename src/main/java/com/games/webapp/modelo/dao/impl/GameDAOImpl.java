@@ -82,8 +82,8 @@ public class GameDAOImpl implements GameDAO{
 	private final String SQL_VALIDATE = "UPDATE games SET approval_Date = NOW() WHERE id = ?; ";
 	
 	private final String SQL_GET_BY_ID_BY_USER = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', g.user_id, c.name 'category_name'"
-			+ " FROM games g, categories c"
-			+ " WHERE g.category_id = c.id AND g.id = ? AND g.user_id = ? LIMIT 500; ";
+										+ " FROM games g, categories c"
+										+ " WHERE g.category_id = c.id AND g.id = ? AND g.user_id = ? LIMIT 500; ";
 	
 	public ArrayList<Game> getAll() {
 	

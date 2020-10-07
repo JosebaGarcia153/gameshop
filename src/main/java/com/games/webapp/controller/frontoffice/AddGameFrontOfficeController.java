@@ -29,7 +29,10 @@ import com.games.webapp.modelo.pojo.Usuario;
 
 
 /**
- * Servlet implementation class InicioController
+ * Controlador para usuarios comunes para el formulario de juegos.
+ * El metodo GET se encarga de guardar los datos y seguir mostrándolos en el formulario en el caso de que halla habido algón error al enviarlos.
+ * El metodo POST se encarga de recibir los datos del formularios y enviarlos a la implementación DAO donde se realizarán las llamadas SQL.
+ * @see com.games.webapp.modelo.dao.impl.GameDAOImpl
  */
 @WebServlet("/views/frontoffice/add-game")
 @MultipartConfig

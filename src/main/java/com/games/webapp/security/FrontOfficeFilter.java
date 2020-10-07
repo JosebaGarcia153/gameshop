@@ -18,7 +18,7 @@ import com.games.webapp.modelo.pojo.Rol;
 import com.games.webapp.modelo.pojo.Usuario;
 
 /**
- * Servlet Filter implementation class BackOfficeFilter
+ * Filtro de seguridad para acceder a controladores y jsp para usuarios logeados
  */
 @WebFilter(dispatcherTypes = {
 				DispatcherType.REQUEST, 

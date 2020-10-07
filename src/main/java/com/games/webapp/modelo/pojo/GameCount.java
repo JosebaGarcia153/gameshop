@@ -1,5 +1,13 @@
 package com.games.webapp.modelo.pojo;
 
+/**
+ * Clase para contar los juegos agregados por un usuario separados en categorias.
+ * user_id guarda la ID del usuario.
+ * total cuenta todos los juegos
+ * approved cuenta los juegos aprobados por un administrador
+ * pending cuenta los juegos pendientes de aprobar
+ *
+ */
 public class GameCount {
 	
 	private int user_id;

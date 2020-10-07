@@ -24,7 +24,10 @@ import com.games.webapp.modelo.pojo.Category;
 
 
 /**
- * Servlet implementation class CategoryController
+ * Controlador para el formulario de categorias.
+ * El metodo GET se encarga de guardar los datos y seguir mostrándolos en el formulario en el caso de que halla habido algón error al enviarlos.
+ * El metodo POST se encarga de recibir los datos del formularios y enviarlos a la implementación DAO donde se realizarán las llamadas SQL.
+ * @see com.games.webapp.modelo.dao.impl.CategoryDAOImpl
  */
 @WebServlet("/views/backoffice/category-form-control")
 public class CategoryFormController extends HttpServlet {
@@ -43,7 +46,7 @@ public class CategoryFormController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		LOG.trace("formulario entrada");
 		try {
 			//crea nueva instancia de una categoria antes de ir al formulario
 			Category category = new Category();
@@ -63,17 +66,18 @@ public class CategoryFormController extends HttpServlet {
 			LOG.error(e);
 
 		} finally {
-			
+			LOG.trace("formulario salida");
 			// ir a la nueva vista / jsp
 			request.getRequestDispatcher(VIEW_FORM).forward(request, response);
 		}		
 	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		LOG.trace("formulario entrada");
 		//crea nuevas instancias
 		Category category = new Category();
 		
@@ -141,7 +145,7 @@ public class CategoryFormController extends HttpServlet {
 			whereTo = VIEW_FORM;
 			
 		} finally {
-			
+			LOG.trace("formulario salida");
 			//recoge los atributos y vuelve a la vista
 			request.setAttribute("category", category);
 			request.setAttribute("alert", prompt);

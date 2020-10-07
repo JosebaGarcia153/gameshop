@@ -5,6 +5,14 @@ import java.util.ArrayList;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+
+/**
+ * Clase para generar instancias de usuarios
+ * id guarda la ID de la categoria
+ * name guarda el nombre
+ * games guarda un arraylist de juegos pertenecientes a la categoria
+ * @see Game
+ */
 public class Category {
 	
 	private int id;

@@ -18,7 +18,7 @@ import com.games.webapp.modelo.dao.impl.GameDAOImpl;
 import com.games.webapp.modelo.pojo.Game;
 
 /**
- * Servlet implementation class ProductoRestController
+ * Controlador para la API de REST para mostrar los juegos en formato JSON
  */
 @WebServlet("/api/game/*")
 public class GameRestController extends HttpServlet {
@@ -30,21 +30,21 @@ public class GameRestController extends HttpServlet {
 	private int id;
 
 	/**
-	 * @see Servlet#init(ServletConfig)
+	 * Debug para comprobar que el servicio se ha ejecutado
 	 */
 	public void init(ServletConfig config) throws ServletException {
 		LOG.debug("Se ejecuta SOLO la 1º vez que recibe una petición");		
 	}
 
 	/**
-	 * @see Servlet#destroy()
+	 * Debug para comprobar que el servicio se ha parado
 	 */
 	public void destroy() {
 		LOG.debug("Se ejecuta cuando se para la App");
 	}
 
 	/**
-	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
+	 * Se usa este metodo para indicar al servicio REST como separar los datos e indicar que debe mostrarlos en formato JSON
 	 */
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LOG.debug("Se ejecuta ANTES de GET, POST, PUT o DELETE");
@@ -76,45 +76,42 @@ public class GameRestController extends HttpServlet {
 			e.printStackTrace();
 			LOG.error(e);
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		}	
-		
-		
+		}		
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Usa la API GSON para mostrar los datos en formato JSON 
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
 		//LISTADO
-				if ( id == 0 ) {
-				
-					ArrayList<Game> productos = dao.getAll();
-							
-					Gson gson = new Gson();
-					String stringBody = gson.toJson(productos);
-					out.write( stringBody );
-					LOG.debug("GET: juegos recuperados " + productos.size());
-					
-					response.setStatus(HttpServletResponse.SC_OK);
-					
-				//DETALLE	
-				}else {
-					
-					try {
-						Game game = dao.getById(id);
-						Gson gson = new Gson();
-						String stringBody = gson.toJson(game);	
-						out.write( stringBody );
-						response.setStatus(HttpServletResponse.SC_OK);
-						
-					}catch (Exception e) {
-						response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-					}	
-					
-				}
+		if ( id == 0 ) {
 		
+			ArrayList<Game> productos = dao.getAll();
+					
+			Gson gson = new Gson();
+			String stringBody = gson.toJson(productos);
+			out.write( stringBody );
+			LOG.debug("GET: juegos recuperados " + productos.size());
+			
+			response.setStatus(HttpServletResponse.SC_OK);
+			
+		//DETALLE	
+		}else {
+			
+			try {
+				Game game = dao.getById(id);
+				Gson gson = new Gson();
+				String stringBody = gson.toJson(game);	
+				out.write( stringBody );
+				response.setStatus(HttpServletResponse.SC_OK);
+				
+			}catch (Exception e) {
+				response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+			}	
+			
+		}	
 	}
 
 	/**

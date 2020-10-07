@@ -13,7 +13,9 @@ import com.games.webapp.modelo.dao.impl.GameDAOImpl;
 import com.games.webapp.modelo.pojo.Usuario;
 
 /**
- * Servlet implementation class IndexBackOfficeController
+ * Controlador para ir al index del FrontOffice.
+ * El metodo GET se encarga de contar los juegos añadidos por el usuario separados por aprobados, pendientes y el numero total.
+ * @see com.games.webapp.modelo.dao.impl.GameDAOImpl
  */
 @WebServlet("/views/frontoffice/inicio")
 public class IndexFrontOfficeController extends HttpServlet {

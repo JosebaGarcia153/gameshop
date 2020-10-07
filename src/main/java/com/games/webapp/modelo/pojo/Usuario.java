@@ -3,6 +3,16 @@ package com.games.webapp.modelo.pojo;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * Clase para generar instancias de usuarios
+ * name guarda el nombre del usuario
+ * password guarda la contraseña
+ * image guarda la imagen de perfil
+ * rol es un objeto usado para indicar si el usuario es un administrador o no
+ * birthday guarda la fecha de nacimiento del usuario
+ * @see Rol
+ *
+ */
 public class Usuario {
 	
 	private int id;

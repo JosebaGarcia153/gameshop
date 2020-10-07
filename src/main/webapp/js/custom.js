@@ -28,24 +28,29 @@ function searchUser(event) {
 	const name = event.target.value;
 	console.debug(`value of the input ${name}`);
 	
+	let elNameHelp = document.getElementById('nameHelp');
+	let elBtnSign = document.getElementById('btnSign');
+	
 	const url =`http://localhost:8080/games/api/user?name=${name}`;
+	// Llamada Ajax
 	var xhttp = new XMLHttpRequest();
 	xhttp.open("GET", url);
 	xhttp.send();
 	xhttp.onreadystatechange = function() {
 		
-		let elNameHelp = document.getElementById('nameHelp');
 		if (this.readyState == 4 && this.status == 200) {
 			
 			elNameHelp.innerHTML = 'Name not available';
 			elNameHelp.classList.add('text-danger');
 			elNameHelp.classList.remove('test-success');
+			elBtnSign.setAttribute('disabled','disabled');
 			
 		} else {
 			
 			elNameHelp.innerHTML = 'Name available';
 			elNameHelp.classList.add('test-success');
 			elNameHelp.classList.remove('text-danger');
+			elBtnSign.removeAttribute('disabled');
 		}
 	}
 }

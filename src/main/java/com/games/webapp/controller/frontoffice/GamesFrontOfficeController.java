@@ -16,7 +16,9 @@ import com.games.webapp.modelo.pojo.Game;
 import com.games.webapp.modelo.pojo.Usuario;
 
 /**
- * Servlet implementation class InicioController
+ * Controlador para usuarios comunes para mostrar juegos.
+ * El metodo GET se encarga de pedir a la implementación DAO la lista de juegos pendientes de aprobar, aprobados o todos dependiendo de la petición hecha.
+ * @see com.games.webapp.modelo.dao.impl.GameDAOImpl
  */
 @WebServlet("/views/frontoffice/games")
 public class GamesFrontOfficeController extends HttpServlet {

@@ -74,6 +74,10 @@
             	<li class="nav-item"  >
 					<a class="nav-link ${ ( 'api' eq param.page ) ? 'active' : '' }" href="views/api.jsp">API</a>
 				</li> 
+				
+				<li class="nav-item"  >
+              		<a target="_blank" class="nav-link" href="doc/index.html">API JavaDoc</a>
+            	</li>
         	</ul>
 			
 			

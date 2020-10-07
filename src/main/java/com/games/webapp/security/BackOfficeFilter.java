@@ -18,7 +18,7 @@ import com.games.webapp.modelo.pojo.Rol;
 import com.games.webapp.modelo.pojo.Usuario;
 
 /**
- * Servlet Filter implementation class BackOfficeFilter
+ * Filtro de seguridad para acceder a controladores y jsp para administradores
  */
 @WebFilter(dispatcherTypes = {
 				DispatcherType.REQUEST, 
@@ -67,7 +67,7 @@ public class BackOfficeFilter implements Filter {
 			res.sendRedirect(urlIndexApp + "/views/login/login.jsp");
 			
 		} else {
-			
+			LOG.trace("Filter passed successfully");
 			//Si el usuario es un administrador 
 			//Dejamos pasar y continua la request
 			chain.doFilter(request, response);

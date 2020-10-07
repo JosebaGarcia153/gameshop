@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 import com.games.webapp.modelo.pojo.Usuario;
 
 /**
- * Application Lifecycle Listener implementation class LoggedUserListener
+ * Listener para guardar los datos de sesión de un usuario cada vez que se loguea y borrarlos una vez se desconecta.
  *
  */
 @WebListener

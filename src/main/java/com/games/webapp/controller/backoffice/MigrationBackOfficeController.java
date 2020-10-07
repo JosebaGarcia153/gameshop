@@ -18,7 +18,8 @@ import org.apache.log4j.Logger;
 import com.games.webapp.modelo.ConnectionManager;
 
 /**
- * Servlet implementation class MIgrationBackofficeController
+ * Controlador para realizar una prueba de un ejemplo de migraciones.
+ * El metodo GET se encarga de leer un archivo de texto con contenido en formato CSV para poder añadirlo a la tabla de usuarios en la base de datos
  */
 @WebServlet("/views/backoffice/migracion")
 public class MigrationBackOfficeController extends HttpServlet {

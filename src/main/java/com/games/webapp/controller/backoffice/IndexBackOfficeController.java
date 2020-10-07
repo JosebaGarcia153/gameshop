@@ -12,7 +12,9 @@ import org.apache.log4j.Logger;
 import com.games.webapp.modelo.dao.impl.GameDAOImpl;
 
 /**
- * Servlet implementation class IndexBackofficeController
+ * Controlador para ir al index del BacktOffice.
+ * El metodo GET se encarga de contar los juegos añadidos por el usuario separados por aprobados, pendientes y el numero total.
+ * @see com.games.webapp.modelo.dao.impl.GameDAOImpl
  */
 @WebServlet("/views/backoffice/inicio")
 public class IndexBackOfficeController extends HttpServlet {
@@ -25,13 +27,6 @@ public class IndexBackOfficeController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		/* -- Migration stuff
-		request.setAttribute("game_count", 34578);
-		request.setAttribute("user_count", 10000);
-		request.setAttribute("logged_count", 456);
-		request.setAttribute("pending_games_count", 2);
-		*/
 		
 		request.setAttribute("approved_products", daoG.getAllGameCount().getApproved());
 		request.setAttribute("pending_products", daoG.getAllGameCount().getPending());

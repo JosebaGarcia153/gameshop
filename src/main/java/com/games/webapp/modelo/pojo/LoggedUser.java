@@ -1,5 +1,12 @@
 package com.games.webapp.modelo.pojo;
 
+/**
+ * Clase para generar instancias de usuarios logueados
+ * browser guarda el nombre del navegador desde que se ha logueado el usuario
+ * ip guarda la IP del usuario
+ * @see com.games.webapp.listener.LoggedUserListener
+ *
+ */
 public class LoggedUser extends Usuario {
 	
 	//Otros datos obtenidos de la REQUEST
@@ -10,7 +17,7 @@ public class LoggedUser extends Usuario {
 	public LoggedUser() {
 		super();
 		this.browser = "";
-		this.browser = "";
+		this.ip = "";
 	}
 	
 	

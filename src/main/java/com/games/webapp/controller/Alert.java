@@ -1,8 +1,14 @@
 package com.games.webapp.controller;
 
+/**
+ * 
+ * Clase para mostrar Alertas en pantalla.
+ * Type se usa para indicarle a BOOTSTRAP las CSS a utilizar
+ * Text se usa para almacenar el mensaje a mostrar
+ *
+ */
 public class Alert {
 
-	
 	private String type;
 	private String text;
 

@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import com.games.webapp.modelo.dao.impl.UserDAOImpl;
 
 /**
- * Servlet implementation class UserRestController
+ * Controlador para la API de REST para mostrar los usuarios en formato JSON
  */
 @WebServlet("/api/user")
 public class UserRestController extends HttpServlet {

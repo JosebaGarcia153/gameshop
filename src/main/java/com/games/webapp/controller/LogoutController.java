@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class LogoutController
+ * Servlet encargado determinar la sesion de un usuario.
+ * @see com.games.webapp.listener.LoggedUserListener
  */
 @WebServlet("/logout")
 public class LogoutController extends HttpServlet {
