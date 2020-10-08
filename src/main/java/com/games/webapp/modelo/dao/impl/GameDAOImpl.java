@@ -40,12 +40,12 @@ public class GameDAOImpl implements GameDAO{
 	
 	private final String SQL_GET_LAST = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', c.name 'category_name'"
 										+ " FROM games g, categories c" 
-										+ " WHERE g.category_id = c.id"
+										+ " WHERE g.category_id = c.id AND approval_date IS NOT NULL"
 										+ " ORDER BY g.id DESC LIMIT ?; ";
 	
 	private final String SQL_GET_BY_CATEGORY = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', c.name 'category_name'" 
 										+ " FROM games g, categories c" 
-										+ " WHERE g.category_id  = c.id"
+										+ " WHERE g.category_id  = c.id AND approval_date IS NOT NULL"
 										+ " AND c.id = ? " // filtramos por el id de la categoria
 										+ " ORDER BY g.id DESC LIMIT ? ; ";
 	

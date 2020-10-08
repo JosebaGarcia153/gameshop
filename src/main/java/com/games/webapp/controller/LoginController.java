@@ -56,7 +56,7 @@ public class LoginController extends HttpServlet {
 			session.setMaxInactiveInterval(60 * 1 * 20); //la sesion dura 20 minutos
 			session.setAttribute("user_login", user); // @see ListenerUsuarioLogeados => attributeAdded
 			
-			request.setAttribute("alert", new Alert("success", "You are logged in"));
+			session.setAttribute("alert", new Alert("success", "You are logged in"));
 		
 			
 			if (user.getRol().getId() == Rol.ADMIN) {
