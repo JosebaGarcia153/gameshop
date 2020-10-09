@@ -34,13 +34,21 @@ public interface GameDAO extends Crudable<Game> {
 	ArrayList<Game> getAllByUser(int userId);
 	
 	/**
-	 * Busca todos los juegos agregados a la BBDD por un usuario especifico y han sido aprovados por un admin
+	 * Busca todos los juegos agregados a la BBDD por un usuario especifico y mira si han sido aprobados por un admin
 	 * @param userId Usuario que ha ingresado los juegos
 	 * @param isApproved Valor "true" marca que si esta aprobado
 	 * @return ArrayList{@code <}Game{@code >} Entradas encontradas
 	 * @see com.games.webapp.modelo.dao.impl.GameDAOImpl
 	 */
 	ArrayList<Game> getByUser(int userId, boolean isApproved);
+	
+	/**
+	 * Busca todos los juegos agregados a la BBDD y mira si han sido aprobados por un administrador
+	 * @param isApproved Valor "true" marca que si esta aprobado
+	 * @return ArrayList{@code <}Game{@code >} Entradas encontradas
+	 * @see com.games.webapp.modelo.dao.impl.GameDAOImpl
+	 */
+	ArrayList<Game> getByAdmin(boolean isApproved);
 	
 	/**
 	 * Un admin valida un juego en la BBDD
@@ -97,5 +105,5 @@ public interface GameDAO extends Crudable<Game> {
 	 * @throws SecurityException Si el juego no pertenece al usuario
 	 * @see com.games.webapp.modelo.dao.impl.GameDAOImpl
 	 */
-	Game getById(int id, int userId) throws Exception, SecurityException;	
+	Game getById(int id, int userId) throws Exception, SecurityException;
 }

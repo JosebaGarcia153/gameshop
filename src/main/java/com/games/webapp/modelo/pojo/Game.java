@@ -38,6 +38,8 @@ public class Game {
 	private Category category;
 	
 	private String approvalDate;
+	
+	private int user_id;
 
 
 	public Game() {
@@ -49,6 +51,16 @@ public class Game {
 		this.user = new Usuario();
 		this.category = new Category();
 		this.approvalDate = "";
+		this.user_id = 0;
+	}
+
+	
+	public Float getPrice() {
+		return price;
+	}
+
+	public void setPrice(Float price) {
+		this.price = price;
 	}
 
 
@@ -67,15 +79,6 @@ public class Game {
 
 	public void setName(String nombre) {
 		this.name = nombre;
-	}
-	
-	
-	public Float getPrice() {
-		return price;
-	}
-
-	public void setPrice(float price) {
-		this.price = price;
 	}
 
 	
@@ -114,8 +117,19 @@ public class Game {
 		this.approvalDate = approvalDate;
 	}
 	
+	
+	public int getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(int user_id) {
+		this.user_id = user_id;
+	}
+
+
 	@Override
 	public String toString() {
-		return "Game [id=" + id + ", name=" + name + ", price=" + price + ", category=" + category + ", image=" + image + "]";
+		return "Game [id=" + id + ", name=" + name + ", price=" + price + ", image=" + image + ", user=" + user
+				+ ", category=" + category + ", approvalDate=" + approvalDate + ", user_id=" + user_id + "]";
 	}
 }

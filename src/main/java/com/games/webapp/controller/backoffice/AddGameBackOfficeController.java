@@ -1,5 +1,6 @@
 package com.games.webapp.controller.backoffice;
 
+
 import java.io.IOException;
 import java.util.Set;
 
@@ -107,7 +108,7 @@ public class AddGameBackOfficeController extends HttpServlet {
 			int userId = user.getId();
 			
 			/* **************************************************************** 
-			 * Comprobar Seguridad, siempre que no sea un nuevo Producto 
+			 * Comprobar Seguridad, siempre que no sea un nuevo Juego 
 			 * ***************************************************************/
 			if (id != 0) {	
 				game = daoG.getById(id, userId); //Lanza SecurityException si el userId no pertenece al producto
@@ -136,7 +137,8 @@ public class AddGameBackOfficeController extends HttpServlet {
 				if (id == 0) {
 					
 					daoG.create(game);
-					alert = new Alert ("success", "Game successfully added, pending apprival");				
+					
+					alert = new Alert ("success", "Game successfully added, pending approval");				
 				
 				} else {
 					
@@ -157,18 +159,19 @@ public class AddGameBackOfficeController extends HttpServlet {
 		} catch (Exception e) {
 			
 			LOG.error(e);
-			alert = new Alert("warning", "We apologize but that name is already registered");
+			
+			alert = new Alert("warning", e.getMessage());
 		
 		} finally {
 			
-			//Volver al formulario
-			request.setAttribute("alert", alert);
-			request.setAttribute("game", game);
+			
+			session.setAttribute("alert", alert);
+			session.setAttribute("game", game);
 			
 			String url = "form.jsp";
 			LOG.debug("forward: " + url);
 			
-			request.getRequestDispatcher(url).forward(request, response);
+			response.sendRedirect(url);
 		}//try
 	}//dopost
 }

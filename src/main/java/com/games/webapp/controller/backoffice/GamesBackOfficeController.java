@@ -13,7 +13,6 @@ import org.apache.log4j.Logger;
 
 import com.games.webapp.modelo.dao.impl.GameDAOImpl;
 import com.games.webapp.modelo.pojo.Game;
-import com.games.webapp.modelo.pojo.Usuario;
 
 /**
  * Controlador para administradores para mostrar juegos.
@@ -36,30 +35,32 @@ public class GamesBackOfficeController extends HttpServlet {
 			String approved = request.getParameter("approved");
 			String total = request.getParameter("total");
 			String title = "";
+			String url = "";
 			ArrayList<Game> games = new ArrayList<Game>();
 			
 			try {
-				
-				Usuario userSession = (Usuario) request.getSession().getAttribute("user_login");
-				int userId = userSession.getId();
 				
 				if (total == null) {
 					
 					if (approved == null) {
 						
+						url = "games.jsp";
 						title = "Approved Games";
-						games = daoG.getByUser(userId, true);
+						games = daoG.getByAdmin(true);
+						
 						
 					} else {
 						
+						url = "pending-games.jsp";
 						title = "Products Pending Approval";
-						games = daoG.getByUser(userId, false);
+						games = daoG.getByAdmin(false);
 					}
 				
 				} else {
 					
+					url = "games.jsp";
 					title = "All Games";
-					games = daoG.getAllByUser(userId);
+					games = daoG.getAll();
 				}
 				
 			} catch (Exception e) {
@@ -71,7 +72,6 @@ public class GamesBackOfficeController extends HttpServlet {
 				request.setAttribute("games", games);
 				request.setAttribute("title", title);	
 				
-				String url = "games.jsp";
 				LOG.debug("forward: " + url);
 				
 				request.getRequestDispatcher(url).forward(request, response);

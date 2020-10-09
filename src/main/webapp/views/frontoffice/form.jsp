@@ -25,8 +25,7 @@
 		
 		<div class="form-group">
 			<label for="imagen">Image:</label>
-			<!-- <input type="text" name="image" id="image" value="${game.image}" class="form-control" placeholder="Image URL (.jpg or .png)" > -->
-			<input type="file" name="imagefile">
+			<input type="text" name="image" id="image" value="${game.image}" class="form-control" placeholder="Image URL (.jpg or .png)" >
 		</div>
 		
 		<div class="form-group">

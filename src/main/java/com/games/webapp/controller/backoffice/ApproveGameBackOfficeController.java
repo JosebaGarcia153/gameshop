@@ -48,6 +48,8 @@ public class ApproveGameBackOfficeController extends HttpServlet {
 			int id = Integer.parseInt(idParam);
 		
 			daoG.validate(id);
+			
+			alert = new Alert("success", "Game has been validated");
 
 
 		} catch (Exception e) {
@@ -60,7 +62,7 @@ public class ApproveGameBackOfficeController extends HttpServlet {
 			//Volver
 			request.setAttribute("alert", alert);
 			
-			String url = "games.jsp";
+			String url = "games?approved=0";
 			LOG.debug("forward: " + url);
 			
 			request.getRequestDispatcher(url).forward(request, response);

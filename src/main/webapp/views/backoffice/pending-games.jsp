@@ -28,6 +28,9 @@
 					<td>${g.category.name}</td>
 					<td>${g.user_id}</td>
 					<td>
+						<a href="views/backoffice/approve-game?id=${g.id}" class="mr-4">
+							<i class="fas fa-check fa-2x" title="Approve Game"></i>
+						</a>
 						<a href="views/backoffice/add-game?id=${g.id}" class="mr-4">
 							<i class="far fa-edit fa-2x" title="Edit Game"></i>
 						</a>

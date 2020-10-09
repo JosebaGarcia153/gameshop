@@ -33,23 +33,23 @@ public class GameDAOImpl implements GameDAO{
 		return INSTANCE;		
 	}
 
-	private final String SQL_GET_ALL = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', c.name 'category_name'"
+	private final String SQL_GET_ALL = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', c.name 'category_name', user_id"
 										+ " FROM games g, categories c" 
 										+ " WHERE g.category_id = c.id"
 										+ " ORDER BY g.id DESC LIMIT 500; ";
 	
-	private final String SQL_GET_LAST = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', c.name 'category_name'"
+	private final String SQL_GET_LAST = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', c.name 'category_name', user_id"
 										+ " FROM games g, categories c" 
 										+ " WHERE g.category_id = c.id AND approval_date IS NOT NULL"
 										+ " ORDER BY g.id DESC LIMIT ?; ";
 	
-	private final String SQL_GET_BY_CATEGORY = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', c.name 'category_name'" 
+	private final String SQL_GET_BY_CATEGORY = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', c.name 'category_name', user_id" 
 										+ " FROM games g, categories c" 
 										+ " WHERE g.category_id  = c.id AND approval_date IS NOT NULL"
 										+ " AND c.id = ? " // filtramos por el id de la categoria
 										+ " ORDER BY g.id DESC LIMIT ? ; ";
 	
-	private final String SQL_GET_BY_ID = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', c.name 'category_name'"
+	private final String SQL_GET_BY_ID = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', c.name 'category_name', user_id"
 										+ " FROM games g, categories c"
 										+ " WHERE g.category_id = c.id AND g.id = ? LIMIT 500; ";
 	
@@ -57,19 +57,29 @@ public class GameDAOImpl implements GameDAO{
 	
 	private final String SQL_COUNT_GAMES = "SELECT * FROM count_games WHERE user_id = ?; ";
 	
-	private final String SQL_GET_ALL_BY_USER = "SELECT g.id 'game_id', g.name 'game_name', price, image, c.id 'category_id', c.name 'category_name'"
+	private final String SQL_GET_ALL_BY_USER = "SELECT g.id 'game_id', g.name 'game_name', price, image, c.id 'category_id', c.name 'category_name', user_id"
 										+ " FROM games g, categories c" 
 										+ " WHERE g.category_id  = c.id AND g.user_id = ?"  
 										+ " ORDER BY g.id DESC LIMIT 500; ";
 	
-	private final String SQL_GET_BY_USER_APPROVED_GAME = "SELECT g.id 'game_id', g.name 'game_name', price, image, c.id 'category_id', c.name 'category_name'"
+	private final String SQL_GET_BY_USER_APPROVED_GAME = "SELECT g.id 'game_id', g.name 'game_name', price, image, c.id 'category_id', c.name 'category_name', user_id"
 										+ " FROM games g, categories c" 
 										+ " WHERE g.category_id  = c.id AND approval_date IS NOT NULL AND g.user_id = ?"  
 										+ " ORDER BY g.id DESC LIMIT 500; ";
 
-	private final String SQL_GET_BY_USER_NON_APPROVED_GAME = "SELECT g.id 'game_id', g.name 'game_name', price, image, c.id 'category_id', c.name 'category_name'"
+	private final String SQL_GET_BY_USER_NON_APPROVED_GAME = "SELECT g.id 'game_id', g.name 'game_name', price, image, c.id 'category_id', c.name 'category_name', user_id"
 										+ " FROM games g, categories c" 
 										+ " WHERE g.category_id  = c.id AND approval_date IS NULL AND g.user_id = ?"  
+										+ " ORDER BY g.id DESC LIMIT 500; ";
+	
+	private final String SQL_GET_BY_ADMIN_APPROVED_GAME = "SELECT g.id 'game_id', g.name 'game_name', price, image, c.id 'category_id', c.name 'category_name', user_id"
+										+ " FROM games g, categories c" 
+										+ " WHERE g.category_id  = c.id AND approval_date IS NOT NULL"  
+										+ " ORDER BY g.id DESC LIMIT 500; ";
+
+private final String SQL_GET_BY_ADMIN_NON_APPROVED_GAME = "SELECT g.id 'game_id', g.name 'game_name', price, image, c.id 'category_id', c.name 'category_name', user_id"
+										+ " FROM games g, categories c" 
+										+ " WHERE g.category_id  = c.id AND approval_date IS NULL"  
 										+ " ORDER BY g.id DESC LIMIT 500; ";
 	
 	
@@ -81,7 +91,7 @@ public class GameDAOImpl implements GameDAO{
 	
 	private final String SQL_VALIDATE = "UPDATE games SET approval_Date = NOW() WHERE id = ?; ";
 	
-	private final String SQL_GET_BY_ID_BY_USER = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', g.user_id, c.name 'category_name'"
+	private final String SQL_GET_BY_ID_BY_USER = "SELECT g.id 'game_id', g.name 'game_name', price, c.id 'category_id', g.user_id, c.name 'category_name', user_id"
 										+ " FROM games g, categories c"
 										+ " WHERE g.category_id = c.id AND g.id = ? AND g.user_id = ? LIMIT 500; ";
 	
@@ -256,6 +266,33 @@ public class GameDAOImpl implements GameDAO{
 	
 	
 	@Override
+	public ArrayList<Game> getByAdmin(boolean isApproved) {
+		
+		ArrayList<Game> register = new ArrayList<Game>();
+
+		String sql = (isApproved) ? SQL_GET_BY_ADMIN_APPROVED_GAME : SQL_GET_BY_ADMIN_NON_APPROVED_GAME;
+		
+		try (
+			Connection conexion = ConnectionManager.getConnection();
+			PreparedStatement pst = conexion.prepareStatement(sql);
+			){
+			
+			try( ResultSet rs = pst.executeQuery() ){
+				
+				LOG.debug(pst);
+				while (rs.next()) {	
+					register.add(mapper(rs));	
+				}
+			}	
+
+		} catch (Exception e) {
+			LOG.error(e);
+		}
+
+		return register;
+	}
+	
+	@Override
 	public GameCount getAllGameCount() {
 		
 		GameCount count = new GameCount();
@@ -331,8 +368,6 @@ public class GameDAOImpl implements GameDAO{
 			pst.setInt(4, game.getUser().getId());
 			pst.setInt(5, game.getCategory().getId());
 			
-			
-		
 			int affectedRows = pst.executeUpdate();
 			
 			LOG.debug(pst);
@@ -466,6 +501,7 @@ public class GameDAOImpl implements GameDAO{
 		g.setId(rs.getInt("game_id"));
 		g.setName(rs.getString("game_name"));
 		g.setPrice( rs.getFloat("price"));
+		g.setUser_id(rs.getInt("user_id"));
 		
 		c.setId(rs.getInt("category_id"));
 		c.setName(rs.getString("category_name"));
