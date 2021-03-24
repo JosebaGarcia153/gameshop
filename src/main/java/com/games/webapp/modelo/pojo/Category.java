@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 
 /**
- * Clase para generar instancias de usuarios
+ * Clase para generar instancias de categorias
  * id guarda la ID de la categoria
  * name guarda el nombre
  * games guarda un arraylist de juegos pertenecientes a la categoria

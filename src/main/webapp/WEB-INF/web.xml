@@ -7,7 +7,7 @@
 	
 	<!--
 	
-	 	La primera URL que se ejecua es esta "inicio"
+	 	La primera URL que se ejecuta es esta "inicio"
 	 	con esto forzamos para que no sea index.jsp
 	 	Y conseguimos pasar por un controlador para conseguir los datos a mostrar en index.jsp
 	 	

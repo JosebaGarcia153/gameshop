@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * name guarda el nombre
  * price guarda el precio
  * image guarda la imagen de portada
- * user guarda el una instancia del usuario que lo ha subido
+ * user guarda una instancia del usuario que lo ha subido
  * category guarda una instancia de la categoria a la que pertenece 
  * approvalDate guarda la fecha en la que un administrador lo a aprobado
  * @see Usuario
